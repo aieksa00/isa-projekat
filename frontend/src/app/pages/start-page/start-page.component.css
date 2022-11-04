@@ -1,0 +1,53 @@
+header{
+    background-color: #532121;
+}
+
+.active{
+    background-color: #F4EEDE;
+}
+
+header .logo{
+    font-size: 40px;
+    color:#F4EEDE;
+    padding: 5px;
+    margin-left: 27px;
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.navBar {
+    display: flex;
+    text-align: right;
+    justify-content: space-between;
+}
+
+nav a {
+    font-size: 32px;
+    padding: 10px;
+    text-decoration: none;
+    color: #F4EEDE;
+    transition:background-color 0.3s;
+}
+
+nav a, nav button {
+    font-size: 32px;
+    padding: 10px;
+    text-decoration: none;
+    color: #F4EEDE;
+    background-color: #532121;
+    transition:background-color 0.3s;
+    text-decoration: none;
+    border: #532121;
+}
+
+nav a:hover, nav button:hover{
+    background-color: #F4EEDE;
+    text-decoration: none;
+    color: #383E3C;
+    background-size: contain;
+    border-radius: 10px;
+}
+
+#last{
+    margin-right: 20px;
+}
