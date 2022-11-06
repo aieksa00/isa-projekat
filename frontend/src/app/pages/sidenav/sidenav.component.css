@@ -1,0 +1,121 @@
+.sidenav {
+    background: #343131;
+    z-index: 1;
+    height: 100vh;
+    box-shadow: 1px 0 20px 0 #706A6A;
+}
+
+.sidenav .logo-container {
+    display: flex;
+    align-items: center;
+    padding: 8px 8px 0 8px;
+    width: 100%;
+}
+
+.sidenav .logo-container .logo {
+    background: #F4EEDE;
+    text-align: center;
+    width: 48px;
+    min-width: 48px;
+    border-radius: 5px;
+    padding: 3px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    border: none;
+}
+
+.sidenav .logo-container .logo-text {
+    margin-left: 24px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #F4EEDE;
+}
+
+.sidenav .logo-container .btn-close {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+}
+
+.sidenav .logo-container .btn-close .fa-times {
+    color: #F4EEDE;
+    font-size: 38px;
+}
+
+.sidenav-nav {
+    list-style: none;
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100% - 58px);
+    cursor: pointer;
+}
+
+.sidenav-nav .sidenav-nav-item {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    list-style: none;
+}
+
+.sidenav-nav .sidenav-nav-item::marker {
+    content: '';
+    size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link{
+    display: flex;
+    align-items: center;
+    height: 48px;
+    color: #F4EEDE;
+    text-decoration: none;
+    transition: all .3s ease;
+    border-radius: 10px;
+}
+
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-icon{
+    font-size: 22px;
+    width: 32px;
+    min-width: 32px;
+    margin: 0;
+    text-align: center;
+}
+
+.sidenav-nav .sidenav-nav-item .sidenav-nav-link .sidenav-link-text{
+    margin-left: 24px;
+}
+
+.sidenav-nav .sidenav-nav-item:hover .sidenav-nav-link {
+    background-color: #F4EEDE;
+    color: #343131;
+}
+
+.sidenav-nav .logOut {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 5vw;
+    color: #F4EEDE;
+    background-color: #706A6A;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.sidenav-collapsed .logOut {
+    width: 8vw;
+}
+
+.sidenav-nav .logOut:hover {
+    background-color: #F4EEDE;
+    color: #343131;
+}
