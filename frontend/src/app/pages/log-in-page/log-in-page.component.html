@@ -6,16 +6,16 @@
             </tr>
             <tr>
                 <td><p>Email:</p></td>
-                <td><input type="email"></td>
+                <td><input type="email" [(ngModel)]="email"></td>
             </tr>
             <tr>
                 <td><p>Password:</p></td>
-                <td><input type="password"></td>
+                <td><input type="password" [(ngModel)]="password"></td>
             </tr>
             <tr>
                 <td colspan="2" class="login-table-button">
                     <input type="button" value="Cancel" mat-dialog-close>
-                    <input type="button" value="Log In">
+                    <input type="button" value="Log In" (click)="onSubmit()">
                 </td>
             </tr>
             <tr>
