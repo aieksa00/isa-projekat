@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import {OverlayModule} from '@angular/cdk/overlay';
+import { OverlayModule} from '@angular/cdk/overlay';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +25,7 @@ import { StartPageComponent } from './pages/start-page/start-page.component';
     BrowserAnimationsModule,
     MatDialogModule,
     FormsModule,
-    OverlayModule
+    OverlayModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
