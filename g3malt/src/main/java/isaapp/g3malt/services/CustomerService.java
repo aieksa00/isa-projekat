@@ -16,7 +16,7 @@ public class CustomerService implements IService<Customer, String>{
     }
 
     @Override
-    public String create(Customer object) {
+    public Customer create(Customer object) {
         return null;
     }
 

@@ -3,6 +3,11 @@ import { UserDTO } from '../../DTO/user-dto';
 import { UserCredentialsDTO } from '../../DTO/user-credentials-dto';
 import Swal from 'sweetalert2'
 
+
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
 @Component({
   selector: 'app-registration-page',
   templateUrl: './registration-page.component.html',
@@ -21,13 +26,13 @@ export class RegistrationPageComponent implements OnInit {
   public gender: String = "";
   public profession: String = "";
   public workplace: String = "";
-  public userType: String = "";
+  public userType: String = "customer";
 
   public email: String = "";
   public password: String = "";
   public confirmedPassword: String = "";
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   public onSubmit() {
     const user: UserDTO = {
@@ -49,17 +54,26 @@ export class RegistrationPageComponent implements OnInit {
         email : this.email,
         password : this.password,
       }
-    console.log(userCredentials);
+      this.addUserCredentials(userCredentials).subscribe(userCredentials => console.log(userCredentials));
     } else {
       this.showWarningMessage();
       this.password = "";
       this.confirmedPassword = "";
     }
 
-    console.log(user);
+    this.addUser(user).subscribe(user => console.log(user));
+    
   }
 
   ngOnInit(): void {
+  }
+
+  addUser(user : UserDTO): Observable<UserDTO> {
+    return this.http.post<UserDTO>("http://localhost:8080/userController/addUser", user);
+  }
+
+  addUserCredentials( userCredentials : UserCredentialsDTO):  Observable<UserCredentialsDTO> {
+    return this.http.post<UserCredentialsDTO>("http://localhost:8080/UserCredentialsController/addUserCredentials", userCredentials);
   }
 
   comparePasswords() : boolean {

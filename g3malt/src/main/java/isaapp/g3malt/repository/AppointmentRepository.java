@@ -16,7 +16,7 @@ public class AppointmentRepository implements IRepository<Appointment, String> {
     }
 
     @Override
-    public String create(Appointment object) {
+    public Appointment create(Appointment object) {
         return null;
     }
 

@@ -1,5 +1,5 @@
 header{
-    background-color: #532121;
+    background-color: #970E0E;
 }
 
 .active{
@@ -35,10 +35,10 @@ nav a, nav button {
     padding: 10px;
     text-decoration: none;
     color: #F4EEDE;
-    background-color: #532121;
+    background-color: #970E0E;
     transition:background-color 0.3s;
     text-decoration: none;
-    border: #532121;
+    border: #970E0E;
 }
 
 nav a:hover, nav button:hover{

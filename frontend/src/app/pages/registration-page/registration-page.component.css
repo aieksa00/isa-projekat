@@ -1,9 +1,20 @@
 .registration {
-    color: #F4EEDE;
+    color: #DC9836;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 950px;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../../images/reg_background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.registration .registrationForm {
+    border: solid 5px #DC9836;
+    border-radius: 30px;
+    background-color: #FAF7F2;
+
 }
 
 .registration p {
@@ -11,8 +22,12 @@
 }
 
 .registration td {
-    font-size:20px;
+    font-size:22px;
     margin: 0px 10px;
+    margin-left: 20px;
+    font-weight: 800;
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: #383E3C;
 }
 
 .registration h1 {
@@ -21,6 +36,7 @@
 
 .registration input, .registration select {
     border-radius: 5px;
+    margin-right: 20px;
 }
 
 .registration-table-center h1, .registration-table-center p {
@@ -30,15 +46,14 @@
 }
 .registration-button {
     text-align: right;
-    
 }
 .registration-button input[type="button"] {
-    margin: 15px 5px;
+    margin: 15px 15px;
     height: 35px;
     width: 80px;
     padding: 2px;
     display: inline-block;
-    background: #E2AF5D;
+    background: #DC9836;
     color: #383E3C;
     font-size: 18px;
     border-radius: 8px;
@@ -47,6 +62,6 @@
 
 .registration-button input[type="button"]:hover {
     background: #F4EEDE;
-    color: #E2AF5D;
+    color: #DC9836;
     text-decoration: none;
 }

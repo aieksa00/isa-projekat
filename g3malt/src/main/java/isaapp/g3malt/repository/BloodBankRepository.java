@@ -16,7 +16,7 @@ public class BloodBankRepository implements IRepository<BloodBank, String>{
     }
 
     @Override
-    public String create(BloodBank object) {
+    public BloodBank create(BloodBank object) {
         return null;
     }
 
