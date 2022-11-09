@@ -20,6 +20,7 @@ import { UserAppointmentsComponent } from './pages/user-appointments/user-appoin
 import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ComplaintsComponent } from './pages/complaints/complaints.component';
     MatDialogModule,
     FormsModule,
     OverlayModule,
+    HttpClientModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

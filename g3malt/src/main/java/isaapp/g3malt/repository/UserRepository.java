@@ -16,8 +16,8 @@ public class UserRepository implements IRepository<User, String> {
     }
 
     @Override
-    public String create(User object) {
-        return null;
+    public User create(User object) {
+        return object;
     }
 
     @Override

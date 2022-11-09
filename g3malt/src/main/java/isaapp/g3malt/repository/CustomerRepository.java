@@ -16,7 +16,7 @@ public class CustomerRepository implements IRepository<Customer, String> {
     }
 
     @Override
-    public String create(Customer object) {
+    public Customer create(Customer object) {
         return null;
     }
 

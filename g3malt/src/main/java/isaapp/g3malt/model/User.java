@@ -1,8 +1,12 @@
 package isaapp.g3malt.model;
 
+
+import javax.validation.constraints.NotNull;
+
 public class User {
 	
 	private String id;
+	@NotNull
 	private String name;
 	private String surname;
 	private String address;
