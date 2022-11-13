@@ -3,33 +3,48 @@ package isaapp.g3malt.services;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.repository.UserCredentialsRepository;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
-public class UserCredentialsService implements IService<UserCredentials, String>{
+import org.springframework.beans.factory.annotation.Autowired;
 
-    private UserCredentialsRepository userCredentialsRepository = new UserCredentialsRepository();
-    @Override
-    public ArrayList<UserCredentials> getAll() {
-        return userCredentialsRepository.getAll();
-    }
+public class UserCredentialsService implements IService<UserCredentials, Integer>{
 
-    @Override
-    public UserCredentials getById(String id) {
-        return userCredentialsRepository.getById(id);
-    }
+	@Autowired
+    private UserCredentialsRepository userCredentialsRepository;
 
-    @Override
-    public UserCredentials create(UserCredentials object) {
-        return userCredentialsRepository.create(object);
-    }
+	@Override
+	public UserCredentials save(UserCredentials entity) {
+		return userCredentialsRepository.save(entity);
+	}
 
-    @Override
-    public void update(UserCredentials object) {
-        userCredentialsRepository.update(object);
-    }
+	@Override
+	public UserCredentials findById(Integer id) {
+		return userCredentialsRepository.findById(id).orElseGet(null);
+	}
 
-    @Override
-    public void delete(String id) {
-        userCredentialsRepository.delete(id);
-    }
+	@Override
+	public Iterable<UserCredentials> findAll() {
+		return userCredentialsRepository.findAll();
+	}
+
+	@Override
+	public Iterable<UserCredentials> findAllById(Iterable<Integer> ids) {
+		return userCredentialsRepository.findAllById(ids);
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		userCredentialsRepository.deleteById(id);
+	}
+
+	@Override
+	public UserCredentials edit(UserCredentials entity) {
+		Optional<UserCredentials> userCredentialsFromDB = userCredentialsRepository.findById(entity.getId());
+		if(userCredentialsFromDB.isPresent()) {
+			UserCredentials userCredentialsToEdit = userCredentialsFromDB.get();
+			userCredentialsToEdit = entity;
+			return userCredentialsRepository.save(userCredentialsToEdit);
+		}
+		return null;
+	}
 }

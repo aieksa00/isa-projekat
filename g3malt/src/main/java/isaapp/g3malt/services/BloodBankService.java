@@ -1,32 +1,50 @@
 package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.BloodBank;
+import isaapp.g3malt.repository.BloodBankRepository;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
-public class BloodBankService implements IService<BloodBank, String>{
-    @Override
-    public ArrayList<BloodBank> getAll() {
-        return null;
-    }
+import org.springframework.beans.factory.annotation.Autowired;
 
-    @Override
-    public BloodBank getById(String id) {
-        return null;
-    }
+public class BloodBankService implements IService<BloodBank, Integer>{
+	
+	@Autowired
+    private BloodBankRepository bloodBankRepository;
 
-    @Override
-    public BloodBank create(BloodBank object) {
-        return null;
-    }
+	@Override
+	public BloodBank save(BloodBank entity) {
+		return bloodBankRepository.save(entity);
+	}
 
-    @Override
-    public void update(BloodBank object) {
+	@Override
+	public BloodBank findById(Integer id) {
+		return bloodBankRepository.findById(id).orElseGet(null);
+	}
 
-    }
+	@Override
+	public Iterable<BloodBank> findAll() {
+		return bloodBankRepository.findAll();
+	}
 
-    @Override
-    public void delete(String id) {
+	@Override
+	public Iterable<BloodBank> findAllById(Iterable<Integer> ids) {
+		return bloodBankRepository.findAllById(ids);
+	}
 
-    }
+	@Override
+	public void deleteById(Integer id) {
+		bloodBankRepository.deleteById(id);
+	}
+
+	@Override
+	public BloodBank edit(BloodBank entity) {
+		Optional<BloodBank> bloodBankFromDB = bloodBankRepository.findById(entity.getId());
+		if(bloodBankFromDB.isPresent()) {
+			BloodBank bloodBankToEdit = bloodBankFromDB.get();
+			bloodBankToEdit = entity;
+			return bloodBankRepository.save(bloodBankToEdit);
+		}
+		return null;
+	}
 }

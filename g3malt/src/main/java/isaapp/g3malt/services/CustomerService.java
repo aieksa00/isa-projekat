@@ -1,32 +1,50 @@
 package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.Customer;
+import isaapp.g3malt.repository.CustomerRepository;
 
-import java.util.ArrayList;
+import java.util.Optional;
 
-public class CustomerService implements IService<Customer, String>{
-    @Override
-    public ArrayList<Customer> getAll() {
-        return null;
-    }
+import org.springframework.beans.factory.annotation.Autowired;
 
-    @Override
-    public Customer getById(String id) {
-        return null;
-    }
+public class CustomerService implements IService<Customer, Integer>{
+	
+	@Autowired
+    private CustomerRepository customerRepository;
 
-    @Override
-    public Customer create(Customer object) {
-        return null;
-    }
+	@Override
+	public Customer save(Customer entity) {
+		return customerRepository.save(entity);
+	}
 
-    @Override
-    public void update(Customer object) {
+	@Override
+	public Customer findById(Integer id) {
+		return customerRepository.findById(id).orElseGet(null);
+	}
 
-    }
+	@Override
+	public Iterable<Customer> findAll() {
+		return customerRepository.findAll();
+	}
 
-    @Override
-    public void delete(String id) {
+	@Override
+	public Iterable<Customer> findAllById(Iterable<Integer> ids) {
+		return customerRepository.findAllById(ids);
+	}
 
-    }
+	@Override
+	public void deleteById(Integer id) {
+		customerRepository.deleteById(id);
+	}
+
+	@Override
+	public Customer edit(Customer entity) {
+		Optional<Customer> customerFromDB = customerRepository.findById(entity.getId());
+		if(customerFromDB.isPresent()) {
+			Customer customerToEdit = customerFromDB.get();
+			customerToEdit = entity;
+			return customerRepository.save(customerToEdit);
+		}
+		return null;
+	}
 }
