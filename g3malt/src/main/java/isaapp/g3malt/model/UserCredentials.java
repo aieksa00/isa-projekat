@@ -2,9 +2,13 @@ package isaapp.g3malt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,7 +22,10 @@ public class UserCredentials {
 	private String email;
 	@Column(name="password", unique=false, nullable=true)
 	private String password;
-	@Column(name="user", unique=false, nullable=true)
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	//@Column(name="user", unique=false, nullable=true)
 	private User user;
 	
 	public UserCredentials() {

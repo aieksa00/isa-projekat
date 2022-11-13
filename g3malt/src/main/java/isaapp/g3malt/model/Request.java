@@ -2,11 +2,17 @@ package isaapp.g3malt.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,9 +26,14 @@ public class Request {
 	private String appointmentID;
 	@Column(name="customerId", unique=false, nullable=true)
 	private String customerID;
-	private List<Boolean> answersList;
+	
+	@ElementCollection
+	@CollectionTable(name="answers", joinColumns = @JoinColumn(name = "request_id"))
+	@Column(name="answersList")
+	//@OneToMany(mappedBy = "answersList", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Boolean> answersList;
 
-	public Request(Integer requestId, String appointmentID, String customerID, List<Boolean> answersList) {
+	public Request(Integer requestId, String appointmentID, String customerID, Set<Boolean> answersList) {
 		super();
 		this.appointmentID = appointmentID;
 		this.customerID = customerID;
@@ -58,11 +69,11 @@ public class Request {
 		this.customerID = customerID;
 	}
 
-	public List<Boolean> getAnswersList() {
+	public Set<Boolean> getAnswersList() {
 		return answersList;
 	}
 
-	public void setAnswersList(List<Boolean> answersList) {
+	public void setAnswersList(Set<Boolean> answersList) {
 		this.answersList = answersList;
 	}
 

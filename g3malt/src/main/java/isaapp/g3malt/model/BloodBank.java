@@ -2,11 +2,14 @@ package isaapp.g3malt.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,17 +27,25 @@ public class BloodBank {
 	private String description;
 	@Column(name="rating", unique=false, nullable=true)
 	private double rating;
-	private List<Appointment> freeAppointments;
-	private List<User> allStaff;
+	
+	@OneToMany(mappedBy = "bloodBank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Appointment> freeAppointments;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<User> allStaff;
+	
 	@Column(name="workingHours", unique=false, nullable=true)
 	private String workingHours;
-	private Map<String, Integer> bloodStorage = new HashMap<String, Integer>();
+	//private Map<String, Integer> bloodStorage = new HashMap<String, Integer>();
+	
+	@OneToMany(mappedBy = "bloodBank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)	//@Column(name="medicalStaff", unique=false, nullable=true)
+	private Set<BloodBankRating> bloodBankRatings;
 
-	public BloodBank(String name, Integer id, String address, String description, double rating,
-			List<Appointment> freeAppointments, List<User> allStaff, String workingHours) {
+	public BloodBank(Integer id, String name, String address, String description, double rating,
+			Set<Appointment> freeAppointments, Set<User> allStaff, String workingHours) {
 		super();
-		this.name = name;
 		this.id = id;
+		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.rating = rating;
@@ -45,6 +56,14 @@ public class BloodBank {
 
 	public BloodBank() {
 		super();
+	}
+
+	public Set<BloodBankRating> getBloodBankRatings() {
+		return bloodBankRatings;
+	}
+
+	public void setBloodBankRatings(Set<BloodBankRating> bloodBankRatings) {
+		this.bloodBankRatings = bloodBankRatings;
 	}
 
 	public String getName() {
@@ -87,19 +106,19 @@ public class BloodBank {
 		this.rating = rating;
 	}
 
-	public List<Appointment> getFreeAppointments() {
+	public Set<Appointment> getFreeAppointments() {
 		return freeAppointments;
 	}
 
-	public void setFreeAppointments(List<Appointment> freeAppointments) {
+	public void setFreeAppointments(Set<Appointment> freeAppointments) {
 		this.freeAppointments = freeAppointments;
 	}
 
-	public List<User> getAllStaff() {
+	public Set<User> getAllStaff() {
 		return allStaff;
 	}
 
-	public void setAllStaff(List<User> allStaff) {
+	public void setAllStaff(Set<User> allStaff) {
 		this.allStaff = allStaff;
 	}
 
@@ -111,11 +130,11 @@ public class BloodBank {
 		this.workingHours = workingHours;
 	}
 
-	public Map<String, Integer> getBloodStorage() {
+	/*public Map<String, Integer> getBloodStorage() {
 		return bloodStorage;
 	}
 
 	public void setBloodStorage(Map<String, Integer> bloodStorage) {
 		this.bloodStorage = bloodStorage;
-	}
+	}*/
 }

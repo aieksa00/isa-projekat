@@ -1,12 +1,16 @@
 package isaapp.g3malt.model;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,11 +23,13 @@ public class Customer extends User{
 	private LoyaltyType loyaltyType;
 	@Column(name="penalty", unique=false, nullable=true)
 	private int penalty;
-	private List<Appointment> appointmentHistory;
+
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Appointment> appointmentHistory;
 	
 	public Customer(Integer id, String name, String surname, String address, String city, String country,
 			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, UserType userType,
-			int loyaltyPoints, LoyaltyType loyaltyType, int penalty, List<Appointment> appointmentHistory) {
+			int loyaltyPoints, LoyaltyType loyaltyType, int penalty, Set<Appointment> appointmentHistory) {
 		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, userType);
 		this.loyaltyPoints = loyaltyPoints;
 		this.loyaltyType = loyaltyType;
@@ -59,11 +65,11 @@ public class Customer extends User{
 		this.penalty = penalty;
 	}
 
-	public List<Appointment> getAppointmentHistory() {
+	public Set<Appointment> getAppointmentHistory() {
 		return appointmentHistory;
 	}
 
-	public void setAppointmentHistory(List<Appointment> appointmentHistory) {
+	public void setAppointmentHistory(Set<Appointment> appointmentHistory) {
 		this.appointmentHistory = appointmentHistory;
 	}
 }

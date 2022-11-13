@@ -2,12 +2,18 @@ package isaapp.g3malt.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,34 +23,34 @@ public class Appointment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name="medicalStaff", unique=false, nullable=true)
-	private List<User> medicalStaff;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "bloodBank_id")
+	//@Column(name="customer", unique=false, nullable=true)
+	private BloodBank bloodBank;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//@Column(name="medicalStaff", unique=false, nullable=true)
+	private Set<User> medicalStaff;
+	
 	@Column(name="scheduleDateTime", unique=false, nullable=true)
 	private Date scheduleDateTime;
+	
 	@Column(name="duration", unique=false, nullable=true)
 	private int duration;
+	
 	@Column(name="price", unique=false, nullable=true)
 	private double price;
-	@Column(name="customer", unique=false, nullable=true)
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")
+	//@Column(name="customer", unique=false, nullable=true)
 	private Customer customer;
+	
 	@Column(name="isFree", unique=false, nullable=true)
 	private boolean isFree;
-	
-	public Appointment(Integer id, List<User> medicalStaff, Date scheduleDateTime, int duration, double price, Customer user,
-			boolean isFree) {
-		super();
-		this.id = id;
-		this.medicalStaff = medicalStaff;
-		this.scheduleDateTime = scheduleDateTime;
-		this.duration = duration;
-		this.price = price;
-		this.customer = user;
-		this.isFree = isFree;
-	}
 
-	public Appointment() {
-		super();
-	}
+	public Appointment() {}
 
 	public Integer getId() {
 		return id;
@@ -54,11 +60,27 @@ public class Appointment {
 		this.id = id;
 	}
 
-	public List<User> getMedicalStaff() {
+	public BloodBank getBloodBank() {
+		return bloodBank;
+	}
+
+	public void setBloodBank(BloodBank bloodBank) {
+		this.bloodBank = bloodBank;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Set<User> getMedicalStaff() {
 		return medicalStaff;
 	}
 
-	public void setMedicalStaff(List<User> medicalStaff) {
+	public void setMedicalStaff(Set<User> medicalStaff) {
 		this.medicalStaff = medicalStaff;
 	}
 

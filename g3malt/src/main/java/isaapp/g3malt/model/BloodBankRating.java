@@ -2,9 +2,13 @@ package isaapp.g3malt.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,20 +18,17 @@ public class BloodBankRating {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer bloodBankRatingId;
-	@Column(name="bloodBankId", unique=false, nullable=true)
-	private String bloodBankID;
-	@Column(name="userId", unique=false, nullable=true)
-	private String userID;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "bloodBank_id")
+	private BloodBank bloodBank;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "customer_id")	
+	private Customer customer;
+	
 	@Column(name="rating", unique=false, nullable=true)
 	private int rating;
-
-	public BloodBankRating(Integer bloodBankRatingId, String bloodBankID, String userID, int rating) {
-		super();
-		this.bloodBankID = bloodBankID;
-		this.userID = userID;
-		this.rating = rating;
-		this.bloodBankRatingId = bloodBankRatingId;
-	}
 
 	public BloodBankRating() {
 		super();
@@ -41,20 +42,20 @@ public class BloodBankRating {
 		this.bloodBankRatingId = bloodBankRatingId;
 	}
 
-	public String getBloodBankID() {
-		return bloodBankID;
+	public BloodBank getBloodBank() {
+		return bloodBank;
 	}
 
-	public void setBloodBankID(String bloodBankID) {
-		this.bloodBankID = bloodBankID;
+	public void setBloodBank(BloodBank bloodBank) {
+		this.bloodBank = bloodBank;
 	}
 
-	public String getUserID() {
-		return userID;
+	public Customer getUser() {
+		return customer;
 	}
 
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUser(Customer customer) {
+		this.customer = customer;
 	}
 
 	public int getRating() {
