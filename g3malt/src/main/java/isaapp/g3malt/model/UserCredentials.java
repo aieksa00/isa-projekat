@@ -18,14 +18,19 @@ public class UserCredentials {
 	private String email;
 	@Column(name="password", unique=false, nullable=true)
 	private String password;
+	@Column(name="user", unique=false, nullable=true)
+	private User user;
 	
-	public UserCredentials(Integer id, String email, String password) {
+	public UserCredentials() {
+		super();
+	}
+	public UserCredentials(Integer id, String email, String password, User user) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.password = password;
+		this.user = user;
 	}
-	
 	public Integer getId() {
 		return id;
 	}
@@ -44,4 +49,11 @@ public class UserCredentials {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }

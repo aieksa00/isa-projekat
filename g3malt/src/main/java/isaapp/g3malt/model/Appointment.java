@@ -25,12 +25,12 @@ public class Appointment {
 	private int duration;
 	@Column(name="price", unique=false, nullable=true)
 	private double price;
-	@Column(name="user", unique=false, nullable=true)
-	private User user;
+	@Column(name="customer", unique=false, nullable=true)
+	private Customer customer;
 	@Column(name="isFree", unique=false, nullable=true)
 	private boolean isFree;
 	
-	public Appointment(Integer id, List<User> medicalStaff, Date scheduleDateTime, int duration, double price, User user,
+	public Appointment(Integer id, List<User> medicalStaff, Date scheduleDateTime, int duration, double price, Customer user,
 			boolean isFree) {
 		super();
 		this.id = id;
@@ -38,7 +38,7 @@ public class Appointment {
 		this.scheduleDateTime = scheduleDateTime;
 		this.duration = duration;
 		this.price = price;
-		this.user = user;
+		this.customer = user;
 		this.isFree = isFree;
 	}
 
@@ -86,12 +86,12 @@ public class Appointment {
 		this.price = price;
 	}
 
-	public User getUser() {
-		return user;
+	public Customer getUser() {
+		return customer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(Customer user) {
+		this.customer = user;
 	}
 
 	public boolean isFree() {
