@@ -3,17 +3,34 @@ package isaapp.g3malt.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="appointments")
 public class Appointment {
 	
-	private String id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	@Column(name="medicalStaff", unique=false, nullable=true)
 	private List<User> medicalStaff;
+	@Column(name="scheduleDateTime", unique=false, nullable=true)
 	private Date scheduleDateTime;
+	@Column(name="duration", unique=false, nullable=true)
 	private int duration;
+	@Column(name="price", unique=false, nullable=true)
 	private double price;
+	@Column(name="user", unique=false, nullable=true)
 	private User user;
+	@Column(name="isFree", unique=false, nullable=true)
 	private boolean isFree;
 	
-	public Appointment(String id, List<User> medicalStaff, Date scheduleDateTime, int duration, double price, User user,
+	public Appointment(Integer id, List<User> medicalStaff, Date scheduleDateTime, int duration, double price, User user,
 			boolean isFree) {
 		super();
 		this.id = id;
@@ -25,11 +42,15 @@ public class Appointment {
 		this.isFree = isFree;
 	}
 
-	public String getId() {
+	public Appointment() {
+		super();
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

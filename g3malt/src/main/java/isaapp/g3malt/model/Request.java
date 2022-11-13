@@ -2,17 +2,44 @@ package isaapp.g3malt.model;
 
 import java.util.*;
 
-public class Request {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="requests")
+public class Request {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer requestId;
+	@Column(name="appointmentId", unique=false, nullable=true)
 	private String appointmentID;
+	@Column(name="customerId", unique=false, nullable=true)
 	private String customerID;
 	private List<Boolean> answersList;
 
-	public Request(String appointmentID, String customerID, List<Boolean> answersList) {
+	public Request(Integer requestId, String appointmentID, String customerID, List<Boolean> answersList) {
 		super();
 		this.appointmentID = appointmentID;
 		this.customerID = customerID;
 		this.answersList = answersList;
+		this.requestId = requestId;
+	}
+
+	public Request() {
+		super();
+	}
+
+	public Integer getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(Integer requestId) {
+		this.requestId = requestId;
 	}
 
 	public String getAppointmentID() {

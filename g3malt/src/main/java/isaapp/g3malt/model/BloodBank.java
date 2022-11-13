@@ -2,19 +2,35 @@ package isaapp.g3malt.model;
 
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="bloodBanks")
 public class BloodBank {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	@Column(name="name", unique=false, nullable=true)
 	private String name;
-	private String id;
+	@Column(name="address", unique=false, nullable=true)
 	private String address;
+	@Column(name="description", unique=false, nullable=true)
 	private String description;
+	@Column(name="rating", unique=false, nullable=true)
 	private double rating;
 	private List<Appointment> freeAppointments;
 	private List<User> allStaff;
+	@Column(name="workingHours", unique=false, nullable=true)
 	private String workingHours;
 	private Map<String, Integer> bloodStorage = new HashMap<String, Integer>();
 
-	public BloodBank(String name, String id, String address, String description, double rating,
+	public BloodBank(String name, Integer id, String address, String description, double rating,
 			List<Appointment> freeAppointments, List<User> allStaff, String workingHours) {
 		super();
 		this.name = name;
@@ -27,6 +43,10 @@ public class BloodBank {
 		this.workingHours = workingHours;
 	}
 
+	public BloodBank() {
+		super();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -35,11 +55,11 @@ public class BloodBank {
 		this.name = name;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
