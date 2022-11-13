@@ -26,7 +26,6 @@ public class UserController {
 
     @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@RequestBody int id) {
-        UserService userService = new UserService();
         User user = userService.findById(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
@@ -34,14 +33,12 @@ public class UserController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
-        UserService userService = new UserService();
         User newUser = userService.save(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/deleteUser")
     public ResponseEntity deleteUser(@RequestBody int id) {
-        UserService userService = new UserService();
         userService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }
