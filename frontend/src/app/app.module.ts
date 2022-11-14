@@ -22,6 +22,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.
     OverlayModule,
     HttpClientModule,
   ],
-  providers: [CookieService],
+  providers: [CookieService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

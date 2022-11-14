@@ -1,4 +1,9 @@
-<div class="appComponent">
+<div class="row" class="appComponent">
+  <div class="col-md-1">
     <app-sidenav *ngIf="isLoggedIn"></app-sidenav>
+  </div>
+  <div class="col-md-11">
     <router-outlet></router-outlet>
+  </div>
 </div>
+
