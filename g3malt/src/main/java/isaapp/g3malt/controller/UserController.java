@@ -33,8 +33,8 @@ public class UserController {
     
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getCustomer", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getCustomer(@RequestBody int id) {
-        User user = userService.findById(id);
+    public ResponseEntity<User> getCustomer() {
+        User user = userService.findById(1);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
