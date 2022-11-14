@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="users")
@@ -24,6 +26,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column(name="name", unique=false, nullable=true)
+	private String id;
+	@NotEmpty
 	private String name;
 	@Column(name="surname", unique=false, nullable=true)
 	private String surname;
