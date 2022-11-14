@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/userController")
 public class UserController {
@@ -25,7 +26,14 @@ public class UserController {
     }
 
     @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUser(@RequestBody int id) {
+    public ResponseEntity<User> getUser() {
+        User user = userService.findById(1);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/getCustomer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getCustomer(@RequestBody int id) {
         User user = userService.findById(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
