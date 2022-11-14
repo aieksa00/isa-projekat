@@ -1,20 +1,18 @@
 package isaapp.g3malt.model;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="customers")
+@DiscriminatorValue("1")
 public class Customer extends User{
 	
 	@Column(name="loyatyPoints", unique=false, nullable=true)
