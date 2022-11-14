@@ -14,10 +14,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getCustomer(id: number): Observable<CustomerDTO> {
-    return this.http.get<CustomerDTO>(this.apiHost + 'userController/getCustomer/' + id, {headers: this.headers});
+    let res = this.http.get<CustomerDTO>(this.apiHost + '/userController/getCustomer/' + id, {headers: this.headers});
+    return res;
   }
 
   updateCustomer(customerDTO: any): Observable<any> {
-    return this.http.put<any>(this.apiHost + 'userController/editCustomer/' + customerDTO.id, customerDTO, {headers: this.headers});
+    return this.http.put<any>(this.apiHost + '/userController/editCustomer/' + customerDTO.id, customerDTO, {headers: this.headers});
   }
 }

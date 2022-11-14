@@ -32,8 +32,8 @@ public class UserController {
     }
     
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/getCustomer", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getCustomer() {
+    @GetMapping(value = "/getCustomer/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> getCustomer(@PathVariable Integer id) {
         User user = userService.findById(1);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }

@@ -21,6 +21,7 @@ import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.componen
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { UserService } from './services/user.service';
 
 @NgModule({
@@ -36,7 +37,8 @@ import { UserService } from './services/user.service';
     UserAppointmentsComponent,
     UserQRCodesComponent,
     UserProfileComponent,
-    ComplaintsComponent
+    ComplaintsComponent,
+    BloodBankInfoComponent
   ],
   imports: [
     BrowserModule,

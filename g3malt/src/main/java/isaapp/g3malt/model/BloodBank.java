@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,7 +38,10 @@ public class BloodBank {
 	
 	@Column(name="workingHours", unique=false, nullable=true)
 	private String workingHours;
-	//private Map<String, Integer> bloodStorage = new HashMap<String, Integer>();
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "bloodBankStorage_id")
+	private BloodBankStorage bloodBankStorage;
 	
 	@OneToMany(mappedBy = "bloodBank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)	//@Column(name="medicalStaff", unique=false, nullable=true)
 	private Set<BloodBankRating> bloodBankRatings;
