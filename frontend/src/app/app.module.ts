@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule} from '@angular/cdk/overlay';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -46,6 +46,7 @@ import { UserService } from './services/user.service';
     BrowserAnimationsModule,
     MatDialogModule,
     FormsModule,
+    ReactiveFormsModule,
     OverlayModule,
     HttpClientModule,
   ],

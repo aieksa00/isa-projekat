@@ -27,8 +27,8 @@ public class User {
 	private String name;
 	@Column(name="surname", unique=false, nullable=true)
 	private String surname;
-	@Column(name="address", unique=false, nullable=true)
-	private String address;
+	@Column(name="street", unique=false, nullable=true)
+	private String street;
 	@Column(name="city", unique=false, nullable=true)
 	private String city;
 	@Column(name="country", unique=false, nullable=true)
@@ -48,13 +48,13 @@ public class User {
 	
 	public User() {}
 
-	public User(Integer id, String name, String surname, String address, String city, String country, String phoneNumber,
+	public User(Integer id, String name, String surname, String street, String city, String country, String phoneNumber,
 			String jmbg, GenderType gender, String profession, String workplace, UserType userType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
-		this.address = address;
+		this.street = street;
 		this.city = city;
 		this.country = country;
 		this.phoneNumber = phoneNumber;
@@ -89,12 +89,12 @@ public class User {
 		this.surname = surname;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getStreet() {
+		return street;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public String getCity() {

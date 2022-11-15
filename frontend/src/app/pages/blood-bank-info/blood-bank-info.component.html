@@ -1,1 +1,71 @@
-<p>blood-bank-info works!</p>
+<div class="row justify-content-evenly m-3">
+    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">
+        <h2 class="mb-3">{{bloodBankDto.bloodBankName}}</h2>
+        <h4 class="mb-4 ms-1">Address:&nbsp;{{bloodBankDto.bloodBankStreet}},&nbsp;{{bloodBankDto.bloodBankCity}},&nbsp;{{bloodBankDto.bloodBankCountry}}</h4>
+        <h5 class="ms-4">Rating:&nbsp;{{bloodBankDto.bloodBankRating}}</h5>
+        <form class="d-flex flex-column ms-4" [formGroup]="descriptionForm">
+            <div class="mb-1">
+                <label for="description" class="form-label fs-5">Change current description below:</label>
+                <input type="text" class="form-control" id="description" formControlName="description">
+                <div *ngIf="descriptionForm.get('description').invalid && (descriptionForm.get('description').dirty || descriptionForm.get('description').touched)" class="text-danger mt-1">
+                    Please enter a description.
+                </div>
+            </div>
+            <div class="ms-auto">
+                <button class="btn btn-primary btn-sm" type="button" [disabled]="descriptionForm.invalid" (click)="updateDescription()">Update</button>
+            </div>
+        </form>
+        <h4 class="mb-2 ms-1">Storage</h4>
+        <table class="table table-secondary table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">A Plus</th>
+                    <th scope="col">B Plus</th>
+                    <th scope="col">AB Plus</th>
+                    <th scope="col">O Plus</th>
+                    <th scope="col">A Minus</th>
+                    <th scope="col">B Minus</th>
+                    <th scope="col">AB Minus</th>
+                    <th scope="col">O Minus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{bloodBankDto.bloodBankStorageAPlus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageBPlus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageABPlus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageOPlus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageAMinus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageBMinus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageABMinus}}</td>
+                    <td>{{bloodBankDto.bloodBankStorageOMinus}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3 table-responsive">
+        <h4 class="mb-2 ms-1">All staff</h4>
+        <table class="table table-secondary table-hover mt-auto">
+            <thead class="border-bottom border-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let staff of bloodBankDto.bloodBankAdministrators; index as i">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.surname }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row justify-content-evenly m-3">
+    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">        
+    </div>
+    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">
+    </div>
+</div>

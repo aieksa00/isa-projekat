@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="bloodBanks")
@@ -23,8 +24,14 @@ public class BloodBank {
 	private Integer id;
 	@Column(name="name", unique=false, nullable=true)
 	private String name;
-	@Column(name="address", unique=false, nullable=true)
-	private String address;
+	@Column(name="street", unique=false, nullable=true)
+	private String street;
+	@Column(name="city", unique=false, nullable=true)
+	private String city;
+	@Column(name="country", unique=false, nullable=true)
+	private String country;
+	
+	@Size(min = 10, max = 200, message="Description should be between 10 and 200 characters")
 	@Column(name="description", unique=false, nullable=true)
 	private String description;
 	@Column(name="rating", unique=false, nullable=true)
@@ -46,17 +53,22 @@ public class BloodBank {
 	@OneToMany(mappedBy = "bloodBank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)	//@Column(name="medicalStaff", unique=false, nullable=true)
 	private Set<BloodBankRating> bloodBankRatings;
 
-	public BloodBank(Integer id, String name, String address, String description, double rating,
-			Set<Appointment> freeAppointments, Set<User> allStaff, String workingHours) {
+	public BloodBank(Integer id, String name, String street, String city, String country, String description,
+			double rating, Set<Appointment> freeAppointments, Set<User> allStaff, String workingHours,
+			BloodBankStorage bloodBankStorage, Set<BloodBankRating> bloodBankRatings) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.address = address;
+		this.street = street;
+		this.city = city;
+		this.country = country;
 		this.description = description;
 		this.rating = rating;
 		this.freeAppointments = freeAppointments;
 		this.allStaff = allStaff;
 		this.workingHours = workingHours;
+		this.bloodBankStorage = bloodBankStorage;
+		this.bloodBankRatings = bloodBankRatings;
 	}
 
 	public BloodBank() {
@@ -87,12 +99,28 @@ public class BloodBank {
 		this.id = id;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getStreet() {
+		return street;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getDescription() {
@@ -135,11 +163,11 @@ public class BloodBank {
 		this.workingHours = workingHours;
 	}
 
-	/*public Map<String, Integer> getBloodStorage() {
-		return bloodStorage;
+	public BloodBankStorage getBloodBankStorage() {
+		return bloodBankStorage;
 	}
 
-	public void setBloodStorage(Map<String, Integer> bloodStorage) {
-		this.bloodStorage = bloodStorage;
-	}*/
+	public void setBloodBankStorage(BloodBankStorage bloodBankStorage) {
+		this.bloodBankStorage = bloodBankStorage;
+	}
 }
