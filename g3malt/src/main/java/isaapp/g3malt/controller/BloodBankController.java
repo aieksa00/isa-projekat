@@ -1,6 +1,7 @@
 package isaapp.g3malt.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +41,12 @@ public class BloodBankController {
 		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.address, bloodbankDto.description, 0, null, users, bloodbankDto.workingHours);
         BloodBank newBloodBank = bloodbankService.save(bloodBank);
         return new ResponseEntity<BloodBank>(newBloodBank, HttpStatus.CREATED);
+    }
+	
+	@CrossOrigin("*")
+	@GetMapping(value = "/getAllBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BloodBank>> getAllBloodBanks() {
+    	List<BloodBank> banks = (List<BloodBank>) bloodbankService.findAll();
+		return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 }
