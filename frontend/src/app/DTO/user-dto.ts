@@ -9,5 +9,6 @@ export interface UserDTO {
     gender: String;
     profession: String;
     workplace: String;
-    userType: String;
+    userType: Number;
+    id: number;
 }

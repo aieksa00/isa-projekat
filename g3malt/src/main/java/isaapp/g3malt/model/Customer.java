@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @DiscriminatorValue("1")
 public class Customer extends User{
 	
-	@Column(name="loyatyPoints", unique=false, nullable=true)
+	@Column(name="loyaltyPoints", unique=false, nullable=true)
 	private int loyaltyPoints;
 	@Column(name="loyaltyType", unique=false, nullable=true)
 	private LoyaltyType loyaltyType;

@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BloodBankDto } from '../DTO/blood-bank-dto';
+import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +21,9 @@ export class BloodBankService {
 
   updateDescription(id: number, description: string): Observable<BloodBankDto> {
     return this.http.put<BloodBankDto>(this.apiHost + 'BloodBankController/UpdateDescription/' + id, description, {headers: this.headers});
+  }
+
+  public createBloodBank(CreateBloodBankDTO: CreateBloodBankDTO) :Observable<any> {
+    return this.http.post<CreateBloodBankDTO>(this.apiHost + 'bloodBankController/addBloodBank',CreateBloodBankDTO,{headers: this.headers});
   }
 }

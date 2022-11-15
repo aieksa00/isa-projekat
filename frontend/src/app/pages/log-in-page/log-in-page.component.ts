@@ -21,6 +21,7 @@ export class LogInPageComponent implements OnInit {
     const userCredentials : UserCredentialsDTO = {
       email : this.email,
       password : this.password,
+      userId : 0
     }
     console.log(userCredentials);
     this.cookieService.set('LoggedIn', 'true' );
