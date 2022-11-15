@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +32,9 @@ public class User {
 	@Column(name="name", unique=false, nullable=true)
 	private String id;
 	@NotEmpty
+	@NotNull
 	private String name;
+<<<<<<< HEAD
 	@Column(name="surname", unique=false, nullable=true)
 	private String surname;
 	@Column(name="street", unique=false, nullable=true)
@@ -48,6 +54,33 @@ public class User {
 	@Column(name="workplace", unique=false, nullable=true)
 	private String workplace;
 	@Column(name="userType", unique=false, nullable=true)
+=======
+	@NotEmpty
+	@NotNull
+	private String surname;
+	@NotEmpty
+	@NotNull
+	private String address;
+	@NotEmpty
+	@NotNull
+	private String city;
+	@NotEmpty
+	@NotNull
+	private String country;
+	@Range(min=9, max=14)
+	private String phoneNumber;
+	@Range(min=13, max=13)
+	private String jmbg;
+	@NotNull
+	private GenderType gender;
+	@NotEmpty
+	@NotNull
+	private String profession;
+	@NotEmpty
+	@NotNull
+	private String workplace;
+	@NotNull
+>>>>>>> 58c08ed (validation model)
 	private UserType userType;
 	
 	public User() {}
