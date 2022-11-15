@@ -1,4 +1,4 @@
-package isaapp.g3malt.model;
+package isaapp.g3malt.dto;
 
 public class UserCredentialsDTO {
 	public String email;
