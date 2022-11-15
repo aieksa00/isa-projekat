@@ -10,9 +10,9 @@ export class CustomerDTO {
   gender: String='';
   profession: String='';
   workplace: String='';
-  userType: String='';
+  user_type: String='';
   email: String='';
   password: String='';
-  points: String='';
-  category: String='';
+  loyaltyPoints: String='';
+  loyaltyType: String='';
 }

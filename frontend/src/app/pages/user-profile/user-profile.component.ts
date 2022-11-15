@@ -19,7 +19,7 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-  public updateRoom(): void {
+  public updateCustomer(): void {
     this._userService.updateCustomer(this.user).subscribe(res => {
       this.user = res;
     });

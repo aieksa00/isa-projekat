@@ -19,6 +19,6 @@ export class UserService {
   }
 
   updateCustomer(customerDTO: any): Observable<any> {
-    return this.http.put<any>(this.apiHost + '/userController/editCustomer/' + customerDTO.id, customerDTO, {headers: this.headers});
+    return this.http.put<any>(this.apiHost + '/userController/editCustomer', customerDTO, {headers: this.headers});
   }
 }

@@ -30,7 +30,7 @@
         <div class="mb-3 input-group">
           <input type="text" id="email" class="form-control" disabled name="email" [(ngModel)]="user.email"/>
         </div>
-      <label class="form-label">Password</label>
+      <label class="form-label">Password:</label>
         <div class="mb-3 input-group">
           <input type="password" id="password" class="form-control" name="password" [(ngModel)]="user.password"/>
         </div>
@@ -53,17 +53,17 @@
           <div class="mb-3 input-group">
             <input type="text" id="phoneNumber" class="form-control" name="phoneNumber" [(ngModel)]="user.phoneNumber"/>
           </div>
-          <label class="form-label">Points</label>
+          <label class="form-label">Points:</label>
           <div class="mb-3 input-group">
-            <input type="password" id="points" class="form-control" name="points" [(ngModel)]="user.points"/>
+            <input type="text" id="points" class="form-control" disabled name="points" [(ngModel)]="user.loyaltyPoints"/>
           </div>
-          <label class="form-label">Category</label>
+          <label class="form-label">Loyalty Type:</label>
           <div class="mb-3 input-group">
-            <input type="password" id="category" class="form-control" name="category" [(ngModel)]="user.category"/>
+            <input type="text" id="category" class="form-control" disabled name="category" [(ngModel)]="user.loyaltyType"/>
           </div>
       </div>
       <div class="row justify-content-center align-items-center" style=" margin-top: 3%">
-        <input type="submit" value="Save" style="width: 150px" class="btn btn-primary"/>
+        <input type="submit" value="Save" style="width: 150px" class="btn btn-primary" (click)="updateCustomer()"/>
       </div>
     </div>
   </form>
