@@ -23,6 +23,7 @@ import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { UserService } from './services/user.service';
+import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UserService } from './services/user.service';
     UserQRCodesComponent,
     UserProfileComponent,
     ComplaintsComponent,
-    BloodBankInfoComponent
+    BloodBankInfoComponent,
+    CreateBloodBankComponent
   ],
   imports: [
     BrowserModule,

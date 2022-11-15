@@ -12,6 +12,7 @@ import { UserAppointmentsComponent } from './pages/user-appointments/user-appoin
 import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
+import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'userAppointments', component: UserAppointmentsComponent},
   { path: 'userQRCodes', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
-  { path: 'complaints', component: ComplaintsComponent}
+  { path: 'complaints', component: ComplaintsComponent},
+  { path: 'createBloodBank', component: CreateBloodBankComponent}
 ];
 
 @NgModule({

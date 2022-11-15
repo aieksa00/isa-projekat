@@ -26,7 +26,7 @@ export class RegistrationPageComponent implements OnInit {
   public gender: String = "";
   public profession: String = "";
   public workplace: String = "";
-  public userType: String = "customer";
+  public userType: number = 2;
 
   public email: String = "";
   public password: String = "";
@@ -47,12 +47,13 @@ export class RegistrationPageComponent implements OnInit {
       profession : this.profession,
       workplace : this.workplace,
       userType : this.userType,
-            
+      id : 0      
     }
     if(this.comparePasswords()) {
       const userCredentials: UserCredentialsDTO = {
         email : this.email,
         password : this.password,
+        userId : 0
       }
       this.addUserCredentials(userCredentials).subscribe(userCredentials => console.log(userCredentials));
     } else {
