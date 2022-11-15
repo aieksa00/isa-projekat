@@ -1,10 +1,14 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.dto.UserInfoDto;
+import isaapp.g3malt.model.Customer;
+import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import javax.persistence.Column;
 
 @CrossOrigin("*")
 @RestController
@@ -39,11 +45,11 @@ public class UserController {
     
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getCustomer/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getCustomer(@PathVariable Integer id) {
-        User user = userService.findById(1);
+    public ResponseEntity<UserInfoDto> getCustomer(@PathVariable Integer id) {
+        Customer user = (Customer) userService.findById(1);
         
         Iterable<UserCredentials> credentials = userCredentialsService.findAll();
-        UserCredentials userCredetial;
+        UserCredentials userCredetial = null;
 
         for(UserCredentials credential : credentials) {
         	if(credential.getUser().getId() == user.getId()) {
@@ -52,23 +58,50 @@ public class UserController {
         	}
         }
         
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        UserInfoDto userInfoDto = new UserInfoDto();
+        
+        ModelMapper modelMapper = new ModelMapper();
+        userInfoDto = modelMapper.map(user, UserInfoDto.class);
+        
+        userInfoDto.password = userCredetial.getPassword();
+        userInfoDto.email = userCredetial.getEmail();
+        
+        return new ResponseEntity<UserInfoDto>(userInfoDto, HttpStatus.OK);
     }
     
     @CrossOrigin(origins = "*")
-    @PutMapping(consumes = "application/json")
-	public ResponseEntity<User> editCustomer(@RequestBody User userDTO) {
+    @PutMapping(value = "/editCustomer/{id}", consumes = "application/json")
+	public ResponseEntity<UserInfoDto> editCustomer(@PathVariable Integer id, @RequestBody UserInfoDto userDto) {
 
-		User user = userService.findById(userDTO.getId());
+		User user = userService.findById(userDto.id);
 
 		if (user == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
+		Iterable<UserCredentials> credentials = userCredentialsService.findAll();
+        UserCredentials userCredetial = null;
 
-		//user.setFirstName(userDTO.getFirstName());
+        for(UserCredentials credential : credentials) {
+        	if(credential.getUser().getId() == user.getId()) {
+        		userCredetial = credential;
+        		continue;
+        	}
+        }
+		
+        userCredetial.setPassword(userDto.password);
+
+		user.setName(userDto.name);
+		user.setSurname(userDto.surname);
+		user.setJmbg(userDto.jmbg);
+		user.setGender(userDto.gender);
+		user.setAddress(userDto.address);
+		user.setCity(userDto.city);
+		user.setCountry(userDto.country);
+		user.setPhoneNumber(userDto.phoneNumber);
 
 		user = userService.save(user);
-		return new ResponseEntity<>(user, HttpStatus.OK);
+		return new ResponseEntity<>(userDto, HttpStatus.OK);
 	}
 
     @CrossOrigin(origins = "*")
