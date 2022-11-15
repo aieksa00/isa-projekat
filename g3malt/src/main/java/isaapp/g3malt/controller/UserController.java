@@ -1,8 +1,8 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.User;
-import isaapp.g3malt.model.UserDTO;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.services.UserService;
 

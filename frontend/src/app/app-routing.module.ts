@@ -12,6 +12,7 @@ import { UserAppointmentsComponent } from './pages/user-appointments/user-appoin
 import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
+import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'userQRCodes', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
+  { path: 'bloodBankInfo', component: BloodBankInfoComponent},
   { path: 'createBloodBank', component: CreateBloodBankComponent}
 ];
 

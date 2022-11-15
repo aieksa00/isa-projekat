@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CreateBloodBankDTO } from 'src/app/DTO/create-blood-bank-dto';
 import { UserCredentialsDTO } from 'src/app/DTO/user-credentials-dto';
-import { BloodbankService } from 'src/app/services/bloodbank.service';
+import { BloodBankService } from 'src/app/services/blood-bank.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 import { UserDTO } from '../../DTO/user-dto';
@@ -40,7 +40,7 @@ export class CreateBloodBankComponent implements OnInit {
   public existingUsers: UserCredentialsDTO[] = [];
   public administratorId: number = 0;
 
-  constructor(private _userService: UserService,private _bloodbankService: BloodbankService, private router : Router) { }
+  constructor(private _userService: UserService,private _bloodbankService: BloodBankService, private router : Router) { }
 
   ngOnInit(): void {
     this._userService.getUserCredentials().subscribe(res=>{

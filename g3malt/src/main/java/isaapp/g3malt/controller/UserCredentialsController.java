@@ -1,8 +1,8 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.dto.UserCredentialsDTO;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserCredentials;
-import isaapp.g3malt.model.UserCredentialsDTO;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 

@@ -1,7 +1,6 @@
 package isaapp.g3malt.model;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,11 +25,9 @@ public class Appointment {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "bloodBank_id")
-	//@Column(name="customer", unique=false, nullable=true)
 	private BloodBank bloodBank;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//@Column(name="medicalStaff", unique=false, nullable=true)
 	private Set<User> medicalStaff;
 	
 	@Column(name="scheduleDateTime", unique=false, nullable=true)
@@ -44,7 +41,6 @@ public class Appointment {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
-	//@Column(name="customer", unique=false, nullable=true)
 	private Customer customer;
 	
 	@Column(name="isFree", unique=false, nullable=true)
