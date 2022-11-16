@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { UserService } from './services/user.service';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
+import { BloodBankService } from './services/blood-bank.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,7 @@ import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood
     OverlayModule,
     HttpClientModule,
   ],
-  providers: [CookieService, UserService],
+  providers: [CookieService, UserService, BloodBankService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

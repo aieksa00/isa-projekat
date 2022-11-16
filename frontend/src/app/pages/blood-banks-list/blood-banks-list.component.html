@@ -1,1 +1,30 @@
-<p>blood-banks-list works!</p>
+<div class="projects">
+  <div class="grouping-header">
+    <div class="row">
+      <div class="col col-xs-6">
+        <h3 class="project-title float-left">Blood Bank</h3>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Working Hours</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bloodBank of bloodbanks; let currentIndex = index;">
+        <th scope="row">{{ currentIndex + 1 }}</th>
+        <td>{{ bloodBank.name }}</td>
+        <td>{{ bloodBank.description }}</td>
+        <td>{{ bloodBank.rating }}</td>
+        <td>{{ bloodBank.workingHours }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

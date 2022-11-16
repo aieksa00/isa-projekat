@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BloodBanksDTO } from 'src/app/DTO/blood-banks-list-dto';
+import { BloodBankService } from 'src/app/services/blood-bank.service';
 
 @Component({
   selector: 'app-blood-banks-list',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BloodBanksListComponent implements OnInit {
 
-  constructor() { }
+  public bloodbanks: BloodBanksDTO[] = [];
+
+  constructor(private bloodBankService: BloodBankService) { }
 
   ngOnInit(): void {
+    this.bloodBankService.getBloodBanks().subscribe(res => {
+      this.bloodbanks = res;
+    })
   }
 
 }
