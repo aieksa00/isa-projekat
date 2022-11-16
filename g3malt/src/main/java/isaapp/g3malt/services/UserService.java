@@ -16,9 +16,9 @@ public class UserService implements IService<User, Integer>{
 
 	@Override
 	public User save(User entity) {
+
 		return userRepository.save(entity);
 	}
-
 	@Override
 	public User findById(Integer id) {
 		return userRepository.findById(id).orElseGet(null);

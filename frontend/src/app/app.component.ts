@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -18,7 +18,6 @@ export class AppComponent implements OnChanges{
   ngOnChanges( changes : SimpleChanges) {
     const { currentValue }  = changes['cookie'];
     this.isLoggedIn = currentValue === 'true';
-    console.log("usao")
   }
 
 }
