@@ -114,7 +114,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDto) {
+    public ResponseEntity<User> addNewUser(@Valid @RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
     	UserType ut = null;
     	switch(userDto.userType) {
