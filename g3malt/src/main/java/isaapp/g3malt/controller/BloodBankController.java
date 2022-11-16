@@ -1,14 +1,7 @@
 package isaapp.g3malt.controller;
 
-import isaapp.g3malt.dto.BloodBankDto;
-import isaapp.g3malt.dto.StaffDto;
-import isaapp.g3malt.model.BloodBank;
-import isaapp.g3malt.model.BloodBankDTO;
-import isaapp.g3malt.model.User;
-import isaapp.g3malt.services.BloodBankService;
-import isaapp.g3malt.services.UserService;
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -16,6 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import isaapp.g3malt.dto.BloodBankDto;
+import isaapp.g3malt.dto.StaffDto;
+import isaapp.g3malt.model.BloodBank;
+import isaapp.g3malt.model.BloodBankDTO;
+import isaapp.g3malt.model.User;
+import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -85,5 +91,12 @@ public class BloodBankController {
 		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.street, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, users, bloodbankDto.workingHours, null, null);
         BloodBank newBloodBank = bloodBankService.save(bloodBank);
         return new ResponseEntity<BloodBank>(newBloodBank, HttpStatus.CREATED);
+    }
+	
+	@CrossOrigin("*")
+	@GetMapping(value = "/getAllBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<BloodBank>> getAllBloodBanks() {
+    	List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAll();
+		return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 }
