@@ -1,32 +1,25 @@
-<div class="projects" style="margin: 3%">
-    <div class="grouping-header">
-      <div class="row">
-        <div class="col col-xs-6">
-          <h3 class="project-title float-left">Users</h3>
-        </div>
+<div>
+    <div class="row mx-3">
+      <div class="col col-xs-6">
+        <h3 class="project-title float-left">Users</h3>
       </div>
-      <br>
-      <div class="row">
-        <div class="col-9">
-            <input type="text" class="form-control" name="search" [(ngModel)]="searchName" placeholder="Search by first name" >
-          <div class="col-9">
-            <input type="text" class="form-control" name="search" [(ngModel)]="searchLastName" placeholder="Search by last name" >
-          </div>
-        </div>
-      </div>
-      <br>
-      <div class="row">
-        <div class="col-3">
-          <input type="submit" class="btn btn-dark" style="width: 150px" (click)="search()"  value="Search">
-        </div>
-        <div class="col-6"></div>
-        <div class="col-3">
-          <input type="submit" class="btn btn-dark" style="width: 150px" (click)="reset()" value="Reset">
-        </div>
-      </div>
-      <br>
     </div>
-  
+      <br>
+    <div class="row mx-3">
+      <div class="col-4">
+        <input type="text" class="form-control" name="search" [(ngModel)]="searchName" placeholder="Search by first name" >
+      </div>
+      <div class="col-4">
+        <input type="text" class="form-control" name="search" [(ngModel)]="searchLastName" placeholder="Search by last name" >
+      </div>
+      <div class="col">
+        <input type="submit"  style="width: 50px; height: 36px" (click)="search()"  value="🔎">
+      </div>
+      <div class="col">
+        <input type="submit" style="width: 120px; height: 36px" (click)="reset()" value="Reset">
+      </div>
+    </div>
+  <div class="row mx-3">
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -48,4 +41,4 @@
       </tbody>
     </table>
   </div>
-  
+</div> 
