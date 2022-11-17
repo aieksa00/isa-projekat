@@ -6,7 +6,6 @@ import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
 import isaapp.g3malt.model.Customer;
-import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
@@ -16,16 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Column;
 
 @CrossOrigin("*")
 @RestController
@@ -38,6 +31,7 @@ public class UserController {
 	@Autowired
 	private UserCredentialsService userCredentialsService;
 
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> getAllUsers() {
     	List<User> users = (List<User>) userService.findAll();
@@ -123,6 +117,21 @@ public class UserController {
 	    	case 2: ut=UserType.customer;break;
     	}
     	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, ut);
+        User newUser = userService.save(user);
+        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/addRegisteredUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> addRegisteredUser(@RequestBody UserDTO userDTO) {
+        GenderType g = userDTO.gender.equals("male")?GenderType.male:GenderType.female;
+        UserType ut = null;
+        switch(userDTO.userType) {
+            case 0: ut=UserType.administrator;break;
+            case 1: ut=UserType.staff;break;
+            case 2: ut=UserType.customer;break;
+        }
+        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, ut);
         User newUser = userService.save(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }

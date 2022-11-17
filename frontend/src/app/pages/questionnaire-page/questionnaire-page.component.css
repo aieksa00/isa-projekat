@@ -1,0 +1,51 @@
+.container-lg {
+    font-size: 18px;
+    margin: auto;
+}
+
+#topMargin {
+    margin-top: 4%;
+}
+
+.col-md-4 {
+    margin-top: 3%;
+    align-items: stretch;
+}
+
+#forWoman {
+    font-size: 28px;
+    font-weight: 400;
+    color: #922020;
+}
+
+#component {
+    margin: auto;
+    width: 80vw;
+}
+
+.row .buttons {
+    text-align: right;
+    display: inline;
+}
+
+.btn-look {
+    margin: 10px 15px;
+    height: 45px;
+    width: 90px;
+    padding: 2px;
+    display: inline-block;
+    background: #DC9836;
+    color: #383E3C;
+    font-size: 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.btn-look:hover {
+    background: #F4EEDE;
+    color: #DC9836;
+}
+
+#right-btn {
+    margin-right: 80px;
+}

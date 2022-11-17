@@ -1,4 +1,7 @@
 .appComponent {
     display: flex;
+}
+
+.loggedInComponent {
     margin: auto;
 }

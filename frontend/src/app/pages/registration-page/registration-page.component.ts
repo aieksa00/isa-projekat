@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDTO } from '../../DTO/user-dto';
+import { Router } from '@angular/router';
 import { UserCredentialsDTO } from '../../DTO/user-credentials-dto';
 import Swal from 'sweetalert2'
 
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
@@ -16,65 +16,39 @@ import { catchError, retry } from 'rxjs/operators';
 
 export class RegistrationPageComponent implements OnInit {
 
-  public name: String = "";
-  public surname: String = "";
-  public address: String = "";
-  public city: String = "";
-  public country: String = "";
-  public phoneNumber: String = "";
-  public jmbg: String = "";
-  public gender: String = "";
-  public profession: String = "";
-  public workplace: String = "";
-  public userType: number = 2;
-
   public email: String = "";
   public password: String = "";
   public confirmedPassword: String = "";
+  public userCredentials : UserCredentialsDTO = new UserCredentialsDTO();
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, public router: Router) { }
 
   public onSubmit() {
-    const user: UserDTO = {
-      name : this.name,
-      surname : this.surname,
-      address : this.address,
-      city : this.city,
-      country : this.country,
-      phoneNumber : this.phoneNumber,
-      jmbg : this.jmbg,
-      gender : this.gender,
-      profession : this.profession,
-      workplace : this.workplace,
-      userType : this.userType,
-      id : 0      
-    }
     if(this.comparePasswords()) {
       const userCredentials: UserCredentialsDTO = {
         email : this.email,
         password : this.password,
         userId : 0
       }
-      this.addUserCredentials(userCredentials).subscribe(userCredentials => console.log(userCredentials));
+      this.addUserCredentials(userCredentials).subscribe(res => {
+          this.userCredentials = res;
+          this.router.navigate([`/registrationUserPage/${res['id']}`])
+      });
     } else {
       this.showWarningMessage();
       this.password = "";
       this.confirmedPassword = "";
     }
 
-    this.addUser(user).subscribe(user => console.log(user));
-    
   }
+
 
   ngOnInit(): void {
   }
 
-  addUser(user : UserDTO): Observable<UserDTO> {
-    return this.http.post<UserDTO>("http://localhost:8080/userController/addUser", user);
-  }
-
   addUserCredentials( userCredentials : UserCredentialsDTO):  Observable<UserCredentialsDTO> {
-    return this.http.post<UserCredentialsDTO>("http://localhost:8080/UserCredentialsController/addUserCredentials", userCredentials);
+    return this.http.post<UserCredentialsDTO>("http://localhost:9090/UserCredentialsController/registreUserCredentials", userCredentials).pipe(catchError(this.handleError));
   }
 
   comparePasswords() : boolean {
@@ -92,4 +66,16 @@ export class RegistrationPageComponent implements OnInit {
     })
   }
 
+  public handleError = (error: HttpErrorResponse) => {
+      Swal.fire({
+        title: 'Warning',
+        text: 'Email already in use',
+        icon: 'warning'
+      });
+      this.email = "";
+      this.password = "";
+      this.confirmedPassword = "";
+      return throwError(() => new Error('Something bad happened; please try again later.'));
+
+  }
 }

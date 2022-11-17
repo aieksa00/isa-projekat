@@ -25,6 +25,11 @@ export const navbarData = [
         label: 'Complaints'
     },
     {
+        routeLink: '/questionnairePage',
+        icon: 'fal fa-question-circle',
+        label: 'Questionnaire'
+    },
+    {
         routeLink: '/userProfile',
         icon: 'fal fa-user',
         label: 'Profile'
