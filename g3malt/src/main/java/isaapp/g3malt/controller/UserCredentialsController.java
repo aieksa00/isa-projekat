@@ -1,7 +1,9 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.dto.AllUserInfoDto;
 import isaapp.g3malt.dto.UpdateUserDTO;
 import isaapp.g3malt.dto.UserCredentialsDTO;
+import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.services.UserCredentialsService;
@@ -34,6 +36,53 @@ public class UserCredentialsController {
 	public ResponseEntity<List<UserCredentials>> getAllUsers() {
 		List<UserCredentials> usersCredentials = (List<UserCredentials>) userCredentialsService.findAll();
 		return new ResponseEntity<>(usersCredentials, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/GetUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AllUserInfoDto> getUserById(@PathVariable Integer id) {
+        UserCredentials userCredentials = userCredentialsService.findById(id);
+        if (userCredentials == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+        
+        AllUserInfoDto allUserInfoDto = mapAllUserInfoDto(userCredentials);
+        return new ResponseEntity<AllUserInfoDto>(allUserInfoDto, HttpStatus.OK);
+    }
+	
+	@PutMapping(value = "UpdateUser/{id}", consumes = "application/json")
+	public ResponseEntity<AllUserInfoDto> updateUser(@PathVariable Integer id, @RequestBody AllUserInfoDto dto) {
+
+		UserCredentials userCredentials = userCredentialsService.findById(id);
+        
+		if (userCredentials == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+        
+        User user = userCredentials.getUser();
+		
+		user.setName(dto.getUserName());
+		user.setSurname(dto.getUserSurname());
+		user.setStreet(dto.getUserStreet());
+		user.setCity(dto.getUserCity());
+		user.setCountry(dto.getUserCountry());
+		user.setPhoneNumber(dto.getUserPhoneNumber());
+		user.setJmbg(dto.getUserJmbg());
+		if(dto.getUserGender()==0)
+			user.setGender(GenderType.male);
+		else
+			user.setGender(GenderType.female);
+		user.setProfession(dto.getUserProfession());
+		user.setWorkplace(dto.getUserWorkplace());
+		
+		userCredentials.setEmail(dto.getUserCredentialsEmail());
+		userCredentials.setPassword(dto.getUserCredentialsPassword());
+		userCredentials.setUser(user);
+
+		userCredentials = userCredentialsService.save(userCredentials);
+		
+		AllUserInfoDto allUserInfoDto = mapAllUserInfoDto(userCredentials);
+		
+		return new ResponseEntity<>(allUserInfoDto, HttpStatus.OK);
 	}
 	
     @CrossOrigin(origins = "*")
@@ -79,4 +128,24 @@ public class UserCredentialsController {
     	}
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
+	
+	private AllUserInfoDto mapAllUserInfoDto(UserCredentials userCredentials) {
+		User user = userCredentials.getUser();
+		AllUserInfoDto allUserInfoDto = new AllUserInfoDto(
+        		user.getId(),
+        		user.getName(),
+        		user.getSurname(),
+        		user.getStreet(),
+        		user.getCity(),
+        		user.getCountry(),
+        		user.getPhoneNumber(),
+        		user.getJmbg(),
+        		user.getGender().getValue(),
+        		user.getProfession(),
+        		user.getWorkplace(),
+        		userCredentials.getEmail(),
+        		userCredentials.getPassword()
+        		);
+		return allUserInfoDto;
+	}
 }

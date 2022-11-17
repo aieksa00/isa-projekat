@@ -1,3 +1,4 @@
+import { FutureAppointmentDto } from "./future-appointment";
 import { StaffDto } from "./staff";
 
 export class BloodBankDto {
@@ -8,7 +9,7 @@ export class BloodBankDto {
   bloodBankCountry: string = '';
   bloodBankDescription: string = '';
   bloodBankRating: number = 0;
-  bloodBankFreeAppointments: Set<string> = new Set();
+  bloodBankFutureAppointments: Set<FutureAppointmentDto> = new Set();
   bloodBankAdministrators: Set<StaffDto> = new Set();
   bloodBankWorkingHours: string = '';
 
@@ -30,7 +31,7 @@ export class BloodBankDto {
         this.bloodBankCountry = obj.bloodBankCountry;
         this.bloodBankDescription = obj.bloodBankDescription;
         this.bloodBankRating = obj.bloodBankRating;
-        this.bloodBankFreeAppointments = obj.bloodBankFreeAppointments;
+        this.bloodBankFutureAppointments = obj.bloodBankFutureAppointments;
         this.bloodBankAdministrators = obj.bloodBankAdministrators;
         this.bloodBankWorkingHours = obj.bloodBankWorkingHours;
 

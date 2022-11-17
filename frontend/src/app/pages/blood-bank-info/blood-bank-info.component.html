@@ -1,50 +1,256 @@
-<div class="row justify-content-evenly m-3">
-    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">
+<div class="d-flex justify-content-evenly m-3">
+    <div class="bg-dark text-white p-4 rounded-3 me-3" style="max-width: 530px;">
         <h2 class="mb-3">{{bloodBankDto.bloodBankName}}</h2>
-        <h4 class="mb-4 ms-1">Address:&nbsp;{{bloodBankDto.bloodBankStreet}},&nbsp;{{bloodBankDto.bloodBankCity}},&nbsp;{{bloodBankDto.bloodBankCountry}}</h4>
-        <h5 class="ms-4">Rating:&nbsp;{{bloodBankDto.bloodBankRating}}</h5>
-        <form class="d-flex flex-column ms-4" [formGroup]="descriptionForm">
+        <h4 class="mb-2 mx-auto border-bottom border-white">Current information below:</h4>
+        <p class="ms-3">Address:&nbsp;{{bloodBankDto.bloodBankStreet}},&nbsp;{{bloodBankDto.bloodBankCity}},&nbsp;{{bloodBankDto.bloodBankCountry}}</p>
+        <p class="ms-3">Rating:&nbsp;{{bloodBankDto.bloodBankRating}}</p>
+        <p class="ms-3">Description:&nbsp;{{bloodBankDto.bloodBankDescription}}</p>
+
+        <h4 class="mb-2 mx-auto border-bottom border-white">Update information below:</h4>
+        <form class="d-flex flex-column ms-3" [formGroup]="updateForm">
             <div class="mb-1">
-                <label for="description" class="form-label fs-5">Change current description below:</label>
+                <label for="name" class="form-label">New name</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="updateForm.get('name').invalid && (updateForm.get('name').dirty || updateForm.get('name').touched)" class="text-danger mt-1">
+                    Please enter new name.
+                </div>
+            </div>
+
+            <div class="mb-1">
+                <label for="street" class="form-label">New street</label>
+                <input type="text" class="form-control" id="street" formControlName="street">
+                <div *ngIf="updateForm.get('street').invalid && (updateForm.get('street').dirty || updateForm.get('street').touched)" class="text-danger mt-1">
+                    Please enter new street.
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-6">
+                    <label for="city" class="form-label">New city</label>
+                    <input type="text" class="form-control" id="city" formControlName="city">
+                </div>
+                <div class="col-sm-6">
+                    <label for="country" class="form-label">New country</label>
+                    <input type="text" class="form-control" id="country" formControlName="country">
+                </div>
+                <div class="col-8">
+                    <div *ngIf="(updateForm.get('city').invalid && (updateForm.get('city').dirty || updateForm.get('city').touched)) || (updateForm.get('country').invalid && (updateForm.get('country').dirty || updateForm.get('country').touched))" class="text-danger mt-1">
+                        Please enter a city and country.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-1">
+                <label for="description" class="form-label">New description</label>
                 <input type="text" class="form-control" id="description" formControlName="description">
-                <div *ngIf="descriptionForm.get('description').invalid && (descriptionForm.get('description').dirty || descriptionForm.get('description').touched)" class="text-danger mt-1">
+                <div *ngIf="updateForm.get('description').invalid && (updateForm.get('description').dirty || updateForm.get('description').touched)" class="text-danger mt-1">
                     Please enter a description.
                 </div>
             </div>
+
             <div class="ms-auto">
-                <button class="btn btn-primary btn-sm" type="button" [disabled]="descriptionForm.invalid" (click)="updateDescription()">Update</button>
+                <button class="btn btn-primary btn-sm" type="button" [disabled]="updateForm.invalid" (click)="updateDescription()">Update</button>
             </div>
         </form>
-        <h4 class="mb-2 ms-1">Storage</h4>
-        <table class="table table-secondary table-bordered">
-            <thead>
+        <h4 class="mb-2 ms-1">Current storage state:</h4>
+        <div class="table-responsive">
+            <table class="table table-secondary table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">A Plus</th>
+                        <th scope="col">B Plus</th>
+                        <th scope="col">AB Plus</th>
+                        <th scope="col">O Plus</th>
+                        <th scope="col">A Minus</th>
+                        <th scope="col">B Minus</th>
+                        <th scope="col">AB Minus</th>
+                        <th scope="col">O Minus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{bloodBankDto.bloodBankStorageAPlus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageBPlus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageABPlus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageOPlus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageAMinus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageBMinus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageABMinus}}</td>
+                        <td>{{bloodBankDto.bloodBankStorageOMinus}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="bg-dark text-white p-4 rounded-3 me-3" style="min-width: 400px;">    
+        <h4 class="mb-2 mx-auto border-bottom border-white">Update personal information below:</h4>
+        <form class="d-flex flex-column ms-3" [formGroup]="userForm">
+            <div class="mb-1">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" formControlName="userName">
+                <div *ngIf="userForm.get('userName').invalid && (userForm.get('userName').dirty || userForm.get('userName').touched)" class="text-danger mt-1">
+                    Please enter a name.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="surname" class="form-label">Surame</label>
+                <input type="text" class="form-control" id="surname" formControlName="userSurname">
+                <div *ngIf="userForm.get('userSurname').invalid && (userForm.get('userSurname').dirty || userForm.get('userSurname').touched)" class="text-danger mt-1">
+                    Please enter a surname.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userStreet" class="form-label">Street</label>
+                <input type="text" class="form-control" id="userStreet" formControlName="userStreet">
+                <div *ngIf="userForm.get('userStreet').invalid && (userForm.get('userStreet').dirty || userForm.get('userStreet').touched)" class="text-danger mt-1">
+                    Please enter a street.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="userCity" formControlName="userCity">
+                <div *ngIf="userForm.get('userCity').invalid && (userForm.get('userCity').dirty || userForm.get('userCity').touched)" class="text-danger mt-1">
+                    Please enter a city.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userCountry" class="form-label">Country</label>
+                <input type="text" class="form-control" id="userCountry" formControlName="userCountry">
+                <div *ngIf="userForm.get('userCountry').invalid && (userForm.get('userCountry').dirty || userForm.get('userCountry').touched)" class="text-danger mt-1">
+                    Please enter a country.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userPhoneNumber" class="form-label">Phone number</label>
+                <input type="text" class="form-control" id="userPhoneNumber" formControlName="userPhoneNumber">
+                <div *ngIf="userForm.get('userPhoneNumber').invalid && (userForm.get('userPhoneNumber').dirty || userForm.get('userPhoneNumber').touched)" class="text-danger mt-1">
+                    Please enter a phone number.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userJmbg" class="form-label">Jmbg</label>
+                <input type="text" class="form-control" id="userJmbg" formControlName="userJmbg">
+                <div *ngIf="userForm.get('userJmbg').invalid && (userForm.get('userJmbg').dirty || userForm.get('userJmbg').touched)" class="text-danger mt-1">
+                    Please enter a jmbg.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userGender" class="form-label">Gender</label>
+                <select class="form-select" aria-label="gender selector" id="userGender" formControlName="userGender">
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                </select>
+                <div *ngIf="userForm.get('userGender').invalid && (userForm.get('userGender').dirty || userForm.get('userGender').touched)" class="text-danger mt-1">
+                    Please enter a gender.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userProfession" class="form-label">userProfession</label>
+                <input type="text" class="form-control" id="userProfession" formControlName="userProfession">
+                <div *ngIf="userForm.get('userProfession').invalid && (userForm.get('userProfession').dirty || userForm.get('userProfession').touched)" class="text-danger mt-1">
+                    Please enter a profession.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userWorkplace" class="form-label">userWorkplace</label>
+                <input type="text" class="form-control" id="userWorkplace" formControlName="userWorkplace">
+                <div *ngIf="userForm.get('userWorkplace').invalid && (userForm.get('userWorkplace').dirty || userForm.get('userWorkplace').touched)" class="text-danger mt-1">
+                    Please enter a workplace.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userCredentialsEmail" class="form-label">Email</label>
+                <input type="text" class="form-control" id="userCredentialsEmail" formControlName="userCredentialsEmail">
+                <div *ngIf="userForm.get('userCredentialsEmail').invalid && (userForm.get('userCredentialsEmail').dirty || userForm.get('userCredentialsEmail').touched)" class="text-danger mt-1">
+                    Please enter an email.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="userCredentialsPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="userCredentialsPassword" formControlName="userCredentialsPassword">
+                <div *ngIf="userForm.get('userCredentialsPassword').invalid && (userForm.get('userCredentialsPassword').dirty || userForm.get('userCredentialsPassword').touched)" class="text-danger mt-1">
+                    Please enter a password.
+                </div>
+            </div>
+            <div class="ms-auto">
+                <button class="btn btn-primary" type="button" [disabled]="userForm.invalid" (click)="updateUser()">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="d-flex justify-content-evenly m-3">
+    <div class="bg-dark text-white p-4 rounded-3" style="max-width: 530px;">
+        <h4 class="mb-2 mx-auto border-bottom border-white">Future Appointents:</h4>
+        <table class="table table-secondary table-hover mt-auto">
+            <thead class="border-bottom border-dark">
                 <tr>
-                    <th scope="col">A Plus</th>
-                    <th scope="col">B Plus</th>
-                    <th scope="col">AB Plus</th>
-                    <th scope="col">O Plus</th>
-                    <th scope="col">A Minus</th>
-                    <th scope="col">B Minus</th>
-                    <th scope="col">AB Minus</th>
-                    <th scope="col">O Minus</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Date and time</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Staff 1</th>
+                    <th scope="col">Staff 2</th>
+                    <th scope="col">Staff 3</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{bloodBankDto.bloodBankStorageAPlus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageBPlus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageABPlus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageOPlus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageAMinus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageBMinus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageABMinus}}</td>
-                    <td>{{bloodBankDto.bloodBankStorageOMinus}}</td>
+                <tr *ngFor="let appointment of bloodBankDto.bloodBankFutureAppointments; index as i">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{ appointment.scheduleDateTime.substring(0,16).replace('T',' ') }}</td>
+                    <td>{{ appointment.duration }}</td>
+                    <td *ngFor="let staff of appointment.medicalStaff">{{ staff.name }}&nbsp;{{staff.surname}}</td>
                 </tr>
             </tbody>
         </table>
+        <h4 class="mb-2 mx-auto border-bottom border-white">Schedule new appointment below:</h4>
+        <form class="d-flex flex-column ms-3" [formGroup]="appointmentForm">
+            <div class="mb-1">
+                <label for="scheduleDateTime" class="form-label">Date and Time</label>
+                <input type="date" class="form-control" id="scheduleDateTime" formControlName="scheduleDateTime">
+                <div *ngIf="appointmentForm.get('scheduleDateTime').invalid && (appointmentForm.get('scheduleDateTime').dirty || appointmentForm.get('scheduleDateTime').touched)" class="text-danger mt-1">
+                    Please choose a date and time.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="duration" class="form-label">Duration (minutes)</label>
+                <input type="number" class="form-control" id="duration" formControlName="duration">
+                <div *ngIf="appointmentForm.get('duration').invalid && (appointmentForm.get('duration').dirty || appointmentForm.get('duration').touched)" class="text-danger mt-1">
+                    Please enter a duration.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="medicalStaffOne" class="form-label">Medical Staff One</label>
+                <select class="form-select" aria-label="medical staff one selector" id="medicalStaffOne" formControlName="medicalStaffOne">
+                    <option *ngFor="let staff of bloodBankDto.bloodBankAdministrators" [ngValue]="staff">{{staff.name}}&nbsp;{{staff.surname}}</option>
+                </select>
+                <div *ngIf="appointmentForm.get('medicalStaffOne').invalid && (appointmentForm.get('medicalStaffOne').dirty || appointmentForm.get('medicalStaffOne').touched)" class="text-danger mt-1">
+                    Please choose medical staff.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="medicalStaffTwo" class="form-label">Medical Staff Two</label>
+                <select class="form-select" aria-label="medical staff two selector" id="medicalStaffTwo" formControlName="medicalStaffTwo">
+                    <option *ngFor="let staff of bloodBankDto.bloodBankAdministrators" [ngValue]="staff">{{staff.name}}&nbsp;{{staff.surname}}</option>
+                </select>
+                <div *ngIf="appointmentForm.get('medicalStaffTwo').invalid && (appointmentForm.get('medicalStaffTwo').dirty || appointmentForm.get('medicalStaffTwo').touched)" class="text-danger mt-1">
+                    Please choose medical staff.
+                </div>
+            </div>
+            <div class="mb-1">
+                <label for="medicalStaffThree" class="form-label">Medical Staff Three</label>
+                <select class="form-select" aria-label="medical staff three selector" id="medicalStaffThree" formControlName="medicalStaffThree">
+                    <option *ngFor="let staff of bloodBankDto.bloodBankAdministrators" [ngValue]="staff">{{staff.name}}&nbsp;{{staff.surname}}</option>
+                </select>
+                <div *ngIf="appointmentForm.get('medicalStaffThree').invalid && (appointmentForm.get('medicalStaffThree').dirty || appointmentForm.get('medicalStaffThree').touched)" class="text-danger mt-1">
+                    Please choose medical staff.
+                </div>
+            </div>
+            <div class="ms-auto">
+                <button class="btn btn-primary" type="button" [disabled]="appointmentForm.invalid" (click)="createAppointment()">Schedule</button>
+            </div>
+        </form>
     </div>
-    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3 table-responsive">
-        <h4 class="mb-2 ms-1">All staff</h4>
+    <div class="bg-dark text-white p-4 rounded-3" style="min-width: 400px;">
+        <h4 class="mb-2 mx-auto border-bottom border-white">All staff</h4>
         <table class="table table-secondary table-hover mt-auto">
             <thead class="border-bottom border-dark">
                 <tr>
@@ -61,11 +267,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-</div>
-<div class="row justify-content-evenly m-3">
-    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">        
-    </div>
-    <div class="col-lg-5 bg-dark text-white p-4 rounded-3 mb-3">
     </div>
 </div>

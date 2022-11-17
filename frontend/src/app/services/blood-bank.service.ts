@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BloodBankDto } from '../DTO/blood-bank-dto';
 import { BloodBanksDTO } from '../DTO/blood-banks-list-dto';
 import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
+import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
 
 
 @Injectable({
@@ -20,8 +21,8 @@ export class BloodBankService {
     return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + id, {headers: this.headers});
   }
 
-  updateDescription(id: number, description: string): Observable<BloodBankDto> {
-    return this.http.put<BloodBankDto>(this.apiHost + 'BloodBankController/UpdateDescription/' + id, description, {headers: this.headers});
+  updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {
+    return this.http.put<BloodBankDto>(this.apiHost + 'BloodBankController/UpdateBloodBank/' + id, dto, {headers: this.headers});
   }
 
   public createBloodBank(CreateBloodBankDTO: CreateBloodBankDTO) :Observable<any> {

@@ -29,7 +29,7 @@ public class UserController {
 	
 	@Autowired
 	private UserCredentialsService userCredentialsService;
-
+	
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAllUsers() {
