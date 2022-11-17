@@ -67,15 +67,23 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   public handleError = (error: HttpErrorResponse) => {
-      Swal.fire({
-        title: 'Warning',
-        text: 'Email already in use',
-        icon: 'warning'
-      });
-      this.email = "";
-      this.password = "";
-      this.confirmedPassword = "";
+      if(error.status == 400){
+        Swal.fire({
+          title: 'Warning',
+          text: 'Please fill in all the fields',
+          icon: 'warning'
+        });
+      }
+      else if(error.status == 409){
+        Swal.fire({
+          title: 'Warning',
+          text: 'Email already in use',
+          icon: 'warning'
+        });
+        this.email = "";
+        this.password = "";
+        this.confirmedPassword = "";
+      }
       return throwError(() => new Error('Something bad happened; please try again later.'));
-
   }
 }

@@ -28,34 +28,51 @@ export class LogInPageComponent implements OnInit {
   }
 
   onSubmit() {
+    let notEmptyFields : boolean = false;
     const userCredentials : UserCredentialsDTO = {
       email : this.email,
       password : this.password,
       userId : 0
     }
-    this.getUsersCredentials().subscribe(res => {
-      this.list = res;
-
-      const foundEmail = this.list.find((element) => element.email === this.email);
-      if(!foundEmail) {
-        this.showWrongEmailMessage();
-        this.email = "";
-        this.password = "";
-        return;
-      }
-      if(foundEmail.password === this.password) {
-        this.cookieService.set('LoggedIn', 'true' );
-        this.router.navigate(['/bloodBanks']);
-        this.closeDialog();
-      } else {
-        this.showWrongPasswordMessage();
-        this.password = "";
-      }
-    })
+    if(this.email == "" || this.password == "") {
+      this.showEmptyFieldMessage();
+    } else {
+      notEmptyFields = true;
+    }
+    if(notEmptyFields) {
+      this.getUsersCredentials().subscribe(res => {
+        this.list = res;
+  
+        const foundEmail = this.list.find((element) => element.email === this.email);
+        if(!foundEmail) {
+          this.showWrongEmailMessage();
+          this.email = "";
+          this.password = "";
+          return;
+        }
+        if(foundEmail.password === this.password) {
+          this.cookieService.set('LoggedIn', 'true' );
+          this.router.navigate(['/bloodBanks']);
+          this.closeDialog();
+        } else {
+          this.showWrongPasswordMessage();
+          this.password = "";
+        }
+      })
+    }
+    
   }
 
   getUsersCredentials() : Observable<any> {
     return this.http.get<any>("http://localhost:9090/UserCredentialsController/getAllUsersCredentials");
+  }
+
+  showEmptyFieldMessage(){
+    return Swal.fire({
+      title: 'Warning',
+      text: 'Please fill in all the fields',
+      icon: 'warning'
+    })
   }
 
   showWrongPasswordMessage(){
