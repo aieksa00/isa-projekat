@@ -1,5 +1,6 @@
 package isaapp.g3malt.controller;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import isaapp.g3malt.dto.BloodBankDto;
+import isaapp.g3malt.dto.FutureAppointmentDto;
 import isaapp.g3malt.dto.StaffDto;
 import isaapp.g3malt.dto.UpdateBloodBankDto;
+import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.BloodBankDTO;
 import isaapp.g3malt.model.User;
+import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +38,8 @@ public class BloodBankController {
 	private BloodBankService bloodBankService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AppointmentService appointmentService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 
@@ -54,8 +60,40 @@ public class BloodBankController {
 			allStaff.add(staffDto);
 		}
 		bloodBankDto.setBloodBankAdministrators(allStaff);
-
+		
+		Set<Appointment> futureAppointments = appointmentService.findAllFutureAppointmentsForBloodBank(new Date(), bloodBank.getId());
+		Set<FutureAppointmentDto> futureAppointmentsDtos = new HashSet<FutureAppointmentDto>();
+		for(Appointment appointment : futureAppointments) {
+			FutureAppointmentDto futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			futureAppointmentsDtos.add(futureAppointmentsDto);
+		}
+		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
+		
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@PostMapping(value = "CreateAppointment/{id}", consumes = "application/json")
+	public ResponseEntity<FutureAppointmentDto> createAppointment(@PathVariable Integer id, @RequestBody FutureAppointmentDto dto) {
+		Appointment appointment = new Appointment();
+		appointment.setBloodBank(bloodBankService.findById(id));
+		appointment.setCustomer(null);
+		appointment.setDuration(dto.getDuration());
+		appointment.setFree(true);
+		appointment.setPrice(1000.00);
+		appointment.setScheduleDateTime(dto.getScheduleDateTime());
+		
+		Set<User> staff = new HashSet<User>();
+		for(StaffDto staffDto : dto.getMedicalStaff()) {
+			User user = userService.findById(staffDto.getId());
+			staff.add(user);
+		}
+		
+		appointment.setMedicalStaff(staff);
+		
+		appointmentService.save(appointment);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PutMapping(value = "UpdateBloodBank/{id}", consumes = "application/json")

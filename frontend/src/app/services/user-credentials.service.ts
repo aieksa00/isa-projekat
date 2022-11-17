@@ -16,4 +16,8 @@ export class UserCredentialsService {
   getLoggedUser(): Observable<AllUserInfoDto> {
     return this.http.get<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/GetUser/' + 2, {headers: this.headers});
   }
+
+  updateLoggedUser(dto: AllUserInfoDto): Observable<AllUserInfoDto> {
+    return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUser/' + 2, dto, {headers: this.headers});
+  }
 }

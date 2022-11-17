@@ -12,7 +12,7 @@ public class BloodBankDto {
 	private String bloodBankCountry;
 	private String bloodBankDescription;
 	private double bloodBankRating;
-	private Set<Appointment> bloodBankFreeAppointments;
+	private Set<FutureAppointmentDto> bloodBankFutureAppointments;
 	private Set<StaffDto> bloodBankAdministrators;
 	private String bloodBankWorkingHours;
 		
@@ -31,7 +31,7 @@ public class BloodBankDto {
 
 	public BloodBankDto(Integer bloodBankId, String bloodBankName, String bloodBankStreet, String bloodBankCity,
 			String bloodBankCountry, String bloodBankDescription, double bloodBankRating,
-			Set<Appointment> bloodBankFreeAppointments, Set<StaffDto> bloodBankAdministrators, String bloodBankWorkingHours,
+			Set<FutureAppointmentDto> bloodBankFutureAppointments, Set<StaffDto> bloodBankAdministrators, String bloodBankWorkingHours,
 			int bloodBankStorageAPlus, int bloodBankStorageBPlus, int bloodBankStorageABPlus, int bloodBankStorageOPlus,
 			int bloodBankStorageAMinus, int bloodBankStorageBMinus, int bloodBankStorageABMinus,
 			int bloodBankStorageOMinus) {
@@ -43,7 +43,7 @@ public class BloodBankDto {
 		this.bloodBankCountry = bloodBankCountry;
 		this.bloodBankDescription = bloodBankDescription;
 		this.bloodBankRating = bloodBankRating;
-		this.bloodBankFreeAppointments = bloodBankFreeAppointments;
+		this.bloodBankFutureAppointments = bloodBankFutureAppointments;
 		this.bloodBankAdministrators = bloodBankAdministrators;
 		this.bloodBankWorkingHours = bloodBankWorkingHours;
 		this.bloodBankStorageAPlus = bloodBankStorageAPlus;
@@ -110,14 +110,6 @@ public class BloodBankDto {
 
 	public void setBloodBankRating(double bloodBankRating) {
 		this.bloodBankRating = bloodBankRating;
-	}
-
-	public Set<Appointment> getBloodBankFreeAppointments() {
-		return bloodBankFreeAppointments;
-	}
-
-	public void setBloodBankFreeAppointments(Set<Appointment> bloodBankFreeAppointments) {
-		this.bloodBankFreeAppointments = bloodBankFreeAppointments;
 	}
 
 	public Set<StaffDto> getBloodBankAdministrators() {
@@ -198,5 +190,13 @@ public class BloodBankDto {
 
 	public void setBloodBankStorageOMinus(int bloodBankStorageOMinus) {
 		this.bloodBankStorageOMinus = bloodBankStorageOMinus;
+	}
+
+	public Set<FutureAppointmentDto> getBloodBankFutureAppointments() {
+		return bloodBankFutureAppointments;
+	}
+
+	public void setBloodBankFutureAppointments(Set<FutureAppointmentDto> bloodBankFutureAppointments) {
+		this.bloodBankFutureAppointments = bloodBankFutureAppointments;
 	}
 }

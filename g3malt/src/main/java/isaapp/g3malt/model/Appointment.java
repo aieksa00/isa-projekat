@@ -11,8 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -27,7 +28,8 @@ public class Appointment {
 	@JoinColumn(name = "bloodBank_id")
 	private BloodBank bloodBank;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable(name = "appointments_medical_staff", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "medical_staff_id", referencedColumnName = "id"))
 	private Set<User> medicalStaff;
 	
 	@Column(name="scheduleDateTime", unique=false, nullable=true)
@@ -47,6 +49,20 @@ public class Appointment {
 	private boolean isFree;
 
 	public Appointment() {}
+	
+
+	public Appointment(BloodBank bloodBank, Set<User> medicalStaff, Date scheduleDateTime, int duration, double price,
+			Customer customer, boolean isFree) {
+		super();
+		this.bloodBank = bloodBank;
+		this.medicalStaff = medicalStaff;
+		this.scheduleDateTime = scheduleDateTime;
+		this.duration = duration;
+		this.price = price;
+		this.customer = customer;
+		this.isFree = isFree;
+	}
+
 
 	public Integer getId() {
 		return id;

@@ -1,25 +1,23 @@
 package isaapp.g3malt.dto;
 
-import isaapp.g3malt.model.GenderType;
-import isaapp.g3malt.model.UserType;
-
 public class AllUserInfoDto {
-	public Integer userId;
-	public String userName;
-	public String userSurname;
-	public String userStreet;
-	public String userCity;
-	public String userCountry;
-	public String userPhoneNumber;
-	public String userJmbg;
-	public GenderType userGender;
-	public String userProfession;
-	public String userWorkplace;
+	private Integer userId;
+	private String userName;
+	private String userSurname;
+	private String userStreet;
+	private String userCity;
+	private String userCountry;
+	private String userPhoneNumber;
+	private String userJmbg;
+	private int userGender;
+	private String userProfession;
+	private String userWorkplace;
 	 
 	public String userCredentialsEmail;
 	public String userCredentialsPassword;
+	
 	public AllUserInfoDto(Integer userId, String userName, String userSurname, String userStreet, String userCity,
-			String userCountry, String userPhoneNumber, String userJmbg, GenderType userGender, String userProfession,
+			String userCountry, String userPhoneNumber, String userJmbg, int userGender, String userProfession,
 			String userWorkplace,  String userCredentialsEmail, String userCredentialsPassword) {
 		super();
 		this.userId = userId;
@@ -84,10 +82,10 @@ public class AllUserInfoDto {
 	public void setUserJmbg(String userJmbg) {
 		this.userJmbg = userJmbg;
 	}
-	public GenderType getUserGender() {
+	public int getUserGender() {
 		return userGender;
 	}
-	public void setUserGender(GenderType userGender) {
+	public void setUserGender(int userGender) {
 		this.userGender = userGender;
 	}
 	public String getUserProfession() {
