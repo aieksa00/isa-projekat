@@ -1,3 +1,18 @@
+.project {
+    font-size: 18px;
+    margin: auto;
+}
+
+#topMargin {
+  margin-top: 4%;
+  height: 100vw;
+}
+
+#component {
+  margin: auto;
+  width: 80vw;
+}
+
 .custom:checked~.custom::before {
   background-color: rgb(37, 36, 36)
 }

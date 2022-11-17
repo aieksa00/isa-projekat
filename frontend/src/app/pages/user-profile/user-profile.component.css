@@ -1,1 +1,14 @@
+.container-lg {
+    font-size: 18px;
+    margin: auto;
+    height: 100vw;
+}
 
+#topMargin {
+    margin-top: 4%;
+}
+
+#component {
+    margin: auto;
+    width: 80vw;
+}
