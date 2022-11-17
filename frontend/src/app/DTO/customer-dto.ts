@@ -2,7 +2,7 @@ export class CustomerDTO {
   id: String ='';
   name: String ='';
   surname: String ='';
-  address: String='';
+  street: String='';
   city: String='';
   country: String='';
   phoneNumber: String='';

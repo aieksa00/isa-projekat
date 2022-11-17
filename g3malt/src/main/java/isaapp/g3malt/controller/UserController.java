@@ -102,7 +102,7 @@ public class UserController {
 		user.setSurname(userDto.surname);
 		user.setJmbg(userDto.jmbg);
 		user.setGender(userDto.gender);
-		//user.setAddress(userDto.address);
+		user.setStreet(userDto.street);
 		user.setCity(userDto.city);
 		user.setCountry(userDto.country);
 		user.setPhoneNumber(userDto.phoneNumber);

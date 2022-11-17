@@ -11,7 +11,7 @@ public class UserInfoDto {
 	public Integer id;
 	public String name;
 	public String surname;
-	public String address;
+	public String street;
 	public String city;
 	public String country;
 	public String phoneNumber;
@@ -43,11 +43,12 @@ public class UserInfoDto {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	public String getAddress() {
-		return address;
+
+	public String getStreet() {
+		return street;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 	public String getCity() {
 		return city;
