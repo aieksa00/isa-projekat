@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import isaapp.g3malt.dto.BloodBankDto;
 import isaapp.g3malt.dto.StaffDto;
+import isaapp.g3malt.dto.UpdateBloodBankDto;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.BloodBankDTO;
 import isaapp.g3malt.model.User;
@@ -37,7 +38,7 @@ public class BloodBankController {
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@GetMapping(value = "BloodBank/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BloodBankDto> getStudent(@PathVariable Integer id) {
+	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable Integer id) {
 
 		BloodBank bloodBank = bloodBankService.findById(id);
 
@@ -57,16 +58,20 @@ public class BloodBankController {
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "UpdateDescription/{id}", consumes = "application/json")
-	public ResponseEntity<BloodBankDto> updateStudent(@PathVariable Integer id, @RequestBody String description) {
+	@PutMapping(value = "UpdateBloodBank/{id}", consumes = "application/json")
+	public ResponseEntity<BloodBankDto> updateStudent(@PathVariable Integer id, @RequestBody UpdateBloodBankDto dto) {
 
 		BloodBank bloodBank = bloodBankService.findById(id);
 
 		if (bloodBank == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
-		bloodBank.setDescription(description);
+		
+		bloodBank.setName(dto.getBloodBankName());
+		bloodBank.setStreet(dto.getBloodBankStreet());
+		bloodBank.setCity(dto.getBloodBankCity());
+		bloodBank.setCountry(dto.getBloodBankCountry());
+		bloodBank.setDescription(dto.getBloodBankDescription());
 
 		bloodBank = bloodBankService.save(bloodBank);
 		
