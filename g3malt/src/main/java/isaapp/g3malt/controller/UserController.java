@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -34,9 +35,15 @@ public class UserController {
 	private UserCredentialsService userCredentialsService;
 
     @GetMapping(value = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
     	List<User> users = (List<User>) userService.findAll();
-		return new ResponseEntity<>(users, HttpStatus.OK);
+    	List<UserDTO> userDtos = new ArrayList<UserDTO>();
+    	for(User u : users) {
+    		UserDTO dto = new UserDTO(u);
+    		userDtos.add(dto);
+    	}
+    		
+		return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -113,9 +120,9 @@ public class UserController {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
     	UserType ut = null;
     	switch(userDto.userType) {
-	    	case 0: ut=UserType.administrator;break;
-	    	case 1: ut=UserType.staff;break;
-	    	case 2: ut=UserType.customer;break;
+	    	case "0": ut=UserType.administrator;break;
+	    	case "1": ut=UserType.staff;break;
+	    	case "2": ut=UserType.customer;break;
     	}
     	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, ut);
         User newUser = userService.save(user);

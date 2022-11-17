@@ -14,6 +14,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
+import { UsersListComponent } from './pages/users-list/users-list.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -28,7 +29,8 @@ const routes: Routes = [
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
   { path: 'bloodBankInfo', component: BloodBankInfoComponent},
-  { path: 'createBloodBank', component: CreateBloodBankComponent}
+  { path: 'createBloodBank', component: CreateBloodBankComponent},
+  { path: 'userslist', component: UsersListComponent}
 ];
 
 @NgModule({

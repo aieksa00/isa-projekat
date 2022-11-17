@@ -1,0 +1,51 @@
+<div class="projects" style="margin: 3%">
+    <div class="grouping-header">
+      <div class="row">
+        <div class="col col-xs-6">
+          <h3 class="project-title float-left">Users</h3>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-9">
+            <input type="text" class="form-control" name="search" [(ngModel)]="searchName" placeholder="Search by first name" >
+          <div class="col-9">
+            <input type="text" class="form-control" name="search" [(ngModel)]="searchLastName" placeholder="Search by last name" >
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-3">
+          <input type="submit" class="btn btn-dark" style="width: 150px" (click)="search()"  value="Search">
+        </div>
+        <div class="col-6"></div>
+        <div class="col-3">
+          <input type="submit" class="btn btn-dark" style="width: 150px" (click)="reset()" value="Reset">
+        </div>
+      </div>
+      <br>
+    </div>
+  
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User type</th>
+          <th scope="col">Name</th>
+          <th scope="col">Surname</th>
+          <th scope="col">Gender</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let currentIndex = index;">
+          <th scope="row">{{ currentIndex + 1 }}</th>
+          <td>{{ user.userType }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.gender }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

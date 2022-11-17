@@ -25,6 +25,7 @@ import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.
 import { UserService } from './services/user.service';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
 import { BloodBankService } from './services/blood-bank.service';
+import { UsersListComponent } from './pages/users-list/users-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { BloodBankService } from './services/blood-bank.service';
     UserProfileComponent,
     ComplaintsComponent,
     BloodBankInfoComponent,
-    CreateBloodBankComponent
+    CreateBloodBankComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,

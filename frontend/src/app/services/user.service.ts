@@ -24,8 +24,8 @@ export class UserService {
     return this.http.put<any>(this.apiHost + 'userController/editCustomer/' + customerDTO.id, customerDTO, {headers: this.headers});
   }
 
-  getUsers(): Observable<any>{
-    return this.http.get<any>(this.apiHost + 'userController/getAllUsers',{headers: this.headers})
+  getUsers(): Observable<UserDTO[]>{
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/getAllUsers',{headers: this.headers})
   }
 
   getUserCredentials():Observable<UserCredentialsDTO>{
