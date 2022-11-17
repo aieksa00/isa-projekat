@@ -13,7 +13,7 @@
         <input type="text" class="form-control" name="search" [(ngModel)]="searchLastName" placeholder="Search by last name" >
       </div>
       <div class="col">
-        <input type="submit"  style="width: 50px; height: 36px" (click)="search()"  value="🔎">
+        <input type="submit" style="width: 50px; height: 36px" (click)="search()" value="🔎">
       </div>
       <div class="col">
         <input type="submit" style="width: 120px; height: 36px" (click)="reset()" value="Reset">
@@ -33,7 +33,9 @@
       <tbody>
         <tr *ngFor="let user of filteredUsers; let currentIndex = index;">
           <th scope="row">{{ currentIndex + 1 }}</th>
-          <td>{{ user.userType }}</td>
+          <td *ngIf="user.userType==2">Customer</td>
+          <td *ngIf="user.userType==1">Staff</td>
+          <td *ngIf="user.userType==0">Administrator</td>
           <td>{{ user.name }}</td>
           <td>{{ user.surname }}</td>
           <td>{{ user.gender }}</td>
