@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/UserCredentialsController")
@@ -45,7 +47,7 @@ public class UserCredentialsController {
 
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/registreUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserCredentials> addNewUserCredentials(@RequestBody UserCredentialsDTO userCredentialsDTO) {
+	public ResponseEntity<UserCredentials> addNewUserCredentials(@Valid @RequestBody UserCredentialsDTO userCredentialsDTO) {
 		UserCredentials uc = new UserCredentials(null, userCredentialsDTO.email, userCredentialsDTO.password, null);
 		boolean notFounded = userCredentialsService.getByEmail(userCredentialsDTO.email);
 		if(notFounded) {

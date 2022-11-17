@@ -9,6 +9,7 @@ import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { UserDTO } from 'src/app/DTO/user-dto';
 import { UpdateUserDTO } from 'src/app/DTO/update-user-dto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registration-user-page',
@@ -60,7 +61,7 @@ export class RegistrationUserPageComponent implements OnInit {
   }
 
   addUserInfo( userDTO : UserDTO) : Observable<UserDTO> {
-    return this.http.post<UserDTO>("http://localhost:9090/userController/addRegisteredUser", userDTO);
+    return this.http.post<UserDTO>("http://localhost:9090/userController/addRegisteredUser", userDTO).pipe(catchError(this.handleError));
   }
 
   updateUserCredentials( updateUserDTO : UpdateUserDTO) : Observable<UpdateUserDTO> {
@@ -75,4 +76,16 @@ export class RegistrationUserPageComponent implements OnInit {
     this.routeSub.unsubscribe();
   }
 
+  public handleError = (error: HttpErrorResponse) => {
+    if(error.status == 400){
+      Swal.fire({
+        title: 'Warning',
+        text: 'Please ckeck again all the fields \n some of them are not valid',
+        icon: 'warning'
+      });
+    }
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+
+    }
 }
+
