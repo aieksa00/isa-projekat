@@ -14,6 +14,7 @@ export class BloodBanksListComponent implements OnInit {
   public search: string = '';
   public SearchByName: string = '';
   public filterValue: string = '';
+  public sortValue : String = "";
 
   constructor(private bloodBankService: BloodBankService) { }
 
@@ -26,6 +27,10 @@ export class BloodBanksListComponent implements OnInit {
 
   public Reset() :void{
     this.bloodbanksFiltered = this.bloodbanks;
+    this.search = "";
+    this.SearchByName = "";
+    this.filterValue = "";
+    this.sortValue = "";
   }
 
   public SearchBloodBank(): void{
@@ -42,9 +47,51 @@ export class BloodBanksListComponent implements OnInit {
 
   public Filter() :void{
     this.bloodbanksFiltered = this.bloodbanksFiltered.filter(element => {
-      let value = element.rating == this.filterValue
+      let value = element.rating >= this.filterValue
       return value;
     });
+  }
+
+  public Sort() : void {
+    if(this.sortValue === "name") {
+      this.bloodbanksFiltered = this.bloodbanksFiltered.sort((a,b) => {
+        if (a.name > b.name) {
+            return 1;
+        }
+    
+        if (a.name < b.name) {
+            return -1;
+        }
+    
+        return 0;
+      } )
+    } else if(this.sortValue === "city") {
+      this.bloodbanksFiltered = this.bloodbanksFiltered.sort((a,b) => {
+        if (a.city > b.city) {
+            return 1;
+        }
+    
+        if (a.city < b.city) {
+            return -1;
+        }
+    
+        return 0;
+      } )
+    } else if(this.sortValue === "rating") {
+      this.bloodbanksFiltered = this.bloodbanksFiltered.sort((a,b) => {
+        if (a.rating > b.rating) {
+            return 1;
+        }
+    
+        if (a.rating < b.rating) {
+            return -1;
+        }
+    
+        return 0;
+      } )
+    }
+
+
   }
 
 }

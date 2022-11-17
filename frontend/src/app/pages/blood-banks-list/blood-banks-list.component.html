@@ -33,7 +33,15 @@
           <input class="form-check-input" type="radio" id="5" value="5" name="filter" [(ngModel)]="filterValue" class="custom"/>
           <label class="form-check-label" for="5" style="margin-right: 3%;margin-left: 1%;"> 5</label>
       </div>
-      <div class="col-4"></div>
+      <div class="col-4">
+        <h4>Sort By:</h4>
+          <input class="form-check-input" type="radio" id="Name" value="name" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
+          <label class="form-check-label" for="Name">Name</label>
+          <input class="form-check-input" type="radio" id="City" value="city" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
+          <label class="form-check-label" for="City">City</label>
+          <input class="form-check-input" type="radio" id="Rating" value="rating" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
+          <label class="form-check-label" for="Rating">Rating</label>
+      </div>
 
     </div>
     <br>
@@ -44,7 +52,9 @@
       <div class="col-2">
         <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Filter()" value="Filter">
       </div>
-      <div class="col-6"></div>
+      <div class="col-2" style="margin-right: 33%;">
+        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Sort()" value="Sort">
+      </div>
       <div class="col-2">
         <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Reset()" value="Reset">
       </div>
