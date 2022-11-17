@@ -1,26 +1,37 @@
 <div class="logInContainer">
     <section class="logIn">
-        <table>
-            <tr>
-                <td colspan="2" class="login-table-centered"><h1>Log in</h1></td>
-            </tr>
-            <tr>
-                <td><p>Email:</p></td>
-                <td><input type="email" [(ngModel)]="email"></td>
-            </tr>
-            <tr>
-                <td><p>Password:</p></td>
-                <td><input type="password" [(ngModel)]="password"></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="login-table-button">
-                    <input type="button" value="Cancel" mat-dialog-close>
-                    <input type="button" value="Log In" (click)="onSubmit()">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="login-table-centered"><p>Don't have an account? <a mat-dialog-close routerLink="/registrationPage">Register</a></p></td>
-            </tr>
-        </table>
+        <form [formGroup]="logInForm">
+            <table>
+                <tr>
+                    <td colspan="2" class="login-table-centered"><h1>Log in</h1></td>
+                </tr>
+                <tr>
+                    <td><p>Email:</p></td>
+                    <td><input type="email" id="email" formControlName="email"></td>
+                    
+                </tr>
+                <tr *ngIf="logInForm.get('email').invalid && (logInForm.get('email').dirty || logInForm.get('email').touched)" >
+                    <td><p></p></td>
+                    <td class="text-danger mt-1">Please enter valid email.</td>
+                </tr>
+                <tr>
+                    <td><p>Password:</p></td>
+                    <td><input type="password" id="password" formControlName="password"></td>
+                </tr>
+                <tr *ngIf="logInForm.get('password').invalid && (logInForm.get('password').dirty || logInForm.get('password').touched)" >
+                    <td><p></p></td>
+                    <td class="text-danger mt-1">Please enter valid password.</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="login-table-button">
+                        <input type="button" value="Cancel" mat-dialog-close>
+                        <input type="button" value="Log In" (click)="onSubmit()">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="login-table-centered"><p>Don't have an account? <a mat-dialog-close routerLink="/registrationPage">Register</a></p></td>
+                </tr>
+            </table>
+        </form>
     </section>
 </div>
