@@ -49,4 +49,11 @@ public class UserCredentialsService implements IService<UserCredentials, Integer
 		}
 		return null;
 	}
+
+	public boolean getByEmail(String email) {
+		if(userCredentialsRepository.findByEmail(email) == null) {
+			return true;
+		}
+		return false;
+	}
 }

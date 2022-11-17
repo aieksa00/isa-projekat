@@ -12,4 +12,6 @@ public class UserDTO {
 	 public String profession;
 	 public String workplace;
 	 public int userType;
+
+	 public int userId;
 }

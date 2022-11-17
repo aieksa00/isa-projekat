@@ -1,0 +1,160 @@
+<div class="container-lg" id="topMargin">
+  <form>
+    <h1 class="row justify-content-center align-items-center">Questionnaire</h1>
+    <div class="row justify-content-center" id="component">
+      <div class="col-md-4">
+        <label class="form-label">Date:</label>
+        <div class="input-group mb-3">
+          <input type="date" id="firstName" class="form-control" name="date" [(ngModel)]="date"/>
+        </div>
+        <label class="form-label">Number of previous donations:</label>
+        <div class="mb-3 input-group">
+          <input type="text" id="secondName" class="form-control" name="previousDonations" [(ngModel)]="previousDonations"/>
+        </div>
+        <label class="form-label" id="forWoman">Just for woman:</label>
+        <br />
+        <label class="form-label">Are you pregnant?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="1" value="true" [(ngModel)]="question1"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="1" value="false" [(ngModel)]="question1"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Are you in your cycle?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="2" value="true" [(ngModel)]="question2"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="2" value="false" [(ngModel)]="question2"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Have you given birth or had a miscarriage in the last 6months?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="3" value="true" [(ngModel)]="question3"/>
+          <label class="form-check-label" >Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="3" value="false" [(ngModel)]="question3"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-4">
+        <label class="form-label">Have you ever been rejected as a blood or blood component donor?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="4" value="true" [(ngModel)]="question4"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="4" value="false" [(ngModel)]="question4"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Do you currently feel healthy and rested to donate blood or blood components?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="5" value="true" [(ngModel)]="question5"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="5" value="false" [(ngModel)]="question5"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Do you take any medications regularly (daily)?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="6" value="true" [(ngModel)]="question6"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="6" value="false" [(ngModel)]="question6"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">In the last 7 to 10 days, have you had a temperature over 38 C, a cold or taken antibiotics?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="7" value="true" [(ngModel)]="question7"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="7" value="false" [(ngModel)]="question7"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Do you have any changes in your skin or suffer from allergies?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="8" value="true" [(ngModel)]="question8"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="8" value="false" [(ngModel)]="question8"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Have you had any surgery or received blood in the past 6 months?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="9" value="true" [(ngModel)]="question9"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="9" value="false" [(ngModel)]="question9"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Have you received any vaccine or serum in the past 12 months?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="10" value="true" [(ngModel)]="question10"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="10" value="false" [(ngModel)]="question10"/>
+          <label class="form-check-label">No</label>
+        </div>
+        
+        <br />
+        <label class="form-label">Have you had any alcohol in the last 6 hours?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="11" value="true" [(ngModel)]="question11"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="11" value="false" [(ngModel)]="question11"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Have you had unprotected sex during the past 6 months?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="12" value="true" [(ngModel)]="question12"/>
+          <label class="form-check-label" >Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="12" value="false" [(ngModel)]="question12"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+
+      </div>
+      <div class="buttons">
+        <input type="button" value="Reset" class="btn-look" (click)="reset()"/>
+        <input type="button" value="Save" class="btn-look" id="right-btn" (click)="onSubmit()"/>
+    </div>
+    </div>
+  </form>
+</div>

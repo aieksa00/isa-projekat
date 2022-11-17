@@ -1,4 +1,5 @@
 export class UserCredentialsDTO {
+    [x: string]: any;
     email: String = "";
     password: String = "";
     userId: number = 0;
