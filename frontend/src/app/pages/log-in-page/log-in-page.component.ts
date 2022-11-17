@@ -78,7 +78,6 @@ export class LogInPageComponent implements OnInit {
     this.dialogRef.close();
   }
 
-
   ngOnInit(): void {
   }
 
