@@ -10,6 +10,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { UserDTO } from 'src/app/DTO/user-dto';
 import { UpdateUserDTO } from 'src/app/DTO/update-user-dto';
 import Swal from 'sweetalert2';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registration-user-page',
@@ -32,24 +33,27 @@ export class RegistrationUserPageComponent implements OnInit {
   public userType: number = 2;
   public userId : number = 0;
 
+  public registreUserForm: FormGroup | any;
+  public userDTO : UserDTO = new UserDTO();
+
   constructor(private http: HttpClient, public router: Router, public cookieService: CookieService, private route: ActivatedRoute) { }
 
   public onSubmit() {
-    const userDTO : UserDTO = {
-      name : this.name,
-      surname : this.surname,
-      address : this.address,
-      city : this.city,
-      country : this.country,
-      phoneNumber : this.phoneNumber,
-      jmbg : this.jmbg,
-      gender : this.gender,
-      profession : this.profession,
-      workplace : this.workplace,
+    this.userDTO = {
+      name : this.registreUserForm.get("name").value,
+      surname : this.registreUserForm.get("surname").value,
+      address : this.registreUserForm.get("address").value,
+      city : this.registreUserForm.get("city").value,
+      country : this.registreUserForm.get("country").value,
+      phoneNumber : this.registreUserForm.get("phoneNumber").value,
+      jmbg : this.registreUserForm.get("jmbg").value,
+      gender : this.registreUserForm.get("gender").value,
+      profession : this.registreUserForm.get("profession").value,
+      workplace : this.registreUserForm.get("workplace").value,
       userType : this.userType,
       id: this.userId
     }
-    this.addUserInfo(userDTO).subscribe(res => {
+    this.addUserInfo(this.userDTO).subscribe(res => {
       const updateUserDTO : UpdateUserDTO = {
         user : res,
         userId : this.userId
@@ -70,6 +74,42 @@ export class RegistrationUserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
+    this.registreUserForm = new FormGroup ({
+      name : new FormControl(this.userDTO.name, [
+        Validators.required,
+      ]),
+      surname : new FormControl(this.userDTO.surname, [
+        Validators.required,
+      ]),
+      address : new FormControl(this.userDTO.address, [
+        Validators.required,
+      ]),
+      city : new FormControl(this.userDTO.city, [
+        Validators.required,
+      ]),
+      country : new FormControl(this.userDTO.country, [
+        Validators.required,
+      ]),
+      phoneNumber : new FormControl(this.userDTO.phoneNumber, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(15)
+      ]),
+      jmbg : new FormControl(this.userDTO.jmbg, [
+        Validators.required,
+        Validators.minLength(13),
+        Validators.maxLength(13)
+      ]),
+      gender : new FormControl(this.userDTO.gender, [
+        Validators.required,
+      ]),
+      profession : new FormControl(this.userDTO.profession, [
+        Validators.required,
+      ]),
+      workplace : new FormControl(this.userDTO.workplace, [
+        Validators.required,
+      ])
+    })
   }
 
   ngOnDestroy() {
@@ -77,13 +117,11 @@ export class RegistrationUserPageComponent implements OnInit {
   }
 
   public handleError = (error: HttpErrorResponse) => {
-    if(error.status == 400){
       Swal.fire({
         title: 'Warning',
-        text: 'Please ckeck again all the fields \n some of them are not valid',
+        text: 'Please ckeck again all the fields some of them are empty',
         icon: 'warning'
       });
-    }
     return throwError(() => new Error('Something bad happened; please try again later.'));
 
     }

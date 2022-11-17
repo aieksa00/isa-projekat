@@ -1,29 +1,43 @@
 <div>
     <section class="registration">
         <div class="registrationForm">
-            <table>
-                <tr>
-                    <td class="registration-table-center" colspan="2"><h1>Registration</h1></td>
-                </tr>
-                <tr>
-                    <td><p>Email:</p></td>
-                    <td><input type="email" [(ngModel)]="email"></td>
-                </tr>
-                <tr>
-                    <td><p>Password:</p></td>
-                    <td><input type="password" [(ngModel)]="password"></td>
-                </tr>
-                <tr>
-                    <td><p>Confirm your password:</p></td>
-                    <td><input type="password" [(ngModel)]="confirmedPassword"></td>
-                </tr>
-                <tr>
-                    <td class="registration-button" colspan="2">
-                        <input type="button" value="Cancel" [routerLink]="['/']">
-                        <input type="button" value="Continue" (click)="onSubmit()">
-                    </td>
-                </tr>
-            </table>
+            <form [formGroup]="registreForm">
+                <table>
+                    <tr>
+                        <td class="registration-table-center" colspan="2"><h1>Registration</h1></td>
+                    </tr>
+                    <tr>
+                        <td><p>Email:</p></td>
+                        <td><input type="email" id="email" formControlName="email"></td>
+                    </tr>
+                    <tr *ngIf="registreForm.get('email').invalid && (registreForm.get('email').dirty || registreForm.get('email').touched)" >
+                        <td><p></p></td>
+                        <td class="text-danger mt-1">Please enter valid email.</td>
+                    </tr>
+                    <tr>
+                        <td><p>Password:</p></td>
+                        <td><input type="password" id="password" formControlName="password"></td>
+                    </tr>
+                    <tr *ngIf="registreForm.get('password').invalid && (registreForm.get('password').dirty || registreForm.get('password').touched)" >
+                        <td><p></p></td>
+                        <td class="text-danger mt-1">Please enter valid password.</td>
+                    </tr>
+                    <tr>
+                        <td><p>Confirm your password:</p></td>
+                        <td><input type="password" id="confirmedPassword" formControlName="confirmedPassword"></td>
+                    </tr>
+                    <tr *ngIf="registreForm.get('confirmedPassword').invalid && (registreForm.get('confirmedPassword').dirty || registreForm.get('confirmedPassword').touched)" >
+                        <td><p></p></td>
+                        <td class="text-danger mt-1">Please enter the same password.</td>
+                    </tr>
+                    <tr>
+                        <td class="registration-button" colspan="2">
+                            <input type="button" value="Cancel" [routerLink]="['/']">
+                            <input type="button" value="Continue" (click)="onSubmit()">
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </section>
 </div>

@@ -10,6 +10,7 @@ import { UserDTO } from 'src/app/DTO/user-dto';
 import Swal from 'sweetalert2';
 import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-log-in-page',
@@ -22,6 +23,8 @@ export class LogInPageComponent implements OnInit {
   public email: String = "";
   public password: String = "";
   public list :  Array<any> = [];
+  public logInForm: FormGroup | any;
+  public userCredentials : UserCredentialsDTO = new UserCredentialsDTO()
 
   constructor(public router: Router, public cookieService: CookieService, private http: HttpClient,
     private dialogRef: MatDialogRef<LogInPageComponent>) {
@@ -29,12 +32,13 @@ export class LogInPageComponent implements OnInit {
 
   onSubmit() {
     let notEmptyFields : boolean = false;
-    const userCredentials : UserCredentialsDTO = {
-      email : this.email,
-      password : this.password,
+    this.userCredentials = {
+      email : this.logInForm.get("email").value,
+      password : this.logInForm.get("password").value,
       userId : 0
     }
-    if(this.email == "" || this.password == "") {
+    console.log(this.userCredentials.email, this.userCredentials.password)
+    if(this.userCredentials.email == "" || this.userCredentials.password == "") {
       this.showEmptyFieldMessage();
     } else {
       notEmptyFields = true;
@@ -43,20 +47,20 @@ export class LogInPageComponent implements OnInit {
       this.getUsersCredentials().subscribe(res => {
         this.list = res;
   
-        const foundEmail = this.list.find((element) => element.email === this.email);
+        const foundEmail = this.list.find((element) => element.email === this.userCredentials.email);
         if(!foundEmail) {
           this.showWrongEmailMessage();
-          this.email = "";
-          this.password = "";
+          this.logInForm.get("email").setValue("");
+          this.logInForm.get("password").setValue("");
           return;
         }
-        if(foundEmail.password === this.password) {
+        if(foundEmail.password === this.userCredentials.password) {
           this.cookieService.set('LoggedIn', 'true' );
           this.router.navigate(['/bloodBanks']);
           this.closeDialog();
         } else {
           this.showWrongPasswordMessage();
-          this.password = "";
+          this.logInForm.get("password").setValue("");
         }
       })
     }
@@ -96,6 +100,16 @@ export class LogInPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.logInForm = new FormGroup ({
+      email : new FormControl(this.userCredentials.email, [
+        Validators.required,
+        Validators.email
+      ]),
+      password : new FormControl(this.userCredentials.password, [
+        Validators.required,
+        Validators.minLength(5)
+      ])
+    })
   }
 
 }
