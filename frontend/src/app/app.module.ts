@@ -27,6 +27,7 @@ import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood
 import { BloodBankService } from './services/blood-bank.service';
 import { RegistrationUserPageComponent } from './pages/registration-user-page/registration-user-page.component';
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
+import { UsersListComponent } from './pages/users-list/users-list.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { QuestionnairePageComponent } from './pages/questionnaire-page/questionn
     BloodBankInfoComponent,
     CreateBloodBankComponent,
     RegistrationUserPageComponent,
-    QuestionnairePageComponent
+    QuestionnairePageComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,

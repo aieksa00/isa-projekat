@@ -9,15 +9,14 @@ import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -33,9 +32,15 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
     	List<User> users = (List<User>) userService.findAll();
-		return new ResponseEntity<>(users, HttpStatus.OK);
+    	List<UserDTO> userDtos = new ArrayList<UserDTO>();
+    	for(User u : users) {
+    		UserDTO dto = new UserDTO(u);
+    		userDtos.add(dto);
+    	}
+    		
+		return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
     @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -108,7 +113,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addNewUser(@Valid @RequestBody UserDTO userDto) {
+    public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
     	UserType ut = null;
     	switch(userDto.userType) {
