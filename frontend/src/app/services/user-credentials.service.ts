@@ -14,10 +14,10 @@ export class UserCredentialsService {
   constructor(private http: HttpClient) { }
 
   getLoggedUser(): Observable<AllUserInfoDto> {
-    return this.http.get<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/GetUser/' + 2, {headers: this.headers});
+    return this.http.get<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/GetUser/' + 4, {headers: this.headers});
   }
 
   updateLoggedUser(dto: AllUserInfoDto): Observable<AllUserInfoDto> {
-    return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUser/' + 2, dto, {headers: this.headers});
+    return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUser/' + 4, dto, {headers: this.headers});
   }
 }
