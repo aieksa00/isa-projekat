@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-evenly m-3">
-    <div class="bg-dark text-white p-4 rounded-3 me-3" style="max-width: 530px;">
+<div class="d-flex flex-wrap justify-content-evenly m-3">
+    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 40vw; max-width: 90vw;">
         <h2 class="mb-3">{{bloodBankDto.bloodBankName}}</h2>
         <h4 class="mb-2 mx-auto border-bottom border-white">Current information below:</h4>
         <p class="ms-3">Address:&nbsp;{{bloodBankDto.bloodBankStreet}},&nbsp;{{bloodBankDto.bloodBankCity}},&nbsp;{{bloodBankDto.bloodBankCountry}}</p>
@@ -52,7 +52,7 @@
                 <button class="btn btn-primary btn-sm" type="button" [disabled]="updateForm.invalid" (click)="updateDescription()">Update</button>
             </div>
         </form>
-        <h4 class="mb-2 ms-1">Current storage state:</h4>
+        <h4 class="mb-2 mx-auto border-bottom border-white">Current storage state:</h4>
         <div class="table-responsive">
             <table class="table table-secondary table-bordered">
                 <thead>
@@ -82,7 +82,7 @@
             </table>
         </div>
     </div>
-    <div class="bg-dark text-white p-4 rounded-3 me-3" style="min-width: 400px;">    
+    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 20vw; max-width: 90vw;">    
         <h4 class="mb-2 mx-auto border-bottom border-white">Update personal information below:</h4>
         <form class="d-flex flex-column ms-3" [formGroup]="userForm">
             <div class="mb-1">
@@ -179,7 +179,7 @@
     </div>
 </div>
 <div class="d-flex justify-content-evenly m-3">
-    <div class="bg-dark text-white p-4 rounded-3" style="max-width: 530px;">
+    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 60vw; max-width: 90vw;">
         <h4 class="mb-2 mx-auto border-bottom border-white">Future Appointents:</h4>
         <table class="table table-secondary table-hover mt-auto">
             <thead class="border-bottom border-dark">
@@ -249,7 +249,7 @@
             </div>
         </form>
     </div>
-    <div class="bg-dark text-white p-4 rounded-3" style="min-width: 400px;">
+    <div class="bg-dark text-white p-4 rounded-3 mb-3" style="min-width: 20vw; max-width: 90vw;">
         <h4 class="mb-2 mx-auto border-bottom border-white">All staff</h4>
         <table class="table table-secondary table-hover mt-auto">
             <thead class="border-bottom border-dark">
