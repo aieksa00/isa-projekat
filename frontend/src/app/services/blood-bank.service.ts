@@ -29,7 +29,7 @@ export class BloodBankService {
     return this.http.post<CreateBloodBankDTO>(this.apiHost + 'BloodBankController/addBloodBank',CreateBloodBankDTO,{headers: this.headers});
   }
 
-  public getBloodBanks(): Observable<BloodBanksDTO[]>{
-    return this.http.get<BloodBanksDTO[]>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: this.headers});
+  public getBloodBanks(): Observable<any>{
+    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: this.headers});
   }
 }
