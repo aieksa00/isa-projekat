@@ -9,9 +9,9 @@
     <div class="row">
       <div class="col-2">
         <h4>Search By:</h4>
-          <input class="form-check-input" type="radio" id="Name" value="name" name="search" style="margin-right: 3%;margin-left: 1%;" [(ngModel)]="SearchByName" class="custom"/>
+          <input class="form-check-input" type="radio" id="Name" value="name" name="search" style="margin-right: 3%;margin-left: 1%;" [(ngModel)]="searchByName" class="custom"/>
           <label class="form-check-label" for="Name">Name</label>
-          <input class="form-check-input" type="radio" id="City" value="city" name="search" style="margin-right: 3%;margin-left: 7%;" [(ngModel)]="SearchByName" class="custom"/>
+          <input class="form-check-input" type="radio" id="City" value="city" name="search" style="margin-right: 3%;margin-left: 7%;" [(ngModel)]="searchByName" class="custom"/>
           <label class="form-check-label" for="City">City</label>
         <div class="col-7">
           <input type="text" class="form-control" name="search" [(ngModel)]="search" placeholder="Search" >
@@ -47,14 +47,9 @@
     <br>
     <div class="row">
       <div class="col-2">
-        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="SearchBloodBank()"  value="Search">
+        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="onSubmit()"  value="Search">
       </div>
-      <div class="col-2">
-        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Filter()" value="Filter">
-      </div>
-      <div class="col-2" style="margin-right: 33%;">
-        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Sort()" value="Sort">
-      </div>
+      
       <div class="col-2">
         <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Reset()" value="Reset">
       </div>
@@ -73,7 +68,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let bloodBank of bloodbanksFiltered; let currentIndex = index;">
+      <tr *ngFor="let bloodBank of bloodBanksFiltered; let currentIndex = index;">
         <th scope="row">{{ currentIndex + 1 }}</th>
         <td>{{ bloodBank.name }}</td>
         <td>{{ bloodBank.description }}</td>

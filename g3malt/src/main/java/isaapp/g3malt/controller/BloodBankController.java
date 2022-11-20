@@ -1,10 +1,8 @@
 package isaapp.g3malt.controller;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import isaapp.g3malt.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,10 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import isaapp.g3malt.dto.BloodBankDto;
-import isaapp.g3malt.dto.FutureAppointmentDto;
-import isaapp.g3malt.dto.StaffDto;
-import isaapp.g3malt.dto.UpdateBloodBankDto;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.BloodBankDTO;
@@ -142,4 +136,16 @@ public class BloodBankController {
     	List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAll();
 		return new ResponseEntity<>(banks, HttpStatus.OK);
     }
+
+	@CrossOrigin("*")
+	@PostMapping (value = "/getFilteredBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BloodBank>> getFilteredBloodBanks(@RequestBody SearchBanksDTO searchBanksDTO) {
+		String searchName = searchBanksDTO.getSearchByName().equals("name") ? searchBanksDTO.getSearch() : "";
+		String searchCity = searchBanksDTO.getSearchByName().equals("city") ? searchBanksDTO.getSearch() : "";
+		Double filter = searchBanksDTO.getFilterValue().equals("") ? 0 : Double.parseDouble(searchBanksDTO.getFilterValue());
+
+		List<BloodBank> banks = bloodBankService.searchFilterSort(searchName, searchCity, filter, searchBanksDTO.getSortValue());
+
+		return new ResponseEntity<>(banks, HttpStatus.OK);
+	}
 }
