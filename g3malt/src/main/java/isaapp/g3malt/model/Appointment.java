@@ -24,9 +24,8 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bloodBank_id")
-	private BloodBank bloodBank;
+	@Column(name = "bloodBankId")
+	private int bloodBankId;
 	
 	@ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
 	@JoinTable(name = "appointments_medical_staff", joinColumns = @JoinColumn(name = "appointment_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "medical_staff_id", referencedColumnName = "id"))
@@ -51,10 +50,10 @@ public class Appointment {
 	public Appointment() {}
 	
 
-	public Appointment(BloodBank bloodBank, Set<User> medicalStaff, Date scheduleDateTime, int duration, double price,
+	public Appointment(int bloodBankId, Set<User> medicalStaff, Date scheduleDateTime, int duration, double price,
 			Customer customer, boolean isFree) {
 		super();
-		this.bloodBank = bloodBank;
+		this.bloodBankId = bloodBankId;
 		this.medicalStaff = medicalStaff;
 		this.scheduleDateTime = scheduleDateTime;
 		this.duration = duration;
@@ -72,12 +71,12 @@ public class Appointment {
 		this.id = id;
 	}
 
-	public BloodBank getBloodBank() {
-		return bloodBank;
+	public int getBloodBankId() {
+		return bloodBankId;
 	}
 
-	public void setBloodBank(BloodBank bloodBank) {
-		this.bloodBank = bloodBank;
+	public void setBloodBankId(int bloodBankId) {
+		this.bloodBankId = bloodBankId;
 	}
 
 	public Customer getCustomer() {

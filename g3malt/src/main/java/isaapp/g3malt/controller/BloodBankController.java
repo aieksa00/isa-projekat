@@ -70,7 +70,7 @@ public class BloodBankController {
 	@PostMapping(value = "CreateAppointment/{id}", consumes = "application/json")
 	public ResponseEntity<FutureAppointmentDto> createAppointment(@PathVariable Integer id, @RequestBody FutureAppointmentDto dto) {
 		Appointment appointment = new Appointment();
-		appointment.setBloodBank(bloodBankService.findById(id));
+		appointment.setBloodBankId(id);
 		appointment.setCustomer(null);
 		appointment.setDuration(dto.getDuration());
 		appointment.setFree(true);

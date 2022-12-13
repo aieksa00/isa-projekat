@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 	
-	@Query("select a from Appointment a where (a.scheduleDateTime >= ?1 and a.bloodBank.id = ?2)")
+	@Query("select a from Appointment a where (a.scheduleDateTime >= ?1 and a.bloodBankId = ?2)")
 	public Set<Appointment> findAllFutureAppointmentsForBloodBank(Date scheduleDateTime, Integer bloodBankId);
 	
 }

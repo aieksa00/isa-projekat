@@ -37,7 +37,7 @@ public class BloodBank {
 	@Column(name="rating", unique=false, nullable=true)
 	private double rating;
 	
-	@OneToMany(mappedBy = "bloodBank", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "bloodBankId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> freeAppointments;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
