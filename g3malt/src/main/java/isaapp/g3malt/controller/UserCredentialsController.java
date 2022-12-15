@@ -6,6 +6,9 @@ import isaapp.g3malt.dto.UserCredentialsDTO;
 import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserCredentials;
+import isaapp.g3malt.model.UserType;
+import isaapp.g3malt.repository.UserCredentialsRepository;
+import isaapp.g3malt.repository.UserRepository;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 
@@ -16,6 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,7 +38,9 @@ public class UserCredentialsController {
 	@Autowired
 	private UserService userService;
 
-	@CrossOrigin(origins = "*")
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	@GetMapping(value = "/getAllUsersCredentials", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<UserCredentials>> getAllUsers() {
 		List<UserCredentials> usersCredentials = (List<UserCredentials>) userCredentialsService.findAll();
@@ -94,27 +103,40 @@ public class UserCredentialsController {
 		return new ResponseEntity<UserCredentials>(newUserCredentials, HttpStatus.CREATED);
 	}
 
-	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/registreUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserCredentials> addNewUserCredentials(@Valid @RequestBody UserCredentialsDTO userCredentialsDTO) {
 		UserCredentials uc = new UserCredentials(null, userCredentialsDTO.email, userCredentialsDTO.password, null);
 		boolean notFounded = userCredentialsService.getByEmail(userCredentialsDTO.email);
+
 		if(notFounded) {
 			UserCredentials newUserCredentials = userCredentialsService.save(uc);
 			return new ResponseEntity<UserCredentials>(newUserCredentials, HttpStatus.CREATED);
 		}
+
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(), userCredentialsDTO.getPassword()));
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		//TODO token
+
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 
-	@CrossOrigin(origins = "*")
 	@PutMapping(value="/updateUserCredentials", consumes = "application/json")
-	public ResponseEntity<UserCredentials> updateUserCredentials(@RequestBody UpdateUserDTO updateUserDTO) {
-		UserCredentials userCredentials = userCredentialsService.findById(updateUserDTO.userId);
+	public ResponseEntity<UserCredentials> updateUserCredentials(@RequestBody UpdateUserDTO user) {
+		UserCredentials userCredentials = userCredentialsService.findById(user.userId);
+		GenderType g = user.getUser().gender.equals("male")?GenderType.male:GenderType.female;
+		UserType ut = null;
+		switch(user.getUser().userType) {
+			case 0: ut = new UserType(0, "ADMIN");break;
+			case 1: ut = new UserType(1, "STAFF");break;
+			case 2: ut = new UserType(2, "CUSTOMER");break;
+		}
+		User newUser = new User(null, user.getUser().name, user.getUser().surname, user.getUser().address, user.getUser().city, user.getUser().country, user.getUser().phoneNumber, user.getUser().jmbg, g, user.getUser().profession, user.getUser().workplace, ut);
 		if(userCredentials == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		userCredentials.setUser(updateUserDTO.user);
+		userCredentials.setUser(newUser);
 		userCredentialsService.save(userCredentials);
 		return new ResponseEntity<>(userCredentials, HttpStatus.OK);
 	}

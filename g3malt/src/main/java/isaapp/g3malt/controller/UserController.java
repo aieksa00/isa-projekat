@@ -1,5 +1,6 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.dto.NewUserDTO;
 import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.User;
@@ -14,6 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -115,30 +120,31 @@ public class UserController {
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
-    	UserType ut = null;
+        UserType ut = null;
     	switch(userDto.userType) {
-	    	case 0: ut=UserType.administrator;break;
-	    	case 1: ut=UserType.staff;break;
-	    	case 2: ut=UserType.customer;break;
+            case 0: ut = new UserType(0, "ADMIN");break;
+            case 1: ut = new UserType(1, "STAFF");break;
+            case 2: ut = new UserType(2, "CUSTOMER");break;
     	}
     	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, ut);
         User newUser = userService.save(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "*")
     @PostMapping(value = "/addRegisteredUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addRegisteredUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<NewUserDTO> addRegisteredUser(@Valid @RequestBody UserDTO userDTO) {
         GenderType g = userDTO.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = null;
         switch(userDTO.userType) {
-            case 0: ut=UserType.administrator;break;
-            case 1: ut=UserType.staff;break;
-            case 2: ut=UserType.customer;break;
+            case 0: ut = new UserType(0, "ADMIN");break;
+            case 1: ut = new UserType(1, "STAFF");break;
+            case 2: ut = new UserType(2, "CUSTOMER");break;
         }
         User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, ut);
         User newUser = userService.save(user);
-        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+        userDTO.setUserId(newUser.getId());
+        NewUserDTO newUserDTO = new NewUserDTO(userDTO, newUser.getId());
+        return new ResponseEntity<NewUserDTO>(newUserDTO, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/deleteUser")

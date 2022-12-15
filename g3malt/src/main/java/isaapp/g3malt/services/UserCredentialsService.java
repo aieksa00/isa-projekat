@@ -56,4 +56,5 @@ public class UserCredentialsService implements IService<UserCredentials, Integer
 		}
 		return false;
 	}
+
 }

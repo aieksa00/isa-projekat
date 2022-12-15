@@ -2,16 +2,15 @@ package isaapp.g3malt.dto;
 
 import isaapp.g3malt.model.User;
 
-public class UpdateUserDTO {
-    public UserDTO user;
-    public int userId;
+public class NewUserDTO {
 
-    public UpdateUserDTO(UserDTO user, int userId) {
+    UserDTO user;
+    Integer userId;
+
+    public NewUserDTO(UserDTO user, Integer userId) {
         this.user = user;
         this.userId = userId;
     }
-
-    public UpdateUserDTO() {}
 
     public UserDTO getUser() {
         return user;
@@ -21,11 +20,11 @@ public class UpdateUserDTO {
         this.user = user;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 }

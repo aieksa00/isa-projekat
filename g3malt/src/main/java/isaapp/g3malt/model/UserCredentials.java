@@ -11,6 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+
+
+import java.util.Collection;
+
 @Entity
 @Table(name="userCredentials")
 public class UserCredentials {
@@ -50,9 +54,11 @@ public class UserCredentials {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}

@@ -1,6 +1,7 @@
 package isaapp.g3malt.dto;
 
 import isaapp.g3malt.model.User;
+import isaapp.g3malt.model.UserType;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
@@ -56,7 +57,7 @@ public class UserDTO {
 		 gender = u.getGender().toString();
 		 profession = u.getProfession();
 		 workplace = u.getWorkplace();
-		 userType = u.getUserType().getValue();
+		 userType = u.getUserType().getId();
 	 }
 
 	public String getName() {
