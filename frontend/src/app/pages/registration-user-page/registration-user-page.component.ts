@@ -58,6 +58,7 @@ export class RegistrationUserPageComponent implements OnInit {
         user : res,
         userId : this.userId
       }
+      console.log(updateUserDTO)
       this.updateUserCredentials(updateUserDTO).subscribe(res => {})
       this.cookieService.set('LoggedIn', 'true' );
       this.router.navigate(['/bloodBanks'])
