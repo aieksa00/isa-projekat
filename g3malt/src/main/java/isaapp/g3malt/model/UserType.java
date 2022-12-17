@@ -26,9 +26,7 @@ public class UserType implements GrantedAuthority{
         this.name = name;
     }
 
-    public UserType() {
-
-    }
+    public UserType() {}
 
     public Integer getId() {
         return id;

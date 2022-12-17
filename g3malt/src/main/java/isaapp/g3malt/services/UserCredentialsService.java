@@ -57,4 +57,12 @@ public class UserCredentialsService implements IService<UserCredentials, Integer
 		return false;
 	}
 
+	public UserCredentials findByEmail(String email) {
+		return userCredentialsRepository.findByEmail(email);
+	}
+
+	public UserCredentials findByUserId(Integer userId) {
+		return userCredentialsRepository.findByUserId(userId);
+	}
+
 }

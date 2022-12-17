@@ -30,6 +30,10 @@ export class BloodBankService {
   }
 
   public getBloodBanks(): Observable<any>{
-    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: this.headers});
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+    };
+    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: headers});
   }
 }

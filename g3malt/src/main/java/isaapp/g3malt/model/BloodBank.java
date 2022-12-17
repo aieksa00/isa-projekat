@@ -1,5 +1,7 @@
 package isaapp.g3malt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.*;
 
 import javax.persistence.CascadeType;
@@ -17,6 +19,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="bloodBanks")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BloodBank {
 
 	@Id

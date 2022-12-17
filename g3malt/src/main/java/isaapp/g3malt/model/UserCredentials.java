@@ -1,5 +1,8 @@
 package isaapp.g3malt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,11 +15,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
-
 import java.util.Collection;
 
 @Entity
 @Table(name="userCredentials")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserCredentials {
 	
 	@Id
@@ -27,8 +30,8 @@ public class UserCredentials {
 	@Column(name="password", unique=false, nullable=true)
 	private String password;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	//@Column(name="user", unique=false, nullable=true)
 	private User user;
 	
@@ -39,7 +42,7 @@ public class UserCredentials {
 		super();
 		this.id = id;
 		this.email = email;
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 		this.user = user;
 	}
 	public Integer getId() {

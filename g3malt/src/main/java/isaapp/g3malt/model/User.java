@@ -1,11 +1,13 @@
 package isaapp.g3malt.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,12 +16,14 @@ import java.util.Collection;
 
 @Entity
 @Table(name="users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="u_type", discriminatorType = DiscriminatorType.INTEGER)
 @DiscriminatorValue("0")
 public class User implements UserDetails {
 	
 	@Id
+	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotEmpty
@@ -45,14 +49,19 @@ public class User implements UserDetails {
 	@Column(name="workplace", unique=false, nullable=true)
 	private String workplace;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_type")
-	private UserType userType;
-	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_types",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name = "user_type_id", referencedColumnName = "id"))
+	private List<UserType> userType;
+
+	@OneToOne(mappedBy = "user")
+	private UserCredentials usercredentials;
+
 	public User() {}
 
 	public User(Integer id, String name, String surname, String street, String city, String country, String phoneNumber,
-			String jmbg, GenderType gender, String profession, String workplace, UserType userType) {
+			String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -156,27 +165,27 @@ public class User implements UserDetails {
 		this.workplace = workplace;
 	}
 
-	public UserType getUserType() {
+	public List<UserType> getUserType() {
 		return userType;
 	}
 
-	public void setUserType(UserType userType) {
+	public void setUserType(List<UserType> userType) {
 		this.userType = userType;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return (Collection<? extends GrantedAuthority>) userType;
+		return this.userType;
 	}
 
 	@Override
 	public String getPassword() {
-		return null;
+		return this.usercredentials.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return null;
+		return this.usercredentials.getEmail();
 	}
 
 	@Override

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserCredentialsDTO } from '../../DTO/user-credentials-dto';
 import { CookieService } from 'ngx-cookie-service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Observable, Subscription, throwError } from 'rxjs';
@@ -24,7 +25,10 @@ export class LogInPageComponent implements OnInit {
   public password: String = "";
   public list :  Array<any> = [];
   public logInForm: FormGroup | any;
-  public userCredentials : UserCredentialsDTO = new UserCredentialsDTO()
+  public userCredentials : UserCredentialsDTO = new UserCredentialsDTO();
+  private access_token = null;
+  public role = "";
+  private jwtEmail = "";
 
   constructor(public router: Router, public cookieService: CookieService, private http: HttpClient,
     private dialogRef: MatDialogRef<LogInPageComponent>) {
@@ -37,38 +41,44 @@ export class LogInPageComponent implements OnInit {
       password : this.logInForm.get("password").value,
       userId : 0
     }
-    console.log(this.userCredentials.email, this.userCredentials.password)
     if(this.userCredentials.email == "" || this.userCredentials.password == "") {
       this.showEmptyFieldMessage();
     } else {
       notEmptyFields = true;
     }
     if(notEmptyFields) {
-      this.getUsersCredentials().subscribe(res => {
-        this.list = res;
-  
-        const foundEmail = this.list.find((element) => element.email === this.userCredentials.email);
-        if(!foundEmail) {
-          this.showWrongEmailMessage();
-          this.logInForm.get("email").setValue("");
-          this.logInForm.get("password").setValue("");
-          return;
-        }
-        if(foundEmail.password === this.userCredentials.password) {
-          this.cookieService.set('LoggedIn', 'true' );
-          this.router.navigate(['/bloodBanks']);
-          this.closeDialog();
-        } else {
-          this.showWrongPasswordMessage();
-          this.logInForm.get("password").setValue("");
-        }
+      this.checkUserCredentials(this.userCredentials).subscribe(res => {
+        this.userCredentials = res;
+        this.cookieService.set('LoggedIn', 'true' );
+        this.logIn(this.userCredentials).subscribe(res => {
+          this.access_token = res.accessToken;
+          localStorage.setItem("jwt", res.accessToken);
+          const helper = new JwtHelperService();
+          const decodedToken = helper.decodeToken(res.accessToken);
+          this.jwtEmail = decodedToken['sub'];
+          this.role = decodedToken['Granted Authorities'];
+          localStorage.setItem('email', this.jwtEmail);
+          localStorage.setItem('role', this.role);
+          if(this.role == "CUSTOMER") {
+            this.router.navigate(['/bloodBanks']);
+          } else if (this.role == "STAFF") {
+            this.router.navigate(['/createBloodBank']) //staviti sta treba
+          } else {
+            //dodati admina
+          }
+        })
       })
+      this.closeDialog();
     }
     
   }
 
-  getUsersCredentials() : Observable<any> {
-    return this.http.get<any>("http://localhost:9090/UserCredentialsController/getAllUsersCredentials");
+  logIn(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
+    return this.http.post<any>("http://localhost:9090/UserCredentialsController/logIn", userCredentialsDTO)
+  }
+
+  checkUserCredentials(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
+    return this.http.post<any>("http://localhost:9090/UserCredentialsController/checkCredeentials", userCredentialsDTO).pipe(catchError(this.handleError));
   }
 
   showEmptyFieldMessage(){
@@ -79,21 +89,19 @@ export class LogInPageComponent implements OnInit {
     })
   }
 
-  showWrongPasswordMessage(){
-    return Swal.fire({
-      title: 'Warning',
-      text: 'Wrong password',
-      icon: 'warning'
-    })
+  public handleError = (error : HttpErrorResponse) => {
+    if(error.status == 404) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'Bad credentials, please try again',
+        icon: 'warning'
+      });
+    }
+    this.logInForm.get("email").setValue("");
+    this.logInForm.get("password").setValue("");
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
-
-  showWrongEmailMessage(){
-    return Swal.fire({
-      title: 'Warning',
-      text: 'Wrong email',
-      icon: 'warning'
-    })
-  }
+  
 
   closeDialog(){
     this.dialogRef.close();
