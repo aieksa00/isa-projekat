@@ -25,8 +25,9 @@ export class SidenavComponent implements OnInit {
 
   onSignOut() {
     this.cookieService.deleteAll();
+    localStorage.clear();
+    console.log(localStorage);
     this.router.navigate(['/']);
-    console.log("usao");
   }
 
   ngOnInit(): void {

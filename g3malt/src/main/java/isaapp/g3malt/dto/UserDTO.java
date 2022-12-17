@@ -57,7 +57,7 @@ public class UserDTO {
 		 gender = u.getGender().toString();
 		 profession = u.getProfession();
 		 workplace = u.getWorkplace();
-		 userType = u.getUserType().getId();
+		 userType = u.getUserType().get(0).getId();
 	 }
 
 	public String getName() {
