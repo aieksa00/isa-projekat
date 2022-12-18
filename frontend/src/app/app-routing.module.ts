@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { AdminFreeAppTimeComponent} from "./pages/admin-free-app-time/admin-free-app-time.component";
 import { RegistrationPageComponent } from "./pages/registration-page/registration-page.component";
 import { LogInPageComponent } from "./pages/log-in-page/log-in-page.component";
 import { StartPageComponent } from './pages/start-page/start-page.component';
@@ -34,7 +34,8 @@ const routes: Routes = [
   { path: 'createBloodBank', component: CreateBloodBankComponent},
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent},
-  { path: 'userslist', component: UsersListComponent}
+  { path: 'userslist', component: UsersListComponent},
+  { path: 'addAppointmentTime', component: AdminFreeAppTimeComponent}
 ];
 
 @NgModule({

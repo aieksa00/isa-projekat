@@ -28,6 +28,7 @@ import { BloodBankService } from './services/blood-bank.service';
 import { RegistrationUserPageComponent } from './pages/registration-user-page/registration-user-page.component';
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
+import { AdminFreeAppTimeComponent } from './pages/admin-free-app-time/admin-free-app-time.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
     CreateBloodBankComponent,
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
-    UsersListComponent
+    UsersListComponent,
+    AdminFreeAppTimeComponent
   ],
   imports: [
     BrowserModule,
