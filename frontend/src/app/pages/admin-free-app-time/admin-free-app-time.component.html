@@ -2,18 +2,26 @@
   <form>
     <h1 class="row justify-content-center align-items-center">Add appointment time</h1>
     <div class="row justify-content-center" id="component">
+      <label>Bank:  {{bloodBankDto.bloodBankName}}</label>
+      <label>Working hours:  {{bloodBankDto.bloodBankWorkingHours}}h</label>
+    </div>
+    <div class="row justify-content-center" id="component">
       <label class="form-label">Pick date:</label>
         <div class="input-group mb-3">
-          <input type="date" id="firstName" class="form-control" name="name"/>
+          <input type="date" id="firstName" class="form-control" name="date" #date/>
         </div>
         <label class="form-label">Pick time:</label>
         <div class="mb-3 input-group">
-          <input type="text" id="secondName" class="form-control" name="surname"/>
+          <select id="time" class="form-control" name="time">
+            <option disabled selected value> -- select time -- </option>
+            <option *ngFor="let time of this.timesList" value="{{time}}">  {{time}} h
+          </select>
         </div>
     </div>
     <div class="row justify-content-center align-items-center" style=" margin-top: 3%">
-      <input type="submit" value="Add" style="width: 150px" class="btn btn-primary" />
+      <input type="submit" value="Add" style="width: 150px" class="btn btn-primary" (click)="this.addFreeAppointmentTime(date)"/>
       <div class="row justify-content-center align-items-center" style="color: red">
+        {{error}}
       </div>
     </div>
   </form>
