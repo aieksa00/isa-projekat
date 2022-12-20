@@ -5,8 +5,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule} from '@angular/cdk/overlay';
 import { CookieService } from 'ngx-cookie-service';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
@@ -20,7 +18,7 @@ import { UserAppointmentsComponent } from './pages/user-appointments/user-appoin
 import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { UserService } from './services/user.service';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
@@ -28,6 +26,7 @@ import { BloodBankService } from './services/blood-bank.service';
 import { RegistrationUserPageComponent } from './pages/registration-user-page/registration-user-page.component';
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
+import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +58,9 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
     OverlayModule,
     HttpClientModule,
   ],
-  providers: [CookieService, UserService, BloodBankService],
+  providers: [CookieService, UserService, BloodBankService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
