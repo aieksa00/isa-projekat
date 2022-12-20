@@ -8,7 +8,7 @@
     <div class="row justify-content-center" id="component">
       <label class="form-label">Pick date:</label>
         <div class="input-group mb-3">
-          <input type="date" id="firstName" class="form-control" name="date" #date/>
+          <input type="date" id="firstName" class="form-control" name="date" #date [(ngModel)]="freeAppointmentDto.scheduleDate"/>
         </div>
         <label class="form-label">Pick time:</label>
         <div class="mb-3 input-group">

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BloodBankDto } from 'src/app/DTO/blood-bank-dto';
+import { FreeAppointmentDTO } from 'src/app/DTO/free-appointment-dto';
+import { AppointmentService } from 'src/app/services/appointment.service';
 import { BloodBankService } from 'src/app/services/blood-bank.service';
 
 @Component({
@@ -14,10 +16,9 @@ export class AdminFreeAppTimeComponent implements OnInit {
   public timesList: String[] = [];
   public startTime: number = 0;
   public endTime: number = 24;
-  //public dateTime:Date = Date.now();
+  public freeAppointmentDto: FreeAppointmentDTO = new FreeAppointmentDTO;
 
-
-  constructor(private bloodBankService: BloodBankService) { }
+  constructor(private bloodBankService: BloodBankService, private appointmentService:AppointmentService) { }
 
   ngOnInit(): void {
     this.bloodBankService.getBloodBankById(1).subscribe(res => {
@@ -41,7 +42,16 @@ export class AdminFreeAppTimeComponent implements OnInit {
 
     }else{
       alert("Bank is not working on chosen time")
+      return
     }
+    this.freeAppointmentDto.bloodBankId = this.bloodBankDto.bloodBankId;
+    this.freeAppointmentDto.duration = 30;
+    this.freeAppointmentDto.scheduleTime = timeSelected;
+
+    this.appointmentService.addFreeAppointmentTime(this.freeAppointmentDto).subscribe(res => {
+      alert("Free appointment added")
+
+    });
   }
 
 }

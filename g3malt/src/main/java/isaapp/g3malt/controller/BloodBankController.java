@@ -1,5 +1,7 @@
 package isaapp.g3malt.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import isaapp.g3malt.dto.*;
@@ -47,6 +49,7 @@ public class BloodBankController {
 		}
 		
 		BloodBankDto bloodBankDto = modelMapper.map(bloodBank, BloodBankDto.class);
+		bloodBankDto.setBloodBankId(id);
 		
 		Set<StaffDto> allStaff = new HashSet<StaffDto>(); 
 		for(User user : bloodBank.getAllStaff()) {
@@ -85,6 +88,31 @@ public class BloodBankController {
 		
 		appointment.setMedicalStaff(staff);
 		
+		appointmentService.save(appointment);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@CrossOrigin("*")
+	@PostMapping(value = "CreateFreeAppointment/{id}", consumes = "application/json")
+	public ResponseEntity<FutureAppointmentDto> createFreeAppointment(@PathVariable Integer id, @RequestBody FreeAppointmentDto dto) {
+		Appointment appointment = new Appointment();
+		appointment.setBloodBankId(id);
+		appointment.setCustomer(null);
+		appointment.setDuration(dto.getDuration());
+		appointment.setFree(true);
+		appointment.setPrice(0);
+		
+		Date dateTime = null;
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd;HH:mm");
+		try {
+			dateTime = sf.parse(dto.getScheduleDate() + "; " + dto.getScheduleTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		appointment.setScheduleDateTime(dateTime);
+				
 		appointmentService.save(appointment);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
