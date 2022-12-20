@@ -26,6 +26,8 @@ export class AdminFreeAppTimeComponent implements OnInit {
       this.startTime = Number(this.bloodBankDto.bloodBankWorkingHours.split("-", 2)[0]);
       this.endTime = Number(this.bloodBankDto.bloodBankWorkingHours.split("-", 2)[1]);
     })
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("date")[0].setAttribute('min', today);
     this.populateTimesList();
   }
 
@@ -34,12 +36,6 @@ export class AdminFreeAppTimeComponent implements OnInit {
   }
 
   public addFreeAppointmentTime(date: HTMLInputElement): void {
-    console.log(date.value)
-    let dateNow = new Date().toLocaleString();
-    console.log(dateNow)
-    if(1){
-      alert("Bank is not working on chosen time")
-    }
     var timeSelected = (<HTMLInputElement>document.getElementById("time")).value;
     if((Number(timeSelected.split(":", 2)[0]) >= this.startTime) && (Number(timeSelected.split(":", 2)[0]) <= this.endTime)){
 
