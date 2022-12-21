@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EmailDetails {
 
-    private String recipient;
+    public EmailDetails(String email, String msg, String string, String string2) {
+		// TODO Auto-generated constructor stub
+	}
+	private String recipient;
     private String msgBody;
     private String subject;
     private String attachment;
