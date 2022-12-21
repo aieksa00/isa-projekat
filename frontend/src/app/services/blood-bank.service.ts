@@ -18,10 +18,6 @@ export class BloodBankService {
   constructor(private http: HttpClient) { }
 
   getBloodBankById(): Observable<BloodBankDto> {
-    let headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
-    };
     return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + localStorage.getItem("email"), {headers: this.headers});
   }
 
