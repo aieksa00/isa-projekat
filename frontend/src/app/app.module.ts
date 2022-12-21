@@ -47,7 +47,7 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
     CreateBloodBankComponent,
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
-    UsersListComponent
+    UsersListComponent,
   ],
   imports: [
     BrowserModule,

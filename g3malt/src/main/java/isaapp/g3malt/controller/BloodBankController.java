@@ -132,13 +132,11 @@ public class BloodBankController {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getAllBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<List<BloodBank>> getAllBloodBanks() {
     	List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAll();
 		return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 
-	@CrossOrigin("*")
 	@PostMapping (value = "/getFilteredBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BloodBank>> getFilteredBloodBanks(@RequestBody SearchBanksDTO searchBanksDTO) {
 		String searchName = searchBanksDTO.getSearchByName().equals("name") ? searchBanksDTO.getSearch() : "";

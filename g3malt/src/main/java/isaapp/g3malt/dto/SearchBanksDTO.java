@@ -6,6 +6,8 @@ public class SearchBanksDTO {
     private String filterValue;
     private String sortValue;
 
+    public SearchBanksDTO() {}
+
     public SearchBanksDTO(String search, String searchByName, String filterValue, String sortValue) {
         this.search = search;
         this.searchByName = searchByName;

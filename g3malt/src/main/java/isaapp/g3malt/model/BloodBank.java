@@ -49,7 +49,7 @@ public class BloodBank {
 	@Column(name="workingHours", unique=false, nullable=true)
 	private String workingHours;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bloodBankStorage_id")
 	private BloodBankStorage bloodBankStorage;
 	

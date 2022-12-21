@@ -29,6 +29,9 @@ export class LogInPageComponent implements OnInit {
   private access_token = null;
   public role = "";
   private jwtEmail = "";
+  private errorHappend : boolean = false;
+  ;
+  
 
   constructor(public router: Router, public cookieService: CookieService, private http: HttpClient,
     private dialogRef: MatDialogRef<LogInPageComponent>) {
@@ -48,24 +51,28 @@ export class LogInPageComponent implements OnInit {
     }
     if(notEmptyFields) {
       this.checkUserCredentials(this.userCredentials).subscribe(res => {
+
         this.userCredentials = res;
-        this.cookieService.set('LoggedIn', 'true' );
         this.logIn(this.userCredentials).subscribe(res => {
-          this.access_token = res.accessToken;
-          localStorage.setItem("jwt", res.accessToken);
-          const helper = new JwtHelperService();
-          const decodedToken = helper.decodeToken(res.accessToken);
-          this.jwtEmail = decodedToken['sub'];
-          this.role = decodedToken['Granted Authorities'];
-          localStorage.setItem('email', this.jwtEmail);
-          localStorage.setItem('role', this.role);
-          if(this.role == "CUSTOMER") {
-            this.router.navigate(['/bloodBanks']);
-          } else if (this.role == "STAFF") {
-            this.router.navigate(['/createBloodBank']) //staviti sta treba
-          } else {
-            //dodati admina
+          if(!this.errorHappend) {
+            this.cookieService.set('LoggedIn', 'true' );
+            this.access_token = res.accessToken;
+            localStorage.setItem("jwt", res.accessToken);
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(res.accessToken);
+            this.jwtEmail = decodedToken['sub'];
+            this.role = decodedToken['Granted Authorities'];
+            localStorage.setItem('email', this.jwtEmail);
+            localStorage.setItem('role', this.role);
+            if(this.role == "CUSTOMER") {
+              this.router.navigate(['/bloodBanks']);
+            } else if (this.role == "STAFF") {
+              this.router.navigate(['/createBloodBank']) //staviti sta treba
+            } else {
+              //dodati admina
+            }
           }
+
         })
       })
       this.closeDialog();
@@ -74,7 +81,7 @@ export class LogInPageComponent implements OnInit {
   }
 
   logIn(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
-    return this.http.post<any>("http://localhost:9090/UserCredentialsController/logIn", userCredentialsDTO)
+    return this.http.post<any>("http://localhost:9090/UserCredentialsController/logIn", userCredentialsDTO).pipe(catchError(this.handleError));
   }
 
   checkUserCredentials(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
@@ -96,6 +103,14 @@ export class LogInPageComponent implements OnInit {
         text: 'Bad credentials, please try again',
         icon: 'warning'
       });
+    }
+    if(error.status == 401) {
+      Swal.fire({
+        title: 'Error',
+        text: 'User is not verified',
+        icon: 'error'
+      });
+      this.errorHappend = true;
     }
     this.logInForm.get("email").setValue("");
     this.logInForm.get("password").setValue("");
