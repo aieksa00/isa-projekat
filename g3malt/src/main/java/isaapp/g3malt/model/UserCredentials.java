@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -32,8 +31,13 @@ public class UserCredentials {
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	//@Column(name="user", unique=false, nullable=true)
 	private User user;
+
+	@Column(name = "verified", nullable=true)
+	private Boolean verified;
+
+	@Column(name = "verified_string", unique = true)
+	private String verifiedString;
 	
 	public UserCredentials() {
 		super();
@@ -44,6 +48,8 @@ public class UserCredentials {
 		this.email = email;
 		this.password = new BCryptPasswordEncoder().encode(password);
 		this.user = user;
+		this.verified = false;
+		this.verifiedString = "";
 	}
 	public Integer getId() {
 		return id;
@@ -71,5 +77,20 @@ public class UserCredentials {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+	public boolean isVerified() {
+		return verified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.verified = verified;
+	}
+
+	public String getVerifiedString() {
+		return verifiedString;
+	}
+
+	public void setVerifiedString(String verifiedString) {
+		this.verifiedString = verifiedString;
+	}
 }

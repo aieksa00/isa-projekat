@@ -46,7 +46,7 @@ import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
     CreateBloodBankComponent,
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
-    UsersListComponent
+    UsersListComponent,
   ],
   imports: [
     BrowserModule,

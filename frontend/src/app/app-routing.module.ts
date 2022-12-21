@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'createBloodBank', component: CreateBloodBankComponent},
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent},
-  { path: 'userslist', component: UsersListComponent}
+  { path: 'userslist', component: UsersListComponent},
 ];
 
 @NgModule({

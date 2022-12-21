@@ -1,6 +1,7 @@
 package isaapp.g3malt.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -55,7 +56,7 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "user_type_id", referencedColumnName = "id"))
 	private List<UserType> userType;
 
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
 	private UserCredentials usercredentials;
 
 	public User() {}
