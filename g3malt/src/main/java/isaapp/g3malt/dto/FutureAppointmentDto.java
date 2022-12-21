@@ -6,9 +6,17 @@ import java.util.Set;
 public class FutureAppointmentDto {
 	private Integer appointmentId;
 	private Integer duration;
+	private Integer time;
 	private Date scheduleDateTime;
 	private Set<StaffDto> medicalStaff;
 	
+	
+	public Integer getTime() {
+		return time;
+	}
+	public void setTime(Integer time) {
+		this.time = time;
+	}
 	public Integer getAppointmentId() {
 		return appointmentId;
 	}
