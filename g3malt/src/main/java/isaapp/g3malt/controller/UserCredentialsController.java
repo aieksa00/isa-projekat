@@ -128,11 +128,11 @@ public class UserCredentialsController {
 	
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserCredentials> addNewUser(@RequestBody UserCredentialsDTO userCredentialsDto) {
+    public ResponseEntity<UserCredentialsDTO> addNewUser(@RequestBody UserCredentialsDTO userCredentialsDto) {
     	User u = userService.findById(userCredentialsDto.userId);
     	UserCredentials uc = new UserCredentials(null,userCredentialsDto.email,userCredentialsDto.password,u);
 		UserCredentials newUserCredentials = userCredentialsService.save(uc);
-		return new ResponseEntity<UserCredentials>(newUserCredentials, HttpStatus.CREATED);
+		return new ResponseEntity<UserCredentialsDTO>(userCredentialsDto, HttpStatus.CREATED);
 	}
 
 	@PostMapping(value = "/registreUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -176,13 +176,13 @@ public class UserCredentialsController {
 	}
 
 	@GetMapping(value = "/getAllUserCredentials", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserCredentialsDTO>> getAllUserCredentials() {
+    public ResponseEntity<List<String>> getAllUserCredentials() {
     	List<UserCredentials> userCredentials = (List<UserCredentials>) userCredentialsService.findAll();
-    	List<UserCredentialsDTO> dtos = new ArrayList<UserCredentialsDTO>();
+    	List<String> emails = new ArrayList<String>();
     	for(UserCredentials uc : userCredentials){
-    		dtos.add(new UserCredentialsDTO(uc.getEmail(),uc.getPassword(),uc.getUser().getId()));
+    		emails.add(uc.getEmail());
     	}
-		return new ResponseEntity<>(dtos, HttpStatus.OK);
+		return new ResponseEntity<>(emails, HttpStatus.OK);
     }
 	
 	private AllUserInfoDto mapAllUserInfoDto(UserCredentials userCredentials) {

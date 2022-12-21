@@ -28,12 +28,12 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.apiHost + 'userController/getAllUsers',{headers: this.headers})
   }
 
-  getUserCredentials():Observable<UserCredentialsDTO>{
+  getUserCredentials():Observable<String>{
     return this.http.get<any>('http://localhost:9090/UserCredentialsController/getAllUserCredentials',{headers: this.headers})
   }
 
-  addUser(user : UserDTO): Observable<UserDTO> {
-    return this.http.post<UserDTO>('http://localhost:9090/userController/addUser', user, {headers: this.headers});
+  addStaff(user : UserDTO): Observable<any> {
+    return this.http.post<UserDTO>('http://localhost:9090/userController/addStaff', user, {headers: this.headers});
   }
 
   addUserCredentials( userCredentials : UserCredentialsDTO):  Observable<UserCredentialsDTO> {

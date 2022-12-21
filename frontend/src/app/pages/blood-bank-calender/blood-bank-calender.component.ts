@@ -1,4 +1,7 @@
+//SOURCE: https://code.daypilot.org/30451/angular-calendar-day-week-month-views
+
 import {Component, ViewChild, AfterViewInit} from "@angular/core";
+import { Router } from "@angular/router";
 import {
         DayPilot,
         DayPilotCalendarComponent,
@@ -45,12 +48,20 @@ export class BloodBankCalenderComponent implements AfterViewInit {
 
   configDay: DayPilot.CalendarConfig = {
     viewType: "Day",
-    onEventMoved : async(args) =>{
+    onEventMove : async(args) =>{
       const dp = args.control;
-      dp.onEventMove = (args) => {
-          args.preventDefault();
-          console.log("External drop forbidden");
-      };
+      dp.eventMoveHandling = "Disabled"
+    },
+    onEventResize: (args) =>{
+      const dp = args.control;
+      dp.eventResizeHandling = "Disabled"
+    },
+    onEventClicked: async (args) => {
+      const modal = await DayPilot.Modal.confirm("Review appointment?")
+      const dp = args.control;
+      dp.clearSelection();
+      if (!(modal).result) { return; }
+      this.router.navigate(['/appointmentReview/'+args.e.id()])
     }
   };
 
@@ -68,23 +79,46 @@ export class BloodBankCalenderComponent implements AfterViewInit {
       const dp = args.control;
       dp.eventResizeHandling = "Disabled"
     },
+    onEventClicked: async (args) => {
+      const modal = await DayPilot.Modal.confirm("Review appointment?")
+      const dp = args.control;
+      dp.clearSelection();
+      if (!modal.result) { return; }
+      this.router.navigate(['/appointmentReview/'+args.e.id()])
+    }
     
   };
 
   configMonth: DayPilot.MonthConfig = {
+    onEventMove : async(args) =>{
+      const dp = args.control;
+      dp.eventMoveHandling = "Disabled"
+    },
+    onEventClicked: async (args) => {
+      const modal = await DayPilot.Modal.confirm("Review appointment?")
+      const dp = args.control;
+      dp.clearSelection();
+      if (!modal.result) { return; }
+      this.router.navigate(['/appointmentReview/'+args.e.id()])
+    },
+    onEventResize: (args) =>{
+      const dp = args.control;
+      dp.eventResizeHandling = "Disabled"
+    },
   };
 
-  constructor(private bloodBankService: BloodBankService) {
+  constructor(private bloodBankService: BloodBankService, private router: Router) {
     this.viewWeek();
   }
 
   ngAfterViewInit(): void {
+    const from = this.nav.control.visibleStart();
+    const to = this.nav.control.visibleEnd();
     this.loadEvents();
   }
 
   loadEvents(): void {
-    const from = this.nav.control.visibleStart();
-    const to = this.nav.control.visibleEnd();
+    
     this.bloodBankService.getCalenderEventsForBloodBank(localStorage.getItem("email")).subscribe(result => {
       this.events = result;
     });

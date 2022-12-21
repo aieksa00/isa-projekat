@@ -16,7 +16,7 @@
   }
 
   button {
-    background-color: #3c78d8;
+    background-color: #000000;
     color: white;
     border: 0;
     padding: .5rem 1rem;
@@ -27,5 +27,5 @@
   }
 
   button.selected {
-    background-color: #1c4587;
+    background-color: #595b5d;
   }

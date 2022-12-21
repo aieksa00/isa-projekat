@@ -37,14 +37,14 @@ export class CreateBloodBankComponent implements OnInit {
   public password: String = "";
   public confirmedPassword: String = "";
 
-  public existingUsers: UserCredentialsDTO[] = [];
+  public existingEmails: any;
   public administratorId: number = 0;
 
   constructor(private _userService: UserService,private _bloodbankService: BloodBankService, private router : Router) { }
 
   ngOnInit(): void {
     this._userService.getUserCredentials().subscribe(res=>{
-      this.existingUsers = Object.values(JSON.parse(JSON.stringify(res)));;
+      this.existingEmails = res;
     })
   }
 
@@ -80,9 +80,9 @@ export class CreateBloodBankComponent implements OnInit {
       id : 0
     }
 
-    this._userService.addUser(administrator).subscribe(res =>{
+    this._userService.addStaff(administrator).subscribe(res =>{
       if(res!=null){
-        this.administratorId=res.id;
+        this.administratorId=res.userId;
         
         this.createAccount()
         this.createBloodBank()
@@ -127,8 +127,8 @@ private createAccount(){
 
   emailInUse(){
     let tf = false
-    this.existingUsers.forEach(user => {
-        if(user.email==this.email)
+    this.existingEmails.forEach((email: String) => {
+        if(email==this.email)
             tf=true
     });
     return tf;

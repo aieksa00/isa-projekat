@@ -13,7 +13,7 @@ import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
 export class BloodBankService {
 
   apiHost: string = 'http://localhost:9090/';
-  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': `Bearer ${localStorage.getItem("jwt")}`});
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +26,11 @@ export class BloodBankService {
   }
 
   public createBloodBank(CreateBloodBankDTO: CreateBloodBankDTO) :Observable<any> {
-    return this.http.post<CreateBloodBankDTO>(this.apiHost + 'BloodBankController/addBloodBank',CreateBloodBankDTO,{headers: this.headers});
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+    };
+    return this.http.post<CreateBloodBankDTO>(this.apiHost + 'BloodBankController/addBloodBank',CreateBloodBankDTO,{headers: headers});
   }
 
   public getBloodBanks(): Observable<any>{

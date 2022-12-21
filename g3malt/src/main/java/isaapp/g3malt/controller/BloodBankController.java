@@ -123,13 +123,14 @@ public class BloodBankController {
 	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BloodBank> addNewUser(@RequestBody CreateBloodBankDTO bloodbankDto) {
+	@PreAuthorize("hasRole('STAFF')")
+    public ResponseEntity<CreateBloodBankDTO> addBloodBank(@RequestBody CreateBloodBankDTO bloodbankDto) {
 		User administrator = userService.findById(bloodbankDto.administratorId);
 		Set<User> users = new HashSet<User>();
 		users.add(administrator);
 		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.street, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, users, bloodbankDto.workingHours, null, null);
         BloodBank newBloodBank = bloodBankService.save(bloodBank);
-        return new ResponseEntity<BloodBank>(newBloodBank, HttpStatus.CREATED);
+        return new ResponseEntity<CreateBloodBankDTO>(bloodbankDto, HttpStatus.CREATED);
     }
 
 	@CrossOrigin(origins = "*")

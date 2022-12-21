@@ -3,6 +3,7 @@ package isaapp.g3malt.controller;
 import isaapp.g3malt.dto.NewUserDTO;
 import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
+import isaapp.g3malt.model.MedicalStaff;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
@@ -117,20 +118,16 @@ public class UserController {
 	}
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDto) {
+    @PostMapping(value = "/addStaff", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
-        UserType ut = null;
-    	switch(userDto.userType) {
-            case 0: ut = new UserType(0, "ADMIN");break;
-            case 1: ut = new UserType(1, "STAFF");break;
-            case 2: ut = new UserType(2, "CUSTOMER");break;
-    	}
+        UserType ut = new UserType(1, "STAFF");
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes);
+    	MedicalStaff user = new MedicalStaff(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,null);
         User newUser = userService.save(user);
-        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+        userDto.setUserId(newUser.getId());
+        return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/addRegisteredUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
