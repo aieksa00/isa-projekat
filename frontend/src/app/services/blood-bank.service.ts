@@ -17,8 +17,12 @@ export class BloodBankService {
 
   constructor(private http: HttpClient) { }
 
-  getBloodBankById(id: number): Observable<BloodBankDto> {
-    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + id, {headers: this.headers});
+  getBloodBankById(): Observable<BloodBankDto> {
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+    };
+    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + localStorage.getItem("email"), {headers: this.headers});
   }
 
   updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {

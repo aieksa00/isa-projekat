@@ -58,7 +58,7 @@ export class BloodBankInfoComponent implements OnInit {
       medicalStaffTwo: [''],
       medicalStaffThree: ['']
     });
-    this.bloodBankService.getBloodBankById(1).subscribe(res => {
+    this.bloodBankService.getBloodBankById().subscribe(res => {
       this.bloodBankDto = res;
       this.updateForm.get('name').setValue(this.bloodBankDto.bloodBankName);
       this.updateForm.get('street').setValue(this.bloodBankDto.bloodBankStreet);

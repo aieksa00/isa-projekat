@@ -21,6 +21,7 @@ import isaapp.g3malt.model.BloodBankDTO;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +35,16 @@ public class BloodBankController {
 	private UserService userService;
 	@Autowired
 	private AppointmentService appointmentService;
-	
+	@Autowired
+	private UserCredentialsService userCredentialsService;
+	 
 	private ModelMapper modelMapper = new ModelMapper();
 
-	@GetMapping(value = "BloodBank/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable Integer id) {
+	@GetMapping(value = "BloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable String email) {
 
-		BloodBank bloodBank = bloodBankService.findById(id);
+		BloodBank bloodBank = bloodBankService.findByStaffId(userCredentialsService.findByEmail(email).getUser().getId());
 
 		if (bloodBank == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -132,7 +136,6 @@ public class BloodBankController {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getAllBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<List<BloodBank>> getAllBloodBanks() {
     	List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAll();
 		return new ResponseEntity<>(banks, HttpStatus.OK);

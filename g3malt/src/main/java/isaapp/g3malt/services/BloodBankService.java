@@ -38,6 +38,7 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 	public Iterable<BloodBank> findAllById(Iterable<Integer> ids) {
 		return bloodBankRepository.findAllById(ids);
 	}
+	
 	public List<BloodBank> searchFilterSort(String searchName, String searchCity, Double filterValue, String sortValue) {
 		List<BloodBank> banks = bloodBankRepository.searchFilterSort(searchName, searchCity, filterValue);
 		Comparator<BloodBank> compareName = new Comparator<BloodBank>() {
@@ -70,6 +71,10 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 		}
 
 		return banks;
+	}
+	
+	public BloodBank findByStaffId(Integer staffId) {
+		return bloodBankRepository.findByStaffId(staffId);
 	}
 
 	@Override
