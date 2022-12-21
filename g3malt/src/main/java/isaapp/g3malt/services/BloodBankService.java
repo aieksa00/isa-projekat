@@ -87,4 +87,10 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 		}
 		return null;
 	}
+	
+	public BloodBank findByStaffId(Integer staffId) {
+		return bloodBankRepository.findByStaffId(staffId);
+	}
+		
+
 }

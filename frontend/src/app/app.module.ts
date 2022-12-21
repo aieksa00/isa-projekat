@@ -28,6 +28,8 @@ import { BloodBankService } from './services/blood-bank.service';
 import { RegistrationUserPageComponent } from './pages/registration-user-page/registration-user-page.component';
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
+import { BloodBankCalenderComponent } from './pages/blood-bank-calender/blood-bank-calender.component';
+import { DayPilotModule } from "@daypilot/daypilot-lite-angular";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
     CreateBloodBankComponent,
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
-    UsersListComponent
+    UsersListComponent,
+    BloodBankCalenderComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
     ReactiveFormsModule,
     OverlayModule,
     HttpClientModule,
+    DayPilotModule,
   ],
   providers: [CookieService, UserService, BloodBankService],
   bootstrap: [AppComponent]

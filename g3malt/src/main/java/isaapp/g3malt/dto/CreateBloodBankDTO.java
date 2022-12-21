@@ -1,6 +1,6 @@
-package isaapp.g3malt.model;
+package isaapp.g3malt.dto;
 
-public class BloodBankDTO {
+public class CreateBloodBankDTO {
 	public String name;
 	public String description;
 	public String street;

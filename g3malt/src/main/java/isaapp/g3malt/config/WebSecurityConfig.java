@@ -105,7 +105,7 @@ public class WebSecurityConfig {
 		return (web) ->
     	web.ignoring().antMatchers(HttpMethod.POST, "/UserCredentialsController/registreUserCredentials", "/emailController/sendMail", "/userController/addRegisteredUser", "/UserCredentialsController/logIn")
 		.antMatchers(HttpMethod.PUT, "/UserCredentialsController/updateUserCredentials")
-		.antMatchers(HttpMethod.GET, "/UserCredentialsController/checkCredeentials", "/",
+		.antMatchers(HttpMethod.GET, "/UserCredentialsController/checkCredeentials", "/","/BloodBankController//getAllAppointmentsForBloodBank/{email}",
 				"UserCredentialsController/GetUser/{id}", "/webjars/**", "/*.html", "favicon.ico",  "/**/*.html", "/**/*.css", "/**/*.js");
     }
 

@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.BloodBank;
-import isaapp.g3malt.model.BloodBankDTO;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +34,8 @@ public class BloodBankController {
 	private UserService userService;
 	@Autowired
 	private AppointmentService appointmentService;
+	@Autowired
+	private UserCredentialsService userCredentialsService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 
@@ -121,7 +123,7 @@ public class BloodBankController {
 	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BloodBank> addNewUser(@RequestBody BloodBankDTO bloodbankDto) {
+    public ResponseEntity<BloodBank> addNewUser(@RequestBody CreateBloodBankDTO bloodbankDto) {
 		User administrator = userService.findById(bloodbankDto.administratorId);
 		Set<User> users = new HashSet<User>();
 		users.add(administrator);
@@ -149,4 +151,18 @@ public class BloodBankController {
 
 		return new ResponseEntity<>(banks, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/getAllAppointmentsForBloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CalenderEventDto>> getAllAppointmentsForBloodBank(@PathVariable String email) {
+    	var u = userCredentialsService.findByEmail(email);
+		BloodBank bb = bloodBankService.findById(u.getUser().getId());
+		var apps = bb.getFreeAppointments();
+		List<CalenderEventDto> events = new ArrayList<CalenderEventDto>();
+		for(Appointment app: apps){
+			CalenderEventDto event = new CalenderEventDto(app.getId().toString(),app.getScheduleDateTime(),app.getDuration(),app.getCustomer());
+			events.add(event);
+		}
+		return new ResponseEntity<>(events, HttpStatus.OK);
+    }
 }

@@ -12,4 +12,7 @@ import java.util.List;
 public interface BloodBankRepository extends JpaRepository<BloodBank, Integer>{
     @Query("from BloodBank b where lower(b.name) like CONCAT('%', lower(:name), '%') and lower(b.city) like CONCAT('%', lower(:city), '%') and b.rating >= :rating")
     List<BloodBank> searchFilterSort(@Param("name") String searchName, @Param("city") String searchCity, @Param("rating") Double filterValue);
+    
+    @Query("from BloodBank b where ?1 in b.allStaff")
+    BloodBank findByStaffId(Integer staffId);
 }

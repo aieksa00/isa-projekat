@@ -36,4 +36,12 @@ export class BloodBankService {
     };
     return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: headers});
   }
+
+  public getCalenderEventsForBloodBank(id:any):Observable<any>{
+    let headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+    };
+    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllAppointmentsForBloodBank/' + id, {headers: headers});
+  }
 }
