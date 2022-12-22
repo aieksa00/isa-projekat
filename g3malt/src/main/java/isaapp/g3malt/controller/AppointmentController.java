@@ -1,12 +1,10 @@
 package isaapp.g3malt.controller;
 
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
-=======
 import isaapp.g3malt.dto.QuestionnaireDTO;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.Customer;
@@ -16,13 +14,11 @@ import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.QuestionnaireService;
 import isaapp.g3malt.services.UserService;
->>>>>>> bcef546 (schedule appointment)
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +35,7 @@ import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/AppointmentController")
@@ -52,6 +49,11 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	@Autowired
 	private UserCredentialsService userCredentialsService;
+    @Autowired
+    private QuestionnaireService questionnaireService;
+
+    @Autowired
+    private CustomerService customerService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 
@@ -69,23 +71,6 @@ public class AppointmentController {
 		
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
-=======
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/appointmentController")
-public class AppointmentController {
-
-    @Autowired
-    private QuestionnaireService questionnaireService;
-
-    @Autowired
-    private AppointmentService appointmentService;
-
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CustomerService customerService;
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -103,5 +88,5 @@ public class AppointmentController {
         appointmentService.save(appointment);
         return new ResponseEntity(HttpStatus.CREATED);
     }
->>>>>>> bcef546 (schedule appointment)
+
 }

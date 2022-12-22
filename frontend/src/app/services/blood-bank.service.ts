@@ -37,4 +37,8 @@ export class BloodBankService {
   public updateBloodBankStorage(dto: UpdateBloodBankStorageDto): Observable<UpdateBloodBankStorageDto> {
     return this.http.post<UpdateBloodBankStorageDto>(this.apiHost + 'BloodBankController/UpdateBloodBankStorage', dto, {headers: this.headers});
   }
+
+  public getBloodBankById(id: number): Observable<BloodBankDto> {
+    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBankById/' + id, {headers: this.headers});
+  }
 }
