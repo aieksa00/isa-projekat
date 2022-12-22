@@ -14,6 +14,9 @@ export class ScheduleAppointmentComponent implements OnInit {
   public appointmentDto:AppointmentDto = new AppointmentDto();
   public error: String = '';
   public bloodBanks: BloodBanksDTO[] = [];
+  public bloodBanksSorted: BloodBanksDTO[] = [];
+  public bloodBank: BloodBanksDTO = new BloodBanksDTO;
+  public appointmentTime: String = '';
 
   constructor(private bloodBankService: BloodBankService) { }
 
@@ -21,10 +24,20 @@ export class ScheduleAppointmentComponent implements OnInit {
   }
 
   public getBanksWithFreeAppointmentTime():void {
+    this.appointmentTime = this.appointmentDto.date + " " + this.appointmentDto.time + ":00";
     this.bloodBankService.getAllBloodBanksWithFreeAppointment(this.appointmentDto.date + " " + this.appointmentDto.time + ":00").subscribe(res => {
       this.bloodBanks = res;
+      this.bloodBanksSorted = res;
       console.log(this.bloodBanks)
     });
+  }
+
+  public SelectBank(bloodBank: BloodBanksDTO): void{
+    this.bloodBank = bloodBank;
+  }
+
+  public SortByRating():void{
+    this.bloodBanksSorted = this.bloodBanks.sort((n1,n2) => Number(n2.rating) - Number(n1.rating))
   }
 
 }

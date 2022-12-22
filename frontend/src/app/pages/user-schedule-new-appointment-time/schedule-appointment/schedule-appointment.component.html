@@ -19,3 +19,39 @@
     </div>
   </form>
 </div>
+<div class="container-lg2">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <button class="astext" (click)="SortByRating()">Rating</button>
+        <th scope="col">City</th>
+        <th scope="col">Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bloodBank of bloodBanks; let currentIndex = index;">
+        <th scope="row">{{ currentIndex + 1 }}</th>
+        <td>{{ bloodBank.name }}</td>
+        <td>{{ bloodBank.rating }}</td>
+        <td>{{ bloodBank.city }}</td>
+        <td><input type="submit" value="Select" (click)="this.SelectBank(bloodBank)"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row justify-content-center align-items-center" style=" margin-top: 5%">
+    <div class="row justify-content-center align-items-center">
+      Choosen date and time:
+    </div>
+    <div class="row justify-content-center align-items-center">
+      {{this.appointmentTime}}
+    </div>
+    <div class="row justify-content-center align-items-center">
+      Choosen bank:
+    </div>
+    <div class="row justify-content-center align-items-center">
+      {{this.bloodBank.name}}
+    </div>
+  </div>
+</div>

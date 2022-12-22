@@ -1,15 +1,32 @@
 .container-lg {
   font-size: 18px;
   margin: auto;
-  height: 100vw;
+  height: 28vw;
 }
 
 #topMargin {
-  margin-top: 12%;
+  margin-top: 10%;
 }
 
 #component {
   margin: auto;
-  margin-top: 12%;
+  margin-top: 8%;
   width: 20vw;
+}
+
+.container-lg2 {
+  font-size: 18px;
+  margin: auto;
+  height: 28vw;
+  width: 50vw;
+  margin-top: 3%;
+}
+
+.astext {
+  background:none;
+  border:none;
+  margin:0;
+  padding:1;
+  cursor: pointer;
+  font-weight: 800;
 }

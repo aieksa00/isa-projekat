@@ -1,6 +1,7 @@
 package isaapp.g3malt.dto;
 
 public class BloodBankWithRatingDTO {
+	public int id;
 	public String name;
 	public String description;
 	public String street;
@@ -8,6 +9,14 @@ public class BloodBankWithRatingDTO {
 	public String country;
 	public String workingHours;
 	public String rating;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
