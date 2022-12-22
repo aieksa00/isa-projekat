@@ -19,6 +19,9 @@ import { QuestionnairePageComponent } from './pages/questionnaire-page/questionn
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { BloodBankCalenderComponent } from './pages/blood-bank-calender/blood-bank-calender.component';
 import { CreateAdministratorComponent } from './pages/create-administrator/create-administrator.component';
+import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
+import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
+import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -39,7 +42,9 @@ const routes: Routes = [
   { path: 'userslist', component: UsersListComponent},
   { path: 'calender', component: BloodBankCalenderComponent},
   { path: 'addAdmin', component: CreateAdministratorComponent},
-  
+  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent},
+  { path: 'bloodBankSpec', component: BloodBankSpecComponent},
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent},
 ];
 
 @NgModule({

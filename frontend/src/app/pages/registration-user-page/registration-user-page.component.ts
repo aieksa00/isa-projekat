@@ -30,7 +30,7 @@ export class RegistrationUserPageComponent implements OnInit {
   public gender: String = "";
   public profession: String = "";
   public workplace: String = "";
-  public userType: number = 2;
+  public userType: number = 0;
   public userId : number = 0;
 
   public registreUserForm: FormGroup | any;
@@ -59,8 +59,7 @@ export class RegistrationUserPageComponent implements OnInit {
         userId : this.userId
       }
       this.updateUserCredentials(updateUserDTO).subscribe(res => {})
-      this.cookieService.set('LoggedIn', 'true' );
-      this.router.navigate(['/bloodBanks'])
+      this.router.navigate(['/'])
     })
   }
 

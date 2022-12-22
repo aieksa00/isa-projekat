@@ -1,5 +1,7 @@
 package isaapp.g3malt.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import isaapp.g3malt.dto.*;
@@ -36,13 +38,16 @@ public class BloodBankController {
 	private AppointmentService appointmentService;
 	@Autowired
 	private UserCredentialsService userCredentialsService;
-	
+
 	private ModelMapper modelMapper = new ModelMapper();
 
-	@GetMapping(value = "BloodBank/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable Integer id) {
-
-		BloodBank bloodBank = bloodBankService.findById(id);
+	@GetMapping(value = "BloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable String email) {
+		
+		Integer userId = userCredentialsService.findByEmail(email).getUser().getId();
+		Integer bloodBankId = bloodBankService.findByStaffId(userId);
+		BloodBank bloodBank = bloodBankService.findById(bloodBankId);
 
 		if (bloodBank == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,11 +65,45 @@ public class BloodBankController {
 		Set<Appointment> futureAppointments = appointmentService.findAllFutureAppointmentsForBloodBank(new Date(), bloodBank.getId());
 		Set<FutureAppointmentDto> futureAppointmentsDtos = new HashSet<FutureAppointmentDto>();
 		for(Appointment appointment : futureAppointments) {
-			FutureAppointmentDto futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			FutureAppointmentDto futureAppointmentsDto = new FutureAppointmentDto();
+			Date time = appointment.getScheduleDateTime();
+			futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			futureAppointmentsDto.setScheduleDateTime(time.toString());
 			futureAppointmentsDtos.add(futureAppointmentsDto);
 		}
 		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
 		
+		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins =  "*")
+	@GetMapping(value = "BloodBankById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<BloodBankDto> getBloodBankById(@PathVariable Integer id) {
+
+		BloodBank bloodBank = bloodBankService.findById(id);
+
+		if (bloodBank == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		BloodBankDto bloodBankDto = modelMapper.map(bloodBank, BloodBankDto.class);
+
+		Set<StaffDto> allStaff = new HashSet<StaffDto>();
+		for(User user : bloodBank.getAllStaff()) {
+			StaffDto staffDto = modelMapper.map(user, StaffDto.class);
+			allStaff.add(staffDto);
+		}
+		bloodBankDto.setBloodBankAdministrators(allStaff);
+
+		Set<Appointment> futureAppointments = appointmentService.findAllFutureAppointmentsForBloodBank(new Date(), bloodBank.getId());
+		Set<FutureAppointmentDto> futureAppointmentsDtos = new HashSet<FutureAppointmentDto>();
+		for(Appointment appointment : futureAppointments) {
+			FutureAppointmentDto futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			futureAppointmentsDtos.add(futureAppointmentsDto);
+		}
+		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
+
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
 	}
 	
@@ -77,7 +116,15 @@ public class BloodBankController {
 		appointment.setDuration(dto.getDuration());
 		appointment.setFree(true);
 		appointment.setPrice(1000.00);
-		appointment.setScheduleDateTime(dto.getScheduleDateTime());
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		try {
+			Date date = formatter.parse(dto.getScheduleDateTime());
+			System.out.println(date);
+			appointment.setScheduleDateTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Set<User> staff = new HashSet<User>();
 		for(StaffDto staffDto : dto.getMedicalStaff()) {
@@ -121,6 +168,49 @@ public class BloodBankController {
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
 	}
 	
+    @PostMapping(value = "/UpdateBloodBankStorage", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<BloodBank> UpdateBloodBankStorage(@RequestBody UpdateBloodBankStorageDto dto) {
+		BloodBank bloodBank = bloodBankService.findById(dto.getBloodBankId());
+		
+		switch(dto.getBloodType()) {
+			case("APlus"):
+				int newQuantityA = bloodBank.getBloodBankStorage().getAPlus() + 1;
+				bloodBank.getBloodBankStorage().setAPlus(newQuantityA);
+				break;
+			case("BPlus"):
+				int newQuantityB = bloodBank.getBloodBankStorage().getBPlus() + 1;
+				bloodBank.getBloodBankStorage().setBPlus(newQuantityB);
+				break;
+			case("ABPlus"):
+				int newQuantityAB = bloodBank.getBloodBankStorage().getABPlus() + 1;
+				bloodBank.getBloodBankStorage().setABPlus(newQuantityAB);
+				break;
+			case("OPlus"):
+				int newQuantityO = bloodBank.getBloodBankStorage().getOPlus() + 1;
+				bloodBank.getBloodBankStorage().setOPlus(newQuantityO);
+				break;
+			case("AMinus"):
+				int newQuantityAm = bloodBank.getBloodBankStorage().getAMinus() + 1;
+				bloodBank.getBloodBankStorage().setAMinus(newQuantityAm);
+				break;
+			case("BMinus"):
+				int newQuantityBm = bloodBank.getBloodBankStorage().getBMinus() + 1;
+				bloodBank.getBloodBankStorage().setBMinus(newQuantityBm);
+				break;
+			case("ABMinus"):
+				int newQuantityABm = bloodBank.getBloodBankStorage().getABMinus() + 1;
+				bloodBank.getBloodBankStorage().setABMinus(newQuantityABm);
+				break;
+			case("OMinus"):
+				int newQuantityOm = bloodBank.getBloodBankStorage().getOMinus() + 1;
+				bloodBank.getBloodBankStorage().setOMinus(newQuantityOm);
+				break;
+		}
+		BloodBank newBloodBank = bloodBankService.save(bloodBank);
+        return new ResponseEntity<BloodBank>(HttpStatus.OK);
+    }
+	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -135,13 +225,11 @@ public class BloodBankController {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getAllBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity<List<BloodBank>> getAllBloodBanks() {
     	List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAll();
 		return new ResponseEntity<>(banks, HttpStatus.OK);
     }
 
-	@CrossOrigin("*")
 	@PostMapping (value = "/getFilteredBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BloodBank>> getFilteredBloodBanks(@RequestBody SearchBanksDTO searchBanksDTO) {
 		String searchName = searchBanksDTO.getSearchByName().equals("name") ? searchBanksDTO.getSearch() : "";
@@ -158,7 +246,7 @@ public class BloodBankController {
 	@PreAuthorize("hasAuthority('STAFF')")
     public ResponseEntity<List<CalenderEventDto>> getAllAppointmentsForBloodBank(@PathVariable String email) {
     	var u = userCredentialsService.findByEmail(email);
-		BloodBank bb = bloodBankService.findById(u.getUser().getId());
+		BloodBank bb = bloodBankService.findById(bloodBankService.findByStaffId(u.getUser().getId()));
 		var apps = bb.getFreeAppointments();
 		List<CalenderEventDto> events = new ArrayList<CalenderEventDto>();
 		for(Appointment app: apps){
@@ -167,4 +255,17 @@ public class BloodBankController {
 		}
 		return new ResponseEntity<>(events, HttpStatus.OK);
     }
+
+	@PostMapping (value = "/getAllBloodBanksWithFreeAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BloodBankWithRatingDTO>> getAllBloodBanksWithFreeAppointment(@RequestBody String appointmentTime) {
+		List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAllWithFreeAppointment(appointmentTime);
+		List<BloodBankWithRatingDTO> banksDto = new ArrayList<BloodBankWithRatingDTO>();
+		
+		for(BloodBank b : banks) {
+			BloodBankWithRatingDTO bloodBankWithRatingDTO = modelMapper.map(b, BloodBankWithRatingDTO.class);
+			banksDto.add(bloodBankWithRatingDTO);
+		}
+
+		return new ResponseEntity<>(banksDto, HttpStatus.OK);
+	}
 }

@@ -8,14 +8,21 @@ import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserCredentials;
 import isaapp.g3malt.model.UserType;
+import isaapp.g3malt.services.EmailServiceImpl;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
+import isaapp.g3malt.util.RandomString;
 
+
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import isaapp.g3malt.util.EmailDetails;
 import isaapp.g3malt.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +31,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,6 +49,9 @@ public class UserCredentialsController {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private EmailServiceImpl emailService;
 
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -71,13 +83,29 @@ public class UserCredentialsController {
 		// kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// Kreiraj token za tog korisnika
-		User user = (User) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername(), user.getUserType().get(0).getName());
-		int expiresIn = tokenUtils.getExpiredIn();
+		UserCredentials userCredentials = userCredentialsService.findByEmail(userCredentialsDTO.getEmail());
 
-		// Vrati token kao odgovor na uspesnu autentifikaciju
-		return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
+		if(userCredentials.isVerified()) {
+			// Kreiraj token za tog korisnika
+			User user = (User) authentication.getPrincipal();
+			String jwt = tokenUtils.generateToken(user.getUsername(), user.getUserType().get(0).getName());
+			int expiresIn = tokenUtils.getExpiredIn();
+
+			// Vrati token kao odgovor na uspesnu autentifikaciju
+			return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
+		}
+
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getUserIdByEmail",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<Integer> getUserIdByEmail(@RequestBody String email) {
+		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
+		Integer userId = userCredentials.getUser().getId();
+		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/GetUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -143,16 +171,22 @@ public class UserCredentialsController {
 		boolean notFounded = userCredentialsService.getByEmail(userCredentialsDTO.email);
 
 		if(notFounded) {
+			RandomString randomString =  new RandomString();
+			byte[] array = new byte[7]; // length is bounded by 7
+			new Random().nextBytes(array);
+			String generatedString = new String(array, Charset.forName("UTF-8"));
+			String verifiedString = randomString.getAlphaNumericString(20);
+			uc.setVerifiedString(verifiedString);
 			UserCredentials newUserCredentials = userCredentialsService.save(uc);
 			return new ResponseEntity<UserCredentials>(newUserCredentials, HttpStatus.CREATED);
 		}
-		
+
 		return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 
 	@CrossOrigin(origins = "*")
 	@PutMapping(value="/updateUserCredentials", consumes = "application/json")
-	public ResponseEntity<UserCredentials> updateUserCredentials(@RequestBody UpdateUserDTO user) {
+	public ResponseEntity updateUserCredentials(@RequestBody UpdateUserDTO user) {
 		UserCredentials userCredentials = userCredentialsService.findById(user.userId);
 		if(userCredentials == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -169,12 +203,27 @@ public class UserCredentialsController {
 		newUser.setUserType(userTypes);
 		userCredentials.setUser(newUser);
 		userCredentialsService.save(userCredentials);
-		userCredentials = userCredentialsService.findById(userCredentials.getId());
-//		TODO: zavrsiti implementaciju za slanje email-a
-//		String token = tokenUtils.generateVerificationToken(userCredentials.getEmail());
-//		String msg = "Please click this link: http://localhost:9090/userCredentialsController/verifyUser?token=" + token;
-//		//send mail
-		return new ResponseEntity<UserCredentials>(userCredentials, HttpStatus.OK);
+
+		String token = userCredentials.getVerifiedString();
+		String msg = "Please click this link to verify and log In: http://localhost:9090/UserCredentialsController/verifyUser?token=" + token + "&email=" + userCredentials.getEmail();
+		EmailDetails email = new EmailDetails(userCredentials.getEmail(), msg, "Verification", "");
+		//emailService.sendSimpleMail(email);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/verifyUser")
+	public ResponseEntity verifyUser(@RequestParam String token, String email) {
+		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
+		if(userCredentials.getEmail().equals(email) && userCredentials.getVerifiedString().equals(token)) {
+			final HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("Location", "http://localhost:4200");
+			ResponseEntity entity = new ResponseEntity(responseHeaders, HttpStatus.PERMANENT_REDIRECT);
+			userCredentials.setVerified(true);
+			userCredentialsService.save(userCredentials);
+			return entity;
+		}
+		return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 	}
 
 	@GetMapping(value = "/getAllUserCredentials", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -206,4 +255,6 @@ public class UserCredentialsController {
         		);
 		return allUserInfoDto;
 	}
+
+
 }

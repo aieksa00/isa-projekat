@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppointmentReviewDto } from '../DTO/appointment-review-dto';
 import { FutureAppointmentDto } from '../DTO/future-appointment';
 
 @Injectable({
@@ -14,7 +15,11 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
 
   public createAppointment(id:number, dto: FutureAppointmentDto): Observable<FutureAppointmentDto> {
-    return this.http.post<FutureAppointmentDto>(this.apiHost + 'BloodBankController/CreateAppointment/'+id, dto, {headers: this.headers});
+    return this.http.post<FutureAppointmentDto>(this.apiHost + 'BloodBankController/CreateAppointment/'+ id, dto, {headers: this.headers});
+  }
+
+  public getAppointmentReviewDtoById(id:number): Observable<AppointmentReviewDto> {
+    return this.http.get<AppointmentReviewDto>(this.apiHost + 'AppointmentController/GetAppointmentReviewDtoById/'+ id, {headers: this.headers});
   }
   
 }

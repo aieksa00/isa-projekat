@@ -6,9 +6,9 @@ import java.util.Set;
 public class FutureAppointmentDto {
 	private Integer appointmentId;
 	private Integer duration;
-	private Date scheduleDateTime;
+	private String scheduleDateTime;
 	private Set<StaffDto> medicalStaff;
-	
+
 	public Integer getAppointmentId() {
 		return appointmentId;
 	}
@@ -21,10 +21,10 @@ public class FutureAppointmentDto {
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
-	public Date getScheduleDateTime() {
+	public String getScheduleDateTime() {
 		return scheduleDateTime;
 	}
-	public void setScheduleDateTime(Date scheduleDateTime) {
+	public void setScheduleDateTime(String scheduleDateTime) {
 		this.scheduleDateTime = scheduleDateTime;
 	}
 	public Set<StaffDto> getMedicalStaff() {

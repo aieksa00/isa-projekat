@@ -1,7 +1,8 @@
 
 export class QuestionnaireDTO {
-    date : Date = new Date();
+    appointmentId: number = 0;
     previousDonations: number = 0;
+    userId : number = 0;
     question1 : boolean = false;
     question2 : boolean = false;
     question3 : boolean = false;
@@ -14,5 +15,9 @@ export class QuestionnaireDTO {
     question10 : boolean = false;
     question11 : boolean = false;
     question12 : boolean = false;
+    question13 : boolean = false;
+    question14 : boolean = false;
+    question15 : boolean = false;
+    question16 : boolean = false;
 
 }

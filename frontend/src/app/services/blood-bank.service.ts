@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BloodBankDto } from '../DTO/blood-bank-dto';
 import { BloodBanksDTO } from '../DTO/blood-banks-list-dto';
+import { AppointmentDto } from 'src/app/DTO/appointment-time-dto';
 import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
 import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
+import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto';
 
 
 @Injectable({
@@ -17,11 +19,11 @@ export class BloodBankService {
 
   constructor(private http: HttpClient) { }
 
-  getBloodBankById(id: number): Observable<BloodBankDto> {
-    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + id, {headers: this.headers});
+  public getBloodBankByUserEmail(): Observable<BloodBankDto> {
+    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + localStorage.getItem("email"), {headers: this.headers});
   }
 
-  updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {
+  public updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {
     return this.http.put<BloodBankDto>(this.apiHost + 'BloodBankController/UpdateBloodBank/' + id, dto, {headers: this.headers});
   }
 
@@ -34,11 +36,19 @@ export class BloodBankService {
   }
 
   public getBloodBanks(): Observable<any>{
-    let headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
-    };
-    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: headers});
+    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: this.headers});
+  }
+
+  public updateBloodBankStorage(dto: UpdateBloodBankStorageDto): Observable<UpdateBloodBankStorageDto> {
+    return this.http.post<UpdateBloodBankStorageDto>(this.apiHost + 'BloodBankController/UpdateBloodBankStorage', dto, {headers: this.headers});
+  }
+
+  public getBloodBankById(id: number): Observable<BloodBankDto> {
+    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBankById/' + id, {headers: this.headers});
+  }
+
+  public getAllBloodBanksWithFreeAppointment(AppointmentDto : String): Observable<any>{
+    return this.http.post<any>(this.apiHost + 'BloodBankController/getAllBloodBanksWithFreeAppointment',AppointmentDto, {headers: this.headers});
   }
 
   public getCalenderEventsForBloodBank(id:any):Observable<any>{

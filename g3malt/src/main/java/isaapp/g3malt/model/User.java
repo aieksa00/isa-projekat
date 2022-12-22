@@ -1,6 +1,7 @@
 package isaapp.g3malt.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -48,6 +49,8 @@ public class User implements UserDetails {
 	private String profession;
 	@Column(name="workplace", unique=false, nullable=true)
 	private String workplace;
+	@Column(name="last_appointment", unique=false, nullable=true)
+	private String lastAppointment;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_types",
@@ -55,13 +58,13 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "user_type_id", referencedColumnName = "id"))
 	private List<UserType> userType;
 
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
 	private UserCredentials usercredentials;
 
 	public User() {}
 
 	public User(Integer id, String name, String surname, String street, String city, String country, String phoneNumber,
-			String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType) {
+			String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType, String lastAppointment) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -75,6 +78,16 @@ public class User implements UserDetails {
 		this.profession = profession;
 		this.workplace = workplace;
 		this.userType = userType;
+		this.lastAppointment = lastAppointment;
+	}
+
+	
+	public String getLastAppointment() {
+		return lastAppointment;
+	}
+
+	public void setLastAppointment(String lastAppointment) {
+		this.lastAppointment = lastAppointment;
 	}
 
 	public Integer getId() {

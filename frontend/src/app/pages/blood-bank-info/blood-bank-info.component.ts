@@ -26,7 +26,7 @@ export class BloodBankInfoComponent implements OnInit {
   public updateForm: FormGroup | any;
   public userForm: FormGroup | any;
   public appointmentForm: FormGroup | any;
-  
+
   constructor(private bloodBankService: BloodBankService, private userCredentialsService: UserCredentialsService,private appointmentService: AppointmentService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -54,11 +54,12 @@ export class BloodBankInfoComponent implements OnInit {
     this.appointmentForm = this.fb.group({
       scheduleDateTime: ['', Validators.required],
       duration: ['', Validators.required],
+      time: ['', Validators.required],
       medicalStaffOne: ['', Validators.required],
       medicalStaffTwo: [''],
       medicalStaffThree: ['']
     });
-    this.bloodBankService.getBloodBankById(1).subscribe(res => {
+    this.bloodBankService.getBloodBankByUserEmail().subscribe(res => {
       this.bloodBankDto = res;
       this.updateForm.get('name').setValue(this.bloodBankDto.bloodBankName);
       this.updateForm.get('street').setValue(this.bloodBankDto.bloodBankStreet);
@@ -85,10 +86,10 @@ export class BloodBankInfoComponent implements OnInit {
 
   updateDescription(){
     this.updateBloodBankDto.bloodBankName = this.updateForm.value.name;
-    this.updateBloodBankDto.bloodBankStreet = this.updateForm.value.street; 
-    this.updateBloodBankDto.bloodBankCity = this.updateForm.value.city; 
-    this.updateBloodBankDto.bloodBankCountry = this.updateForm.value.country; 
-    this.updateBloodBankDto.bloodBankDescription = this.updateForm.value.description;  
+    this.updateBloodBankDto.bloodBankStreet = this.updateForm.value.street;
+    this.updateBloodBankDto.bloodBankCity = this.updateForm.value.city;
+    this.updateBloodBankDto.bloodBankCountry = this.updateForm.value.country;
+    this.updateBloodBankDto.bloodBankDescription = this.updateForm.value.description;
     this.bloodBankService.updateBloodBank(this.bloodBankDto.bloodBankId, this.updateBloodBankDto).subscribe(res => {
       this.router.navigate(['/bloodBankInfo']);
     });
@@ -105,14 +106,15 @@ export class BloodBankInfoComponent implements OnInit {
     this.allUserInfoDto.userProfession = this.userForm.value.userProfession;
     this.allUserInfoDto.userWorkplace = this.userForm.value.userWorkplace;
     this.allUserInfoDto.userCredentialsEmail = this.userForm.value.userCredentialsEmail;
-    this.allUserInfoDto.userCredentialsPassword = this.userForm.value.userCredentialsPassword; 
+    this.allUserInfoDto.userCredentialsPassword = this.userForm.value.userCredentialsPassword;
     this.userCredentialsService.updateLoggedUser(this.allUserInfoDto).subscribe(res => {
       this.router.navigate(['/bloodBankInfo']);
     });
   }
   createAppointment(){
-    this.futureAppointmentDto.scheduleDateTime = this.appointmentForm.value.scheduleDateTime;
+    this.futureAppointmentDto.scheduleDateTime = this.appointmentForm.value.scheduleDateTime + " " + this.appointmentForm.value.time + ":00:00";
     this.futureAppointmentDto.duration = this.appointmentForm.value.duration;
+    this.futureAppointmentDto.time = this.appointmentForm.value.time;
     this.futureAppointmentDto.medicalStaff.push(this.appointmentForm.value.medicalStaffOne);
     if(this.appointmentForm.value.medicalStaffTwo!='')
       this.futureAppointmentDto.medicalStaff.push(this.appointmentForm.value.medicalStaffTwo);
@@ -122,8 +124,5 @@ export class BloodBankInfoComponent implements OnInit {
     this.appointmentService.createAppointment(1, this.futureAppointmentDto).subscribe(res => {
       this.router.navigate(['/bloodBankInfo']);
     });
-
   }
-
-
 }

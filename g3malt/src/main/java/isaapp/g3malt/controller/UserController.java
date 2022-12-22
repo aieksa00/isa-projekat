@@ -1,9 +1,11 @@
 package isaapp.g3malt.controller;
 
 import isaapp.g3malt.dto.NewUserDTO;
+import isaapp.g3malt.dto.PenaltyPointDto;
 import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.MedicalStaff;
+import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
@@ -126,7 +128,7 @@ public class UserController {
         UserType ut = new UserType(1, "STAFF");
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-    	MedicalStaff user = new MedicalStaff(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,null);
+    	MedicalStaff user = new MedicalStaff(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,"",null);
         User newUser = userService.save(user);
         userDto.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
@@ -140,7 +142,7 @@ public class UserController {
         UserType ut = new UserType(0, "ADMIN");
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes);
+    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,"");
         User newUser = userService.save(user);
         userDto.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
@@ -157,7 +159,7 @@ public class UserController {
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes);
+        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, "");
         User newUser = userService.save(user);
         userDTO.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
@@ -167,6 +169,20 @@ public class UserController {
     public ResponseEntity deleteUser(@RequestBody int id) {
         userService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/addPenaltyPoint", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<User> AddPenaltyPoint(@RequestBody PenaltyPointDto dto) {
+    	
+    	Customer customer = (Customer)userService.findById(dto.getCustomerId());
+    	
+    	Integer penaltyPoints = customer.getPenalty() + dto.getPenaltyPoint();
+    	customer.setPenalty(penaltyPoints);
+    	
+        Customer newCustomer = (Customer)userService.save(customer);
+        
+        return new ResponseEntity<User>(HttpStatus.OK);
     }
     
     

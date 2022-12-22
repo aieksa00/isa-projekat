@@ -1,5 +1,6 @@
 package isaapp.g3malt.services;
 
+import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.UserRepository;
 

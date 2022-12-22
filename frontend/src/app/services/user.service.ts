@@ -4,6 +4,8 @@ import { CustomerDTO } from '../DTO/customer-dto';
 import { Observable } from 'rxjs';
 import { UserDTO } from '../DTO/user-dto';
 import { UserCredentialsDTO } from '../DTO/user-credentials-dto';
+import { QuestionnaireDTO } from '../DTO/questionnaireDTO';
+import { PenaltyPointDto } from '../DTO/penalty-point-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +44,9 @@ export class UserService {
 
   addUserCredentials( userCredentials : UserCredentialsDTO):  Observable<UserCredentialsDTO> {
     return this.http.post<UserCredentialsDTO>(this.apiHost + 'UserCredentialsController/addUserCredentials', userCredentials,{headers: this.headers});
+  }
+
+  addPenaltyPointToUser(dto : PenaltyPointDto): Observable<PenaltyPointDto> {
+    return this.http.post<PenaltyPointDto>('http://localhost:9090/userController/addPenaltyPoint', dto, {headers: this.headers});
   }
 }

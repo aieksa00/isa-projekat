@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { BloodBanksDTO } from 'src/app/DTO/blood-banks-list-dto';
 import { SearchDTO } from 'src/app/DTO/search-dto';
@@ -19,7 +20,7 @@ export class BloodBanksListComponent implements OnInit {
   public searchDTO : SearchDTO = new SearchDTO();
   public bloodBanksFiltered :  BloodBanksDTO[] = [];
 
-  constructor(private bloodBankService: BloodBankService, private http: HttpClient) { }
+  constructor(public router: Router, private bloodBankService: BloodBankService, private http: HttpClient) { }
 
   ngOnInit(): void {
     this.bloodBankService.getBloodBanks().subscribe(res => {
@@ -54,5 +55,9 @@ export class BloodBanksListComponent implements OnInit {
     this.sortValue = "";
   }
 
+  public Visit(bloodBank : any) : void {
+    localStorage.setItem("bloodBank", bloodBank.id)
+    this.router.navigate(['/bloodBankSpec'])
+  }
 
 }

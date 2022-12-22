@@ -5,8 +5,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule} from '@angular/cdk/overlay';
 import { CookieService } from 'ngx-cookie-service';
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
@@ -20,7 +18,7 @@ import { UserAppointmentsComponent } from './pages/user-appointments/user-appoin
 import { UserQRCodesComponent } from './pages/user-qrcodes/user-qrcodes.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { ComplaintsComponent } from './pages/complaints/complaints.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BloodBankInfoComponent } from './pages/blood-bank-info/blood-bank-info.component';
 import { UserService } from './services/user.service';
 import { CreateBloodBankComponent } from './pages/create-blood-bank/create-blood-bank.component';
@@ -31,6 +29,11 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
 import { BloodBankCalenderComponent } from './pages/blood-bank-calender/blood-bank-calender.component';
 import { DayPilotModule } from "@daypilot/daypilot-lite-angular";
 import { CreateAdministratorComponent } from './pages/create-administrator/create-administrator.component';
+import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
+import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
+import { MatExpansionModule } from '@angular/material/expansion'
+import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
+import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { CreateAdministratorComponent } from './pages/create-administrator/creat
     QuestionnairePageComponent,
     UsersListComponent,
     BloodBankCalenderComponent,
-    CreateAdministratorComponent
+    CreateAdministratorComponent,
+    AppointmentReviewPageComponent,
+    BloodBankSpecComponent,
+    ScheduleAppointmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,8 +70,11 @@ import { CreateAdministratorComponent } from './pages/create-administrator/creat
     OverlayModule,
     HttpClientModule,
     DayPilotModule,
+    MatExpansionModule,
   ],
-  providers: [CookieService, UserService, BloodBankService],
+  providers: [CookieService, UserService, BloodBankService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

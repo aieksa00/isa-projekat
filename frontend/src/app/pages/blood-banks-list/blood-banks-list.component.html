@@ -1,80 +1,83 @@
-<div class="projects" id="topMargin">
-  <div class="grouping-header" id="component">
-    <div class="row">
-      <div class="col col-xs-6">
-        <h3 class="project-title float-left">Blood Bank</h3>
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-2">
-        <h4>Search By:</h4>
-          <input class="form-check-input" type="radio" id="Name" value="name" name="search" style="margin-right: 3%;margin-left: 1%;" [(ngModel)]="searchByName" class="custom"/>
-          <label class="form-check-label" for="Name">Name</label>
-          <input class="form-check-input" type="radio" id="City" value="city" name="search" style="margin-right: 3%;margin-left: 7%;" [(ngModel)]="searchByName" class="custom"/>
-          <label class="form-check-label" for="City">City</label>
-        <div class="col-7">
-          <input type="text" class="form-control" name="search" [(ngModel)]="search" placeholder="Search" >
-        </div>
-      </div>
+<div class="d-flex flex-column flex-wrap justify-content-center">
 
-      <div class="col-2">
-        <h4>Filter By:</h4>
-        <label class="form-check-label" for="Name">Rating</label>
-        <br>
-          <input class="form-check-input" type="radio" id="1" value="1" name="filter" [(ngModel)]="filterValue" class="custom"/>
-          <label class="form-check-label" for="1" style="margin-right: 3%;margin-left: 1%;">1 </label>
-          <input class="form-check-input" type="radio" id="2" value="2" name="filter" [(ngModel)]="filterValue" class="custom"/>
-          <label class="form-check-label" for="2" style="margin-right: 3%;margin-left: 1%;"> 2</label>
-          <input class="form-check-input" type="radio" id="3" value="3" name="filter" [(ngModel)]="filterValue" class="custom"/>
-          <label class="form-check-label" for="3" style="margin-right: 3%;margin-left: 1%;"> 3</label>
-          <input class="form-check-input" type="radio" id="4" value="4" name="filter" [(ngModel)]="filterValue" class="custom"/>
-          <label class="form-check-label" for="4" style="margin-right: 3%;margin-left: 1%;"> 4</label>
-          <input class="form-check-input" type="radio" id="5" value="5" name="filter" [(ngModel)]="filterValue" class="custom"/>
-          <label class="form-check-label" for="5" style="margin-right: 3%;margin-left: 1%;"> 5</label>
-      </div>
-      <div class="col-4">
-        <h4>Sort By:</h4>
-          <input class="form-check-input" type="radio" id="Name" value="name" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
-          <label class="form-check-label" for="Name">Name</label>
-          <input class="form-check-input" type="radio" id="City" value="city" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
-          <label class="form-check-label" for="City">City</label>
-          <input class="form-check-input" type="radio" id="Rating" value="rating" name="sort" [(ngModel)]="sortValue" style="margin-right: 2%;margin-left: 4%;" class="custom"/>
-          <label class="form-check-label" for="Rating">Rating</label>
-      </div>
-
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-2">
-        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="onSubmit()"  value="Search">
-      </div>
-      
-      <div class="col-2">
-        <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Reset()" value="Reset">
-      </div>
-    </div>
-    <br>
+  <div class="d-flex mx-3 mt-3 px-3 py-2">
+    <h3>Blood Banks</h3>
   </div>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Description</th>
-        <th scope="col">Rating</th>
-        <th scope="col">City</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let bloodBank of bloodBanksFiltered; let currentIndex = index;">
-        <th scope="row">{{ currentIndex + 1 }}</th>
-        <td>{{ bloodBank.name }}</td>
-        <td>{{ bloodBank.description }}</td>
-        <td>{{ bloodBank.rating }}</td>
-        <td>{{ bloodBank.city }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="d-flex mx-3 px-3">
+    <div class="me-2">
+      <h4>Search By:</h4>
+      <label class="form-check-label me-2" for="Name">Name</label>
+      <input class="form-check-input" type="radio" id="Name" value="name" name="search" [(ngModel)]="searchByName" class="custom"/>
+      <label class="form-check-label ms-3 me-2" for="City">City</label>
+      <input class="form-check-input" type="radio" id="City" value="city" name="search" [(ngModel)]="searchByName" class="custom"/>
+      <div class="pe-5 mt-2">
+        <input type="text" class="form-control" name="search" [(ngModel)]="search" placeholder="Search" >
+      </div>
+    </div>
+
+    <div class="me-2">
+      <h4>Filter By:</h4>
+      <label class="form-check-label" for="Name">Rating</label>
+      <div>
+        <label class="form-check-label me-2" for="1"> 1</label>
+        <input class="form-check-input" type="radio" id="1" value="1" name="filter" [(ngModel)]="filterValue" class="custom"/>
+
+        <label class="form-check-label ms-3 me-2" for="2"> 2</label>
+        <input class="form-check-input" type="radio" id="2" value="2" name="filter" [(ngModel)]="filterValue" class="custom"/>
+
+        <label class="form-check-label ms-3 me-2" for="3"> 3</label>
+        <input class="form-check-input" type="radio" id="3" value="3" name="filter" [(ngModel)]="filterValue" class="custom"/>
+
+        <label class="form-check-label ms-3 me-2" for="4"> 4</label>
+        <input class="form-check-input" type="radio" id="4" value="4" name="filter" [(ngModel)]="filterValue" class="custom"/>
+
+        <label class="form-check-label ms-3 me-2" for="5"> 5</label>
+        <input class="form-check-input" type="radio" id="5" value="5" name="filter" [(ngModel)]="filterValue" class="custom"/>
+      </div>
+    </div>
+
+    <div class="me-2">
+      <h4>Sort By:</h4>
+      <label class="form-check-label me-2" for="Name">Name</label>
+      <input class="form-check-input" type="radio" id="Name" value="name" name="sort" [(ngModel)]="sortValue" class="custom"/>
+
+      <label class="form-check-label ms-3 me-2" for="City">City</label>  
+      <input class="form-check-input" type="radio" id="City" value="city" name="sort" [(ngModel)]="sortValue" class="custom"/>
+
+      <label class="form-check-label ms-3 me-2" for="Rating">Rating</label>
+      <input class="form-check-input" type="radio" id="Rating" value="rating" name="sort" [(ngModel)]="sortValue" class="custom"/>
+    </div>
+  </div>
+  
+  <div class="d-flex mx-3 mt-3 px-3">
+      <input type="submit" class="btn btn-dark me-3" style="width: 150px" (click)="onSubmit()"  value="Search">
+      <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Reset()" value="Reset">
+  </div>
+
+  <div class="d-flex m-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Rating</th>
+          <th scope="col">City</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bloodBank of bloodBanksFiltered; let currentIndex = index;">
+          <th scope="row">{{ currentIndex + 1 }}</th>
+          <td>{{ bloodBank.name }}</td>
+          <td>{{ bloodBank.description }}</td>
+          <td>{{ bloodBank.rating }}</td>
+          <td>{{ bloodBank.city }}</td>
+          <td><input type="button" class="btn btn-dark" style="width: 100px; " value="Visit" (click)="Visit(bloodBank)"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>

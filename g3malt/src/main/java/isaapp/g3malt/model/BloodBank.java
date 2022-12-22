@@ -40,16 +40,16 @@ public class BloodBank {
 	@Column(name="rating", unique=false, nullable=true)
 	private double rating;
 	
-	@OneToMany(mappedBy = "bloodBankId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "bloodBankId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Appointment> freeAppointments;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<User> allStaff;
 	
 	@Column(name="workingHours", unique=false, nullable=true)
 	private String workingHours;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bloodBankStorage_id")
 	private BloodBankStorage bloodBankStorage;
 	
