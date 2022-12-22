@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppointmentReviewDto } from 'src/app/DTO/appointment-review-dto';
 import { PenaltyPointDto } from 'src/app/DTO/penalty-point-dto';
-import { UpdateBloodBankDto } from 'src/app/DTO/update-blood-bank-dto';
+import { QuestionnaireDTO } from 'src/app/DTO/questionnaireDTO';
 import { UpdateBloodBankStorageDto } from 'src/app/DTO/update-blood-bank-storage-dto';
 import { AppointmentService } from 'src/app/services/appointment.service';
 import { BloodBankService } from 'src/app/services/blood-bank.service';
+import { QuestionnaireService } from 'src/app/services/questionnaire.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -19,9 +20,11 @@ export class AppointmentReviewPageComponent implements OnInit {
   public appointmentId?: number;
   public appointmentReviewDto?: AppointmentReviewDto;
   public appointmentForm: FormGroup | any;
+
+  public questionnaireDto?: QuestionnaireDTO;
   step = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private userService: UserService, private appointmentService: AppointmentService, private bloodBankService: BloodBankService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private userService: UserService, private appointmentService: AppointmentService, private bloodBankService: BloodBankService, private questionnaireService: QuestionnaireService) { }
 
   ngOnInit(): void {
     this.appointmentId = Number(this.route.snapshot.paramMap.get('id'));
@@ -30,7 +33,11 @@ export class AppointmentReviewPageComponent implements OnInit {
     });
     this.appointmentService.getAppointmentReviewDtoById(this.appointmentId).subscribe(res => {
       this.appointmentReviewDto = res;
+      this.questionnaireService.getQuestionnaireByCustomerId(this.appointmentReviewDto?.customerId!).subscribe(res => {
+      this.questionnaireDto = res;
+      });
     });
+    
   }
 
   setStep(index: number) {

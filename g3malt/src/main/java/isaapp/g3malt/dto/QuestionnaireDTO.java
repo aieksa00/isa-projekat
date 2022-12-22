@@ -32,6 +32,7 @@ public class QuestionnaireDTO {
     public Boolean question9;
 
     public Boolean question10;
+    
     public Boolean question11;
 
     public Boolean question12;

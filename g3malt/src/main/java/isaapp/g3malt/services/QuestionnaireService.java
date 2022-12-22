@@ -40,4 +40,8 @@ public class QuestionnaireService implements IService<Questionnaire, Integer>{
     public void deleteById(Integer id) {
         questionnaireRepository.deleteById(id);
     }
+    
+    public Questionnaire findByUserId(Integer id) {
+        return questionnaireRepository.findByUserId(id);
+    }
 }

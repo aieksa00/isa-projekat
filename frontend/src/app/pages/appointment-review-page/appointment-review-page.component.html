@@ -11,22 +11,26 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="d-flex flex-column mt-3">
-            <label class="form-label">Number of previous donations - </label>
+            <label class="form-label">Number of previous donations - {{questionnaireDto!.previousDonations}}</label>
 
-            <label class="form-label">Have you ever been rejected as a blood or blood component donor - </label>
-            <label class="form-label">Do you currently feel healthy and rested to donate blood or blood components - </label>
-            <label class="form-label">Do you take any medications regularly (daily) - </label>
-            <label class="form-label">In the last 7 to 10 days, have you had a temperature over 38 C, a cold or taken antibiotics - </label>
-            <label class="form-label">Do you have any changes in your skin or suffer from allergies - </label>
-            <label class="form-label">Have you had any surgery or received blood in the past 6 months - </label>
-            <label class="form-label">Have you received any vaccine or serum in the past 12 months - </label>
-            <label class="form-label">Have you had any alcohol in the last 6 hours - </label>
-            <label class="form-label">Have you had unprotected sex during the past 6 months - </label>
+            <label class="form-label">Do you have more than 50kg - {{questionnaireDto!.question13}}</label>
+            <label class="form-label">Did you have a dental intervention in past 7 days - {{questionnaireDto!.question14}}</label>
+            <label class="form-label">Were you using antibiotics  in past 7 days - {{questionnaireDto!.question15}}</label>
+            <label class="form-label">Did you put pirsings, tattoos or had blood transfusion in past 6 months - {{questionnaireDto!.question16}}</label>
+            <label class="form-label">Have you ever been rejected as a blood or blood component donor - {{questionnaireDto!.question4}}</label>
+            <label class="form-label">Do you currently feel healthy and rested to donate blood or blood components - {{questionnaireDto!.question5}}</label>
+            <label class="form-label">Do you take any medications regularly (daily) - {{questionnaireDto!.question6}}</label>
+            <label class="form-label">In the last 7 to 10 days, have you had a temperature over 38 C, a cold or taken antibiotics - {{questionnaireDto!.question7}}</label>
+            <label class="form-label">Do you have any changes in your skin or suffer from allergies - {{questionnaireDto!.question8}}</label>
+            <label class="form-label">Have you had any surgery or received blood in the past 6 months - {{questionnaireDto!.question9}}</label>
+            <label class="form-label">Have you received any vaccine or serum in the past 12 months - {{questionnaireDto!.question10}}</label>
+            <label class="form-label">Have you had any alcohol in the last 6 hours - {{questionnaireDto!.question11}}</label>
+            <label class="form-label">Have you had unprotected sex during the past 6 months - {{questionnaireDto!.question12}}</label>
 
             <label class="form-label" id="forWoman">Just for women:</label>
-            <label class="form-label ms-2">Are you pregnant - </label>
-            <label class="form-label ms-2">Are you in your cycle - </label>
-            <label class="form-label ms-2">Have you given birth or had a miscarriage in the last 6months - </label>
+            <label class="form-label ms-2">Are you pregnant - {{questionnaireDto!.question1}}</label>
+            <label class="form-label ms-2">Are you in your cycle - {{questionnaireDto!.question2}}</label>
+            <label class="form-label ms-2">Have you given birth or had a miscarriage in the last 6months - {{questionnaireDto!.question3}}</label>
         </div>
         <mat-action-row>
             <button type="button" class="btn btn-danger me-auto" (click)="addPenaltyPointToUser()">User did not come</button>
