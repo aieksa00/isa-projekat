@@ -6,13 +6,13 @@
         <div class="input-group mb-3">
           <input type="date" id="date" class="form-control" name="date" #date [(ngModel)]="appointmentDto.date"/>
         </div>
-        <label class="form-label">Pick time:</label>
+        <label class="form-label">Pick time (HH:mm):</label>
         <div class="mb-3 input-group">
           <input type="text" id="time" class="form-control" name="date" #date [(ngModel)]="appointmentDto.time"/>
         </div>
     </div>
     <div class="row justify-content-center align-items-center" style=" margin-top: 3%">
-      <input type="submit" value="Add" style="width: 150px" class="btn btn-primary" (click)="this.getBanksWithFreeAppointmentTime()"/>
+      <input type="submit" value="Search" style="width: 150px" class="btn btn-primary" (click)="this.getBanksWithFreeAppointmentTime()"/>
       <div class="row justify-content-center align-items-center" style="color: red">
         {{error}}
       </div>
@@ -54,7 +54,7 @@
       {{this.bloodBank.name}}
     </div>
     <div class="row justify-content-center align-items-center">
-      <input type="button" class="btn btn-dark" style="width: 100px;" (click)="Schedule()" value="Schedule">
+      <input type="button" class="btn btn-dark" style="width: 100px; margin-top: 3%;" (click)="Schedule()" value="Schedule">
     </div>
   </div>
 </div>
