@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -119,6 +120,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addStaff", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = new UserType(1, "STAFF");

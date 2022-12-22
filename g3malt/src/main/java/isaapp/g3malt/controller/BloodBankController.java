@@ -123,7 +123,7 @@ public class BloodBankController {
 	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('STAFF')")
+	@PreAuthorize("hasAuthority('STAFF')")
     public ResponseEntity<CreateBloodBankDTO> addBloodBank(@RequestBody CreateBloodBankDTO bloodbankDto) {
 		User administrator = userService.findById(bloodbankDto.administratorId);
 		Set<User> users = new HashSet<User>();
@@ -155,6 +155,7 @@ public class BloodBankController {
 	
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getAllAppointmentsForBloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
     public ResponseEntity<List<CalenderEventDto>> getAllAppointmentsForBloodBank(@PathVariable String email) {
     	var u = userCredentialsService.findByEmail(email);
 		BloodBank bb = bloodBankService.findById(u.getUser().getId());
