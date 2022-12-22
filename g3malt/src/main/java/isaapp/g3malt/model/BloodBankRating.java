@@ -1,5 +1,7 @@
 package isaapp.g3malt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="bloodBankRatings")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BloodBankRating {
 
 	@Id

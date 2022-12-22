@@ -6,6 +6,7 @@ import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
 import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.User;
+import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
 import isaapp.g3malt.model.Customer;
@@ -121,18 +122,18 @@ public class UserController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDto) {
-    	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
+    public ResponseEntity<User> addNewUser(@RequestBody UserDTO userDTO) {
+    	GenderType g = userDTO.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = null;
-    	switch(userDto.userType) {
+    	switch(userDTO.userType) {
             case 0: ut = new UserType(0, "ADMIN");break;
             case 1: ut = new UserType(1, "STAFF");break;
             case 2: ut = new UserType(2, "CUSTOMER");break;
     	}
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes);
-        User newUser = userService.save(user);
+        Customer user = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, ut, 0, LoyaltyType.bronze, 0, null);
+        Customer newUser = (Customer)userService.save(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
@@ -147,7 +148,11 @@ public class UserController {
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
+<<<<<<< HEAD
         Customer user = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, 0, LoyaltyType.bronze, 0, null);
+=======
+        Customer user = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, ut, 0, LoyaltyType.bronze, 0, null);
+>>>>>>> bcef546 (schedule appointment)
         Customer newUser = (Customer)userService.save(user);
         userDTO.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);

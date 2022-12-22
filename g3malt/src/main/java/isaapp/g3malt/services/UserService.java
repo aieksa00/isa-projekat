@@ -1,5 +1,6 @@
 package isaapp.g3malt.services;
 
+import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.UserRepository;
 
@@ -50,4 +51,7 @@ public class UserService implements IService<User, Integer>{
 		return null;
 	}
 
+	public Customer findByid(Integer id) {
+		return userRepository.findByid(id);
+	}
 }
