@@ -51,6 +51,15 @@ public class UserCredentials {
 		this.verified = false;
 		this.verifiedString = "";
 	}
+	public UserCredentials(Integer id, String email, String password, User user, boolean verified) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.password = new BCryptPasswordEncoder().encode(password);
+		this.user = user;
+		this.verified = verified;
+		this.verifiedString = "";
+	}
 	public Integer getId() {
 		return id;
 	}

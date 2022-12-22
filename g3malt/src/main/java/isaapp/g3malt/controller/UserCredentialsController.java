@@ -174,7 +174,7 @@ public class UserCredentialsController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserCredentialsDTO> addNewUser(@RequestBody UserCredentialsDTO userCredentialsDto) {
     	User u = userService.findById(userCredentialsDto.userId);
-    	UserCredentials uc = new UserCredentials(null,userCredentialsDto.email,userCredentialsDto.password,u);
+    	UserCredentials uc = new UserCredentials(null,userCredentialsDto.email,userCredentialsDto.password,u,true);
 		UserCredentials newUserCredentials = userCredentialsService.save(uc);
 		return new ResponseEntity<UserCredentialsDTO>(userCredentialsDto, HttpStatus.CREATED);
 	}
