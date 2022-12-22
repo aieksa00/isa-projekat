@@ -149,8 +149,9 @@ public class UserController {
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-        Customer user = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, 0, LoyaltyType.bronze, 0, null);
-        Customer newUser = (Customer)userService.save(user);
+        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, "");
+        User newUser = userService.save(user);
+        userDTO.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
     }
 
