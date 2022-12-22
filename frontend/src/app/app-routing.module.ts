@@ -18,6 +18,7 @@ import { RegistrationUserPageComponent } from './pages/registration-user-page/re
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { BloodBankCalenderComponent } from './pages/blood-bank-calender/blood-bank-calender.component';
+import { CreateAdministratorComponent } from './pages/create-administrator/create-administrator.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -37,6 +38,8 @@ const routes: Routes = [
   { path: 'questionnairePage', component: QuestionnairePageComponent},
   { path: 'userslist', component: UsersListComponent},
   { path: 'calender', component: BloodBankCalenderComponent},
+  { path: 'addAdmin', component: CreateAdministratorComponent},
+  
 ];
 
 @NgModule({

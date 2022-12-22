@@ -123,7 +123,7 @@ public class BloodBankController {
 	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasAuthority('STAFF')")
+	@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CreateBloodBankDTO> addBloodBank(@RequestBody CreateBloodBankDTO bloodbankDto) {
 		User administrator = userService.findById(bloodbankDto.administratorId);
 		Set<User> users = new HashSet<User>();

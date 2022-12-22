@@ -30,6 +30,7 @@ import { QuestionnairePageComponent } from './pages/questionnaire-page/questionn
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { BloodBankCalenderComponent } from './pages/blood-bank-calender/blood-bank-calender.component';
 import { DayPilotModule } from "@daypilot/daypilot-lite-angular";
+import { CreateAdministratorComponent } from './pages/create-administrator/create-administrator.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DayPilotModule } from "@daypilot/daypilot-lite-angular";
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
     UsersListComponent,
-    BloodBankCalenderComponent
+    BloodBankCalenderComponent,
+    CreateAdministratorComponent
   ],
   imports: [
     BrowserModule,

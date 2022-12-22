@@ -131,6 +131,20 @@ public class UserController {
         userDto.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
     }
+    
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/addAdmin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<UserDTO> addNewAdmin(@RequestBody UserDTO userDto) {
+    	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
+        UserType ut = new UserType(0, "ADMIN");
+        List<UserType> userTypes = new ArrayList<>();
+        userTypes.add(ut);
+    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes);
+        User newUser = userService.save(user);
+        userDto.setUserId(newUser.getId());
+        return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
+    }
 
     @PostMapping(value = "/addRegisteredUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> addRegisteredUser(@Valid @RequestBody UserDTO userDTO) {

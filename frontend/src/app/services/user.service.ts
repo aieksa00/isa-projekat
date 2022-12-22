@@ -11,7 +11,7 @@ import { UserCredentialsDTO } from '../DTO/user-credentials-dto';
 export class UserService {
 
   apiHost: string = 'http://localhost:9090/';
-  headers: HttpHeaders = new HttpHeaders({'COntent-Type': 'application/json'})
+  headers: HttpHeaders = new HttpHeaders({'COntent-Type': 'application/json','Authorization': `Bearer ${localStorage.getItem("jwt")}`})
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +34,10 @@ export class UserService {
 
   addStaff(user : UserDTO): Observable<any> {
     return this.http.post<UserDTO>('http://localhost:9090/userController/addStaff', user, {headers: this.headers});
+  }
+
+  addAdmin(user : UserDTO): Observable<any> {
+    return this.http.post<UserDTO>('http://localhost:9090/userController/addAdmin', user, {headers: this.headers});
   }
 
   addUserCredentials( userCredentials : UserCredentialsDTO):  Observable<UserCredentialsDTO> {
