@@ -1,5 +1,7 @@
 package isaapp.g3malt.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import isaapp.g3malt.dto.*;
@@ -64,7 +66,10 @@ public class BloodBankController {
 		Set<Appointment> futureAppointments = appointmentService.findAllFutureAppointmentsForBloodBank(new Date(), bloodBank.getId());
 		Set<FutureAppointmentDto> futureAppointmentsDtos = new HashSet<FutureAppointmentDto>();
 		for(Appointment appointment : futureAppointments) {
-			FutureAppointmentDto futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			FutureAppointmentDto futureAppointmentsDto = new FutureAppointmentDto();
+			Date time = appointment.getScheduleDateTime();
+			futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			futureAppointmentsDto.setScheduleDateTime(time.toString());
 			futureAppointmentsDtos.add(futureAppointmentsDto);
 		}
 		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
@@ -112,7 +117,15 @@ public class BloodBankController {
 		appointment.setDuration(dto.getDuration());
 		appointment.setFree(true);
 		appointment.setPrice(1000.00);
-		appointment.setScheduleDateTime(dto.getScheduleDateTime());
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		try {
+			Date date = formatter.parse(dto.getScheduleDateTime());
+			System.out.println(date);
+			appointment.setScheduleDateTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Set<User> staff = new HashSet<User>();
 		for(StaffDto staffDto : dto.getMedicalStaff()) {
@@ -226,5 +239,18 @@ public class BloodBankController {
 		List<BloodBank> banks = bloodBankService.searchFilterSort(searchName, searchCity, filter, searchBanksDTO.getSortValue());
 
 		return new ResponseEntity<>(banks, HttpStatus.OK);
+	}
+	
+	@PostMapping (value = "/getAllBloodBanksWithFreeAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BloodBankWithRatingDTO>> getAllBloodBanksWithFreeAppointment(@RequestBody String appointmentTime) {
+		List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAllWithFreeAppointment(appointmentTime);
+		List<BloodBankWithRatingDTO> banksDto = new ArrayList<BloodBankWithRatingDTO>();
+		
+		for(BloodBank b : banks) {
+			BloodBankWithRatingDTO bloodBankWithRatingDTO = modelMapper.map(b, BloodBankWithRatingDTO.class);
+			banksDto.add(bloodBankWithRatingDTO);
+		}
+
+		return new ResponseEntity<>(banksDto, HttpStatus.OK);
 	}
 }

@@ -82,7 +82,7 @@
             </table>
         </div>
     </div>
-    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 20vw; max-width: 90vw;">    
+    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 20vw; max-width: 90vw;">
         <h4 class="mb-2 mx-auto border-bottom border-white">Update personal information below:</h4>
         <form class="d-flex flex-column ms-3" [formGroup]="userForm">
             <div class="mb-1">
@@ -209,6 +209,13 @@
                 <div *ngIf="appointmentForm.get('scheduleDateTime').invalid && (appointmentForm.get('scheduleDateTime').dirty || appointmentForm.get('scheduleDateTime').touched)" class="text-danger mt-1">
                     Please choose a date and time.
                 </div>
+            </div>
+            <div class="mb-1">
+              <label for="duration" class="form-label">Time (hour)</label>
+              <input type="number" class="form-control" id="time" formControlName="time">
+              <div *ngIf="appointmentForm.get('time').invalid && (appointmentForm.get('time').dirty || appointmentForm.get('time').touched)" class="text-danger mt-1">
+                  Please enter time.
+              </div>
             </div>
             <div class="mb-1">
                 <label for="duration" class="form-label">Duration (minutes)</label>

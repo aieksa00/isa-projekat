@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BloodBankDto } from '../DTO/blood-bank-dto';
 import { BloodBanksDTO } from '../DTO/blood-banks-list-dto';
+import { AppointmentDto } from 'src/app/DTO/appointment-time-dto';
 import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
 import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
 import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto';
@@ -40,5 +41,9 @@ export class BloodBankService {
 
   public getBloodBankById(id: number): Observable<BloodBankDto> {
     return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBankById/' + id, {headers: this.headers});
+  }
+
+  public getAllBloodBanksWithFreeAppointment(AppointmentDto : String): Observable<any>{
+    return this.http.post<any>(this.apiHost + 'BloodBankController/getAllBloodBanksWithFreeAppointment',AppointmentDto, {headers: this.headers});
   }
 }

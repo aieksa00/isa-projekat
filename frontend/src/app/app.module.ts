@@ -28,8 +28,9 @@ import { QuestionnairePageComponent } from './pages/questionnaire-page/questionn
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
 import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
-import { MatExpansionModule } from '@angular/material/expansion' 
+import { MatExpansionModule } from '@angular/material/expansion'
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
+import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.
     UsersListComponent,
     AppointmentReviewPageComponent,
     BloodBankSpecComponent,
+    ScheduleAppointmentComponent,
   ],
   imports: [
     BrowserModule,

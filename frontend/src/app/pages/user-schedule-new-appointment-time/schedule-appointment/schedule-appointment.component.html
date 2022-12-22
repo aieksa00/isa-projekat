@@ -1,0 +1,57 @@
+<div class="container-lg" id="topMargin">
+  <form>
+    <h1 class="row justify-content-center align-items-center">ScheduleAppointment</h1>
+    <div class="row justify-content-center" id="component">
+      <label class="form-label">Pick date:</label>
+        <div class="input-group mb-3">
+          <input type="date" id="date" class="form-control" name="date" #date [(ngModel)]="appointmentDto.date"/>
+        </div>
+        <label class="form-label">Pick time:</label>
+        <div class="mb-3 input-group">
+          <input type="text" id="time" class="form-control" name="date" #date [(ngModel)]="appointmentDto.time"/>
+        </div>
+    </div>
+    <div class="row justify-content-center align-items-center" style=" margin-top: 3%">
+      <input type="submit" value="Add" style="width: 150px" class="btn btn-primary" (click)="this.getBanksWithFreeAppointmentTime()"/>
+      <div class="row justify-content-center align-items-center" style="color: red">
+        {{error}}
+      </div>
+    </div>
+  </form>
+</div>
+<div class="container-lg2">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <button class="astext" (click)="SortByRating()">Rating</button>
+        <th scope="col">City</th>
+        <th scope="col">Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bloodBank of bloodBanks; let currentIndex = index;">
+        <th scope="row">{{ currentIndex + 1 }}</th>
+        <td>{{ bloodBank.name }}</td>
+        <td>{{ bloodBank.rating }}</td>
+        <td>{{ bloodBank.city }}</td>
+        <td><input type="submit" value="Select" (click)="this.SelectBank(bloodBank)"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row justify-content-center align-items-center" style=" margin-top: 5%">
+    <div class="row justify-content-center align-items-center">
+      Choosen date and time:
+    </div>
+    <div class="row justify-content-center align-items-center">
+      {{this.appointmentTime}}
+    </div>
+    <div class="row justify-content-center align-items-center">
+      Choosen bank:
+    </div>
+    <div class="row justify-content-center align-items-center">
+      {{this.bloodBank.name}}
+    </div>
+  </div>
+</div>

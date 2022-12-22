@@ -25,7 +25,7 @@ public class MedicalStaff extends User{
 	}
 	public MedicalStaff(Integer id, String name, String surname, String street, String city, String country, String phoneNumber,
 			String jmbg, GenderType gender, String profession, String workplace, UserType userType,Set<Appointment> appointments) {
-		super(id, name, surname, street, city, country, phoneNumber, jmbg, gender, profession, workplace, new ArrayList<UserType>(){{add(userType);}});
+		super(id, name, surname, street, city, country, phoneNumber, jmbg, gender, profession, workplace, new ArrayList<UserType>(){{add(userType);}}, workplace);
 		this.appointments = appointments;
 	}
 
