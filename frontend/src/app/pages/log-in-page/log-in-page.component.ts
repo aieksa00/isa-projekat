@@ -152,9 +152,14 @@ export class LogInPageComponent implements OnInit {
       confirmButtonAriaLabel: 'Thumbs up, great!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userCredentialsService.changeAdminPassword(result.value).subscribe(res=>{
-          this.router.navigate(['/createBloodBank'])
-        })
+        if(result.value!=""){
+          this.userCredentialsService.changeAdminPassword(result.value).subscribe(res=>{
+            this.router.navigate(['/createBloodBank'])
+          })
+        }
+        else(
+          this.changePassword()
+        )
       } else {
         this.onSignOut()
       }
