@@ -7,6 +7,7 @@ import { AppointmentDto } from 'src/app/DTO/appointment-time-dto';
 import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
 import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
 import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto';
+import { BloodBankAppointmentDto } from '../DTO/blood-bank-appointment-dto';
 
 
 @Injectable({
@@ -49,5 +50,9 @@ export class BloodBankService {
 
   public getCalenderEventsForBloodBank(id:any):Observable<any>{
     return this.http.get<any>(this.apiHost + 'BloodBankController/getAllAppointmentsForBloodBank/' + id, {headers: this.headers});
+  }
+
+  public getAppointmentFromBloodBank(bloodBankAppointmentDto: BloodBankAppointmentDto) {
+    return this.http.post<any>(this.apiHost + 'BloodBankController/getAppointmentFromBloodBank',bloodBankAppointmentDto, {headers: this.headers});
   }
 }
