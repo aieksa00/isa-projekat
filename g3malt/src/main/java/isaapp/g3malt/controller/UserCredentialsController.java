@@ -26,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -96,6 +97,15 @@ public class UserCredentialsController {
 
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getUserIdByEmail",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<Integer> getUserIdByEmail(@RequestBody String email) {
+		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
+		Integer userId = userCredentials.getUser().getId();
+		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/GetUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -203,7 +213,6 @@ public class UserCredentialsController {
 
 	@GetMapping(value = "/verifyUser")
 	public ResponseEntity verifyUser(@RequestParam String token, String email) {
-		System.out.println("***********************" + token);
 		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
 		if(userCredentials.getEmail().equals(email) && userCredentials.getVerifiedString().equals(token)) {
 			final HttpHeaders responseHeaders = new HttpHeaders();

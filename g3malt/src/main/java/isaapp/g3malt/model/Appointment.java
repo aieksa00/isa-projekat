@@ -1,5 +1,7 @@
 package isaapp.g3malt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="appointments")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Appointment {
 	
 	@Id
@@ -40,11 +43,11 @@ public class Appointment {
 	@Column(name="price", unique=false, nullable=true)
 	private double price;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	
-	@Column(name="isFree", unique=false, nullable=true)
+	@Column(name="isFree", nullable=true)
 	private boolean isFree;
 
 	public Appointment() {}

@@ -29,6 +29,7 @@ import { UsersListComponent } from './pages/users-list/users-list.component';
 import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
 import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
 import { MatExpansionModule } from '@angular/material/expansion' 
+import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MatExpansionModule } from '@angular/material/expansion'
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
     UsersListComponent,
-    AppointmentReviewPageComponent
+    AppointmentReviewPageComponent,
+    BloodBankSpecComponent,
   ],
   imports: [
     BrowserModule,

@@ -64,6 +64,7 @@
           <th scope="col">Description</th>
           <th scope="col">Rating</th>
           <th scope="col">City</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -73,6 +74,7 @@
           <td>{{ bloodBank.description }}</td>
           <td>{{ bloodBank.rating }}</td>
           <td>{{ bloodBank.city }}</td>
+          <td><input type="button" class="btn btn-dark" style="width: 100px; " value="Visit" (click)="Visit(bloodBank)"></td>
         </tr>
       </tbody>
     </table>

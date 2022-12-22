@@ -1,5 +1,7 @@
 package isaapp.g3malt.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name="medical_staff")
 @DiscriminatorValue("1")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class MedicalStaff extends User{
 	@ManyToMany(mappedBy = "medicalStaff")
 	private Set<Appointment> appointments = new HashSet<Appointment>();

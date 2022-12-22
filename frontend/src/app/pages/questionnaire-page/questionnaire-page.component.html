@@ -3,10 +3,6 @@
     <h1 class="row justify-content-center align-items-center">Questionnaire</h1>
     <div class="row justify-content-center" id="component">
       <div class="col-md-4">
-        <label class="form-label">Date:</label>
-        <div class="input-group mb-3">
-          <input type="date" id="firstName" class="form-control" name="date" [(ngModel)]="date"/>
-        </div>
         <label class="form-label">Number of previous donations:</label>
         <div class="mb-3 input-group">
           <input type="text" id="secondName" class="form-control" name="previousDonations" [(ngModel)]="previousDonations"/>
@@ -43,6 +39,52 @@
         </div>
         <div class="mb-3 form-check form-check-inline">
           <input class="form-check-input" type="radio" name="3" value="false" [(ngModel)]="question3"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label" id="forWoman">For everyone:</label>
+        <br />
+        <label class="form-label">Do you have more than 50kg?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="13" value="true" [(ngModel)]="question13"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="13" value="false" [(ngModel)]="question13"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Did you have a dental intervention in past 7 days?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="14" value="true" [(ngModel)]="question14"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="14" value="false" [(ngModel)]="question14"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Were you using antibiotics  in past 7 days?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="15" value="true" [(ngModel)]="question15"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="15" value="false" [(ngModel)]="question15"/>
+          <label class="form-check-label">No</label>
+        </div>
+        <br />
+        <label class="form-label">Did you put pirsings, tattoos or had blood transfusion in past 6 months?</label>
+        <br />
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="16" value="true" [(ngModel)]="question16"/>
+          <label class="form-check-label">Yes</label>
+        </div>
+        <div class="mb-3 form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="16" value="false" [(ngModel)]="question16"/>
           <label class="form-check-label">No</label>
         </div>
         <br />
@@ -152,6 +194,7 @@
 
       </div>
       <div class="buttons">
+        <input type="button" value="Cancel" class="btn-look" (click)="cancel()"/>
         <input type="button" value="Reset" class="btn-look" (click)="reset()"/>
         <input type="button" value="Save" class="btn-look" id="right-btn" (click)="onSubmit()"/>
     </div>
