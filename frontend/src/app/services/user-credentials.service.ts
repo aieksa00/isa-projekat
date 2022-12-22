@@ -20,4 +20,8 @@ export class UserCredentialsService {
   updateLoggedUser(dto: AllUserInfoDto): Observable<AllUserInfoDto> {
     return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUser/' + 4, dto, {headers: this.headers});
   }
+
+  changeAdminPassword(newPass: String): Observable<any> {
+    return this.http.put<any>(this.apiHost + 'UserCredentialsController/changePassword/' + newPass, {headers: this.headers});
+  }
 }

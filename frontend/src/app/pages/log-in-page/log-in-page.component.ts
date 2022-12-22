@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserCredentialsService } from 'src/app/services/user-credentials.service';
 
 @Component({
   selector: 'app-log-in-page',
@@ -30,10 +31,10 @@ export class LogInPageComponent implements OnInit {
   public role = "";
   private jwtEmail = "";
   private errorHappend : boolean = false;
-  ;
+  public newPass = "";
   
 
-  constructor(public router: Router, public cookieService: CookieService, private http: HttpClient,
+  constructor(public router: Router, public cookieService: CookieService, private http: HttpClient, private userCredentialsService: UserCredentialsService,
     private dialogRef: MatDialogRef<LogInPageComponent>) {
   }
 
@@ -69,9 +70,9 @@ export class LogInPageComponent implements OnInit {
             } else if (this.role == "STAFF") {
               this.router.navigate(['/bloodBankInfo'])
             } else if (this.role == "ADMIN"){
-                if(this.password == "ADMINISTRATOR")
+                if(this.userCredentials.password == "ADMINISTRATOR")
                   {
-                    //neki modal ili nesto
+                    this.changePassword()
                   }
                 else
                   this.router.navigate(['/createBloodBank'])
@@ -137,6 +138,34 @@ export class LogInPageComponent implements OnInit {
         Validators.minLength(5)
       ])
     })
+  }
+
+  changePassword(){
+    Swal.fire({
+      title: '<strong>Change password</strong>',
+      input: 'password',
+      showCloseButton: false,
+      showCancelButton: false,
+      focusConfirm: false,
+      confirmButtonText:
+        '<<i></i> Confirm!>',
+      confirmButtonAriaLabel: 'Thumbs up, great!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userCredentialsService.changeAdminPassword(result.value).subscribe(res=>{
+          this.router.navigate(['/createBloodBank'])
+        })
+      } else {
+        this.onSignOut()
+      }
+    })
+
+  }
+
+  onSignOut() {
+    this.cookieService.deleteAll();
+    localStorage.clear();
+    this.router.navigate(['/']);
   }
 
 }

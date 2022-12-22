@@ -15,7 +15,7 @@ import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto'
 export class BloodBankService {
 
   apiHost: string = 'http://localhost:9090/';
-  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': `Bearer ${localStorage.getItem("jwt")}`});
+  headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json'});
 
   constructor(private http: HttpClient) { }
 
@@ -28,11 +28,7 @@ export class BloodBankService {
   }
 
   public createBloodBank(CreateBloodBankDTO: CreateBloodBankDTO) :Observable<any> {
-    let headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
-    };
-    return this.http.post<CreateBloodBankDTO>(this.apiHost + 'BloodBankController/addBloodBank',CreateBloodBankDTO,{headers: headers});
+    return this.http.post<CreateBloodBankDTO>(this.apiHost + 'BloodBankController/addBloodBank',CreateBloodBankDTO,{headers: this.headers});
   }
 
   public getBloodBanks(): Observable<any>{
@@ -52,10 +48,6 @@ export class BloodBankService {
   }
 
   public getCalenderEventsForBloodBank(id:any):Observable<any>{
-    let headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
-    };
-    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllAppointmentsForBloodBank/' + id, {headers: headers});
+    return this.http.get<any>(this.apiHost + 'BloodBankController/getAllAppointmentsForBloodBank/' + id, {headers: this.headers});
   }
 }

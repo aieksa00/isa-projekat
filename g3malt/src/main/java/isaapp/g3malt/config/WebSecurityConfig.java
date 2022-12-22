@@ -1,14 +1,19 @@
 package isaapp.g3malt.config;
 
+import isaapp.g3malt.model.UserCredentials;
+import isaapp.g3malt.repository.UserCredentialsRepository;
+import isaapp.g3malt.repository.UserRepository;
 import isaapp.g3malt.security.RestAuthenticationEntryPoint;
 import isaapp.g3malt.security.TokenAuthenticationFilter;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -16,7 +21,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -45,12 +54,14 @@ public class WebSecurityConfig {
 	public UserCredentialsService userCredentialsService;
 	@Autowired
 	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
+	@Autowired
+	private UserCredentialsRepository userRepository;
+	
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
-
+	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -62,6 +73,22 @@ public class WebSecurityConfig {
 		authProvider.setPasswordEncoder(passwordEncoder());
 
 		return authProvider;
+	}
+	
+	public boolean changePassword(String oldPassword, String newPassword) throws AuthenticationException, Exception {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		String username = currentUser.getName();
+		if(authenticationManager(new AuthenticationConfiguration()) != null) {
+			authenticationManager(new AuthenticationConfiguration()).authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
+		} else {
+			return false;
+		}
+			
+		UserCredentials user = userRepository.findByEmail(username);
+		
+		user.setPassword(passwordEncoder().encode(newPassword));
+		userRepository.save(user);
+		return true;
 	}
 
 	// Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru

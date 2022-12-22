@@ -1,5 +1,6 @@
 package isaapp.g3malt.controller;
 
+import isaapp.g3malt.config.WebSecurityConfig;
 import isaapp.g3malt.dto.AllUserInfoDto;
 import isaapp.g3malt.dto.UpdateUserDTO;
 import isaapp.g3malt.dto.UserCredentialsDTO;
@@ -30,6 +31,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.MultiValueMap;
@@ -55,6 +57,9 @@ public class UserCredentialsController {
 
 	@Autowired
 	private TokenUtils tokenUtils;
+	
+	@Autowired
+	private WebSecurityConfig config;
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getAllUsersCredentials", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,11 +79,20 @@ public class UserCredentialsController {
 	}
 
 	@CrossOrigin(origins = "*")
+	@PutMapping(value = "/changePassword/{newPass}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<String> changePassword(@PathVariable String newPass) throws AuthenticationException, Exception {
+		if(config.changePassword("ADMINISTRATOR", newPass))
+			return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.PRECONDITION_FAILED);
+	}
+	
+	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/logIn", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserTokenStateDTO> createAuthenticationToken(@RequestBody UserCredentialsDTO userCredentialsDTO) {
 		UsernamePasswordAuthenticationToken uToken = new UsernamePasswordAuthenticationToken(userCredentialsDTO.getEmail(), userCredentialsDTO.getPassword());
 		Authentication authentication = authenticationManager.authenticate(uToken);
-
+		
 		// Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
 		// kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
