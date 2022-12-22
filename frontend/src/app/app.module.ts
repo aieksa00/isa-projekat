@@ -27,6 +27,7 @@ import { RegistrationUserPageComponent } from './pages/registration-user-page/re
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
+import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
     UsersListComponent,
+    ScheduleAppointmentComponent,
   ],
   imports: [
     BrowserModule,
