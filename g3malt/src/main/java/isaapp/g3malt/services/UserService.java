@@ -51,7 +51,4 @@ public class UserService implements IService<User, Integer>{
 		return null;
 	}
 
-	public Customer findByid(Integer id) {
-		return userRepository.findByid(id);
-	}
 }

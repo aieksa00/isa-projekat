@@ -30,7 +30,7 @@ export class RegistrationUserPageComponent implements OnInit {
   public gender: String = "";
   public profession: String = "";
   public workplace: String = "";
-  public userType: number = 2;
+  public userType: number = 0;
   public userId : number = 0;
 
   public registreUserForm: FormGroup | any;
