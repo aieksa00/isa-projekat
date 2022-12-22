@@ -128,7 +128,7 @@ public class UserController {
     	}
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes);
+    	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes, null);
         User newUser = userService.save(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
@@ -144,7 +144,7 @@ public class UserController {
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes);
+        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, null);
         User newUser = userService.save(user);
         userDTO.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);

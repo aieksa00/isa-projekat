@@ -29,7 +29,7 @@ public class Customer extends User{
 	public Customer(Integer id, String name, String surname, String address, String city, String country,
 			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, UserType userType,
 			int loyaltyPoints, LoyaltyType loyaltyType, int penalty, Set<Appointment> appointmentHistory) {
-		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, new ArrayList<UserType>(){{add(userType);}});
+		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, new ArrayList<UserType>(){{add(userType);}}, workplace);
 		this.loyaltyPoints = loyaltyPoints;
 		this.loyaltyType = loyaltyType;
 		this.penalty = penalty;
