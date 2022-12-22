@@ -103,7 +103,9 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 				String date2 = appointmentTime.split(" ", 2)[0];
 				String hour2 = appointmentTime.split(" ", 2)[1];
 				if(date.equals(date2)) {
-					if(hour.split(";")[0].equals(hour.split(";")[0])) {
+					String exHour = hour.split(":")[0];
+					String exHour2 = hour2.split(":")[0];
+					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
 						banksWithFreeAppointment.add(b);
 					}
 				}
