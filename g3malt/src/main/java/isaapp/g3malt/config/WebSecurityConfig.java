@@ -103,7 +103,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() throws Exception {
 		return (web) ->
-    	web.ignoring().antMatchers(HttpMethod.POST, "/UserCredentialsController/registreUserCredentials", "/BloodBankController/getFilteredBloodBanks", "/BloodBankController/getAllBloodBanks",
+    	web.ignoring().antMatchers(HttpMethod.POST, "/UserCredentialsController/registreUserCredentials", "/BloodBankController/getFilteredBloodBanks",
     			"/UserCredentialsController/verifyUser", "/emailController/sendMail", "/userController/addRegisteredUser", "/UserCredentialsController/logIn")
     	
 		.antMatchers(HttpMethod.PUT, "/UserCredentialsController/updateUserCredentials")

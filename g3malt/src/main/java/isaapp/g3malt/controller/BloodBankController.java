@@ -71,6 +71,37 @@ public class BloodBankController {
 		
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
 	}
+
+	@CrossOrigin(origins =  "*")
+	@GetMapping(value = "BloodBankById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<BloodBankDto> getBloodBankById(@PathVariable Integer id) {
+
+		BloodBank bloodBank = bloodBankService.findById(id);
+
+		if (bloodBank == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		BloodBankDto bloodBankDto = modelMapper.map(bloodBank, BloodBankDto.class);
+
+		Set<StaffDto> allStaff = new HashSet<StaffDto>();
+		for(User user : bloodBank.getAllStaff()) {
+			StaffDto staffDto = modelMapper.map(user, StaffDto.class);
+			allStaff.add(staffDto);
+		}
+		bloodBankDto.setBloodBankAdministrators(allStaff);
+
+		Set<Appointment> futureAppointments = appointmentService.findAllFutureAppointmentsForBloodBank(new Date(), bloodBank.getId());
+		Set<FutureAppointmentDto> futureAppointmentsDtos = new HashSet<FutureAppointmentDto>();
+		for(Appointment appointment : futureAppointments) {
+			FutureAppointmentDto futureAppointmentsDto = modelMapper.map(appointment, FutureAppointmentDto.class);
+			futureAppointmentsDtos.add(futureAppointmentsDto);
+		}
+		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
+
+		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
+	}
 	
 	@CrossOrigin("*")
 	@PostMapping(value = "CreateAppointment/{id}", consumes = "application/json")

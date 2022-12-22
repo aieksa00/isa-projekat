@@ -73,7 +73,7 @@ export class QuestionnairePageComponent implements OnInit {
   }
 
   save(questionnaireDTO : QuestionnaireDTO) : Observable<any> {
-    return this.http.post<any>("http://localhost:9090/appointmentController/scheduleAppointment", questionnaireDTO);
+    return this.http.post<any>("http://localhost:9090/AppointmentController/scheduleAppointment", questionnaireDTO);
   }
 
   reset() {
