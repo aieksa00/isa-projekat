@@ -186,7 +186,6 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Date and time</th>
-                    <th scope="col">Time</th>
                     <th scope="col">Duration</th>
                     <th scope="col">Staff 1</th>
                     <th scope="col">Staff 2</th>
@@ -196,7 +195,7 @@
             <tbody>
                 <tr *ngFor="let appointment of bloodBankDto.bloodBankFutureAppointments; index as i">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{ appointment.scheduleDateTime.substring(0,16).replace('T',' ') }}</td>
+                    <td>{{ appointment.scheduleDateTime }}</td>
                     <td>{{ appointment.duration }}</td>
                     <td *ngFor="let staff of appointment.medicalStaff">{{ staff.name }}&nbsp;{{staff.surname}}</td>
                 </tr>

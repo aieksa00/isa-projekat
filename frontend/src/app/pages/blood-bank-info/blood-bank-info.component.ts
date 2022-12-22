@@ -112,8 +112,7 @@ export class BloodBankInfoComponent implements OnInit {
     });
   }
   createAppointment(){
-    this.futureAppointmentDto.scheduleDateTime = this.appointmentForm.value.scheduleDateTime;
-    console.log(this.appointmentForm.value.scheduleDateTime)
+    this.futureAppointmentDto.scheduleDateTime = this.appointmentForm.value.scheduleDateTime + " " + this.appointmentForm.value.time + ":00:00";
     this.futureAppointmentDto.duration = this.appointmentForm.value.duration;
     this.futureAppointmentDto.time = this.appointmentForm.value.time;
     this.futureAppointmentDto.medicalStaff.push(this.appointmentForm.value.medicalStaffOne);
