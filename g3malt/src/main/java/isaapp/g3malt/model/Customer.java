@@ -1,6 +1,7 @@
 package isaapp.g3malt.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -27,9 +28,9 @@ public class Customer extends User{
 	private Set<Appointment> appointmentHistory;
 	
 	public Customer(Integer id, String name, String surname, String address, String city, String country,
-			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, UserType userType,
+			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType,
 			int loyaltyPoints, LoyaltyType loyaltyType, int penalty, Set<Appointment> appointmentHistory) {
-		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, new ArrayList<UserType>(){{add(userType);}});
+		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, userType);
 		this.loyaltyPoints = loyaltyPoints;
 		this.loyaltyType = loyaltyType;
 		this.penalty = penalty;

@@ -1,6 +1,7 @@
 package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.BloodBank;
+import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.BloodBankRepository;
 
 import java.util.Collections;
@@ -73,8 +74,8 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 		return banks;
 	}
 	
-	public BloodBank findByStaffId(Integer staffId) {
-		return bloodBankRepository.findByStaffId(staffId);
+	public Integer findByStaffId(Integer staff) {
+		return bloodBankRepository.findByStaffId(staff);
 	}
 
 	@Override

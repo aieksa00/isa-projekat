@@ -1,8 +1,10 @@
 package isaapp.g3malt.controller;
 
 import isaapp.g3malt.dto.NewUserDTO;
+import isaapp.g3malt.dto.PenaltyPointDto;
 import isaapp.g3malt.dto.UserDTO;
 import isaapp.g3malt.model.GenderType;
+import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -144,8 +147,8 @@ public class UserController {
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes);
-        User newUser = userService.save(user);
+        Customer user = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, 0, LoyaltyType.bronze, 0, null);
+        Customer newUser = (Customer)userService.save(user);
         userDTO.setUserId(newUser.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
     }
@@ -154,6 +157,20 @@ public class UserController {
     public ResponseEntity deleteUser(@RequestBody int id) {
         userService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/addPenaltyPoint", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<User> AddPenaltyPoint(@RequestBody PenaltyPointDto dto) {
+    	
+    	Customer customer = (Customer)userService.findById(dto.getCustomerId());
+    	
+    	Integer penaltyPoints = customer.getPenalty() + dto.getPenaltyPoint();
+    	customer.setPenalty(penaltyPoints);
+    	
+        Customer newCustomer = (Customer)userService.save(customer);
+        
+        return new ResponseEntity<User>(HttpStatus.OK);
     }
     
     

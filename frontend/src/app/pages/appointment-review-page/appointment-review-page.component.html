@@ -1,20 +1,17 @@
-<div class="d-flex flex-column justify-content-center m-5 p-3">
-    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle class="bg-light p-3 rounded-3 mb-3">
+<div class="d-flex flex-column justify-content-center mx-5 my-3 p-3">
+
+    <span class="fs-2 text-gray mb-3">Appointment Review</span>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle class="background-gray text-yellow p-3 rounded-3 mb-3">
         <mat-expansion-panel-header>
-            <mat-panel-title class="fw-bold">
+            <mat-panel-title class="fw-bold fs-5">
                 Patient information
             </mat-panel-title>
-            <mat-panel-description class="text-secondary">
+            <mat-panel-description class="text-yellow">
                 Check if patient is able to give blood.
             </mat-panel-description>
         </mat-expansion-panel-header>
         <div class="d-flex flex-column mt-3">
             <label class="form-label">Number of previous donations - </label>
-            
-            <label class="form-label" id="forWoman">Just for woman:</label>
-            <label class="form-label ms-2">Are you pregnant - </label>
-            <label class="form-label ms-2">Are you in your cycle - </label>
-            <label class="form-label ms-2">Have you given birth or had a miscarriage in the last 6months - </label>
 
             <label class="form-label">Have you ever been rejected as a blood or blood component donor - </label>
             <label class="form-label">Do you currently feel healthy and rested to donate blood or blood components - </label>
@@ -25,46 +22,52 @@
             <label class="form-label">Have you received any vaccine or serum in the past 12 months - </label>
             <label class="form-label">Have you had any alcohol in the last 6 hours - </label>
             <label class="form-label">Have you had unprotected sex during the past 6 months - </label>
+
+            <label class="form-label" id="forWoman">Just for women:</label>
+            <label class="form-label ms-2">Are you pregnant - </label>
+            <label class="form-label ms-2">Are you in your cycle - </label>
+            <label class="form-label ms-2">Have you given birth or had a miscarriage in the last 6months - </label>
         </div>
         <mat-action-row>
+            <button type="button" class="btn btn-danger me-auto" (click)="addPenaltyPointToUser()">User did not come</button>
             <button type="button" class="btn btn-danger me-3 width-75" (click)="endAppointment()">End</button>
             <button type="button" class="btn btn-primary width-75" (click)="nextStep()">Next</button>
         </mat-action-row>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle class="bg-light p-3 rounded-3 mb-3">
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle class="background-gray text-yellow p-3 rounded-3 mb-3">
         <mat-expansion-panel-header>
-            <mat-panel-title class="fw-bold">
+            <mat-panel-title class="fw-bold fs-5">
                 Appointment information
             </mat-panel-title>
-            <mat-panel-description class="text-secondary">
+            <mat-panel-description class="text-yellow">
                 Write all relevant information about current appointment.
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div class="d-flex flex-column mt-3">
-           
-        </div>
+        <form class="d-flex flex-column mt-3" [formGroup]="appointmentForm">
+            <label for="bloodType" class="form-label">Blood Type</label>
+            <div class="input-group">
+                <select class="form-select background-yellow text-gray" aria-label="blood type selector" id="bloodType" formControlName="bloodType">
+                    <option selected disabled hidden value="">Choose patient's blood type</option>
+                    <option value="APlus">A+</option>
+                    <option value="BPlus">B+</option>
+                    <option value="ABPlus">AB+</option>
+                    <option value="OPlus">O+</option>
+                    <option value="AMinus">A-</option>
+                    <option value="BMinus">B-</option>
+                    <option value="ABMinus">AB-</option>
+                    <option value="OMinus">O-</option>
+                </select>
+            </div>
+            <div *ngIf="appointmentForm.get('bloodType').invalid && (appointmentForm.get('bloodType').dirty || appointmentForm.get('bloodType').touched)" class="text-danger mt-1">
+                Please choose your blood type.
+            </div>
+        </form>
 
         <mat-action-row>
             <button type="button" class="btn btn-primary me-3 width-75" (click)="prevStep()">Previous</button>
-            <button type="button" class="btn btn-primary width-75" (click)="nextStep()">Next</button>
-        </mat-action-row>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle class="bg-light p-3 rounded-3 mb-3">
-        <mat-expansion-panel-header>
-        <mat-panel-title>
-            Day of the trip
-        </mat-panel-title>
-        <mat-panel-description>
-            Inform the date you wish to travel
-        </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <mat-action-row>
-            <button type="button" class="btn btn-primary me-3 width-75" (click)="prevStep()">Previous</button>
-            <button type="button" class="btn btn-primary width-75" (click)="nextStep()">Finish</button>
+            <button type="button" class="btn btn-primary width-75" [disabled]="appointmentForm.invalid" (click)="finishAppointment()">Finish</button>
         </mat-action-row>
     </mat-expansion-panel>
 </div>

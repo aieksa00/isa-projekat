@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent},
   { path: 'userslist', component: UsersListComponent},
-  { path: 'appointmentReview', component: AppointmentReviewPageComponent}
+  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent}
 
 ];
 

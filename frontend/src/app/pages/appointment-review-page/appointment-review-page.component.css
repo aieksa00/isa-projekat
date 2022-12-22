@@ -1,3 +1,18 @@
 .width-75{
     width: 75px;
 }
+
+.background-gray{
+    background: #343131;
+}
+
+.background-yellow{
+    background: #F4EEDE;}
+
+.text-yellow{
+    color: #F4EEDE;
+}
+
+.text-gray{
+    color: #343131;
+}
