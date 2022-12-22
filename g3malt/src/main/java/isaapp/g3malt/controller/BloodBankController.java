@@ -275,4 +275,25 @@ public class BloodBankController {
 
 		return new ResponseEntity<>(banksDto, HttpStatus.OK);
 	}
+	
+	@PostMapping (value = "/getAppointmentFromBloodBank", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> getAppointmentFromBloodBank(@RequestBody BloodBankAppointmentDto bloodBankAppointmentDto) {
+		BloodBank bank = bloodBankService.findById(bloodBankAppointmentDto.bloodBankId);
+
+		for(Appointment a : bank.getFreeAppointments()) {
+			String date = a.getScheduleDateTime().toString().split(" ", 2)[0];
+			String hour = a.getScheduleDateTime().toString().split(" ", 2)[1];
+			String date2 = bloodBankAppointmentDto.getAppointmentTime().split(" ", 2)[0];
+			String hour2 = bloodBankAppointmentDto.getAppointmentTime().split(" ", 2)[1];
+			if(date.equals(date2)) {
+				String exHour = hour.split(":")[0];
+				String exHour2 = hour2.split(":")[0];
+				if(hour.split(":")[0].equals(hour2.split(":")[0])) {
+					return new ResponseEntity<>(a.getId(), HttpStatus.OK);
+				}
+			}
+		}
+
+		return new ResponseEntity<>(1, HttpStatus.OK);
+	}
 }
