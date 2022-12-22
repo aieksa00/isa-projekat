@@ -5,7 +5,7 @@ public class SearchBanksDTO {
     private String searchByName;
     private String filterValue;
     private String sortValue;
-
+   
     public SearchBanksDTO() {}
 
     public SearchBanksDTO(String search, String searchByName, String filterValue, String sortValue) {

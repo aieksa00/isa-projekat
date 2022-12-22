@@ -27,7 +27,7 @@ export class BloodBankInfoComponent implements OnInit {
   public userForm: FormGroup | any;
   public appointmentForm: FormGroup | any;
   
-  constructor(private bloodBankService: BloodBankService, private userCredentialsService: UserCredentialsService,private appointmentService: AppointmentService, private router: Router, private fb: FormBuilder) { }
+  constructor(private bloodBankService: BloodBankService, private userCredentialsService: UserCredentialsService, private appointmentService: AppointmentService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.updateForm = this.fb.group({
@@ -58,7 +58,7 @@ export class BloodBankInfoComponent implements OnInit {
       medicalStaffTwo: [''],
       medicalStaffThree: ['']
     });
-    this.bloodBankService.getBloodBankById(1).subscribe(res => {
+    this.bloodBankService.getBloodBankByUserEmail().subscribe(res => {
       this.bloodBankDto = res;
       this.updateForm.get('name').setValue(this.bloodBankDto.bloodBankName);
       this.updateForm.get('street').setValue(this.bloodBankDto.bloodBankStreet);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionnaireDTO } from 'src/app/DTO/questionnaireDTO';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-questionnaire-page',
@@ -22,10 +23,10 @@ export class QuestionnairePageComponent implements OnInit {
     public question11 : boolean = false;
     public question12 : boolean = false;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   public onSubmit() {
-    const questionnaireDTO : QuestionnaireDTO = {
+    let questionnaireDTO : QuestionnaireDTO = {
       date : this.date,
       previousDonations: this.previousDonations,
       question1 : this.question1,
@@ -41,7 +42,7 @@ export class QuestionnairePageComponent implements OnInit {
       question11 : this.question11,
       question12 : this.question12
     }
-    console.log(questionnaireDTO);
+    //this.userService.addQuestionnaire(questionnaireDTO)
     this.reset();
 
   }

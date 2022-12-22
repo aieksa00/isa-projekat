@@ -49,7 +49,6 @@ public class Appointment {
 
 	public Appointment() {}
 	
-
 	public Appointment(int bloodBankId, Set<User> medicalStaff, Date scheduleDateTime, int duration, double price,
 			Customer customer, boolean isFree) {
 		super();

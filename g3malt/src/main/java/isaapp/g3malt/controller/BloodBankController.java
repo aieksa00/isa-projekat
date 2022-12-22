@@ -21,6 +21,7 @@ import isaapp.g3malt.model.BloodBankDTO;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +35,18 @@ public class BloodBankController {
 	private UserService userService;
 	@Autowired
 	private AppointmentService appointmentService;
-	
+	@Autowired
+	private UserCredentialsService userCredentialsService;
+	 
 	private ModelMapper modelMapper = new ModelMapper();
 
-	@GetMapping(value = "BloodBank/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable Integer id) {
-
-		BloodBank bloodBank = bloodBankService.findById(id);
+	@GetMapping(value = "BloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+	public ResponseEntity<BloodBankDto> getBloodBank(@PathVariable String email) {
+		
+		Integer userId = userCredentialsService.findByEmail(email).getUser().getId();
+		Integer bloodBankId = bloodBankService.findByStaffId(userId);
+		BloodBank bloodBank = bloodBankService.findById(bloodBankId);
 
 		if (bloodBank == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -118,6 +124,49 @@ public class BloodBankController {
 		
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
 	}
+	
+    @PostMapping(value = "/UpdateBloodBankStorage", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<BloodBank> UpdateBloodBankStorage(@RequestBody UpdateBloodBankStorageDto dto) {
+		BloodBank bloodBank = bloodBankService.findById(dto.getBloodBankId());
+		
+		switch(dto.getBloodType()) {
+			case("APlus"):
+				int newQuantityA = bloodBank.getBloodBankStorage().getAPlus() + 1;
+				bloodBank.getBloodBankStorage().setAPlus(newQuantityA);
+				break;
+			case("BPlus"):
+				int newQuantityB = bloodBank.getBloodBankStorage().getBPlus() + 1;
+				bloodBank.getBloodBankStorage().setBPlus(newQuantityB);
+				break;
+			case("ABPlus"):
+				int newQuantityAB = bloodBank.getBloodBankStorage().getABPlus() + 1;
+				bloodBank.getBloodBankStorage().setABPlus(newQuantityAB);
+				break;
+			case("OPlus"):
+				int newQuantityO = bloodBank.getBloodBankStorage().getOPlus() + 1;
+				bloodBank.getBloodBankStorage().setOPlus(newQuantityO);
+				break;
+			case("AMinus"):
+				int newQuantityAm = bloodBank.getBloodBankStorage().getAMinus() + 1;
+				bloodBank.getBloodBankStorage().setAMinus(newQuantityAm);
+				break;
+			case("BMinus"):
+				int newQuantityBm = bloodBank.getBloodBankStorage().getBMinus() + 1;
+				bloodBank.getBloodBankStorage().setBMinus(newQuantityBm);
+				break;
+			case("ABMinus"):
+				int newQuantityABm = bloodBank.getBloodBankStorage().getABMinus() + 1;
+				bloodBank.getBloodBankStorage().setABMinus(newQuantityABm);
+				break;
+			case("OMinus"):
+				int newQuantityOm = bloodBank.getBloodBankStorage().getOMinus() + 1;
+				bloodBank.getBloodBankStorage().setOMinus(newQuantityOm);
+				break;
+		}
+		BloodBank newBloodBank = bloodBankService.save(bloodBank);
+        return new ResponseEntity<BloodBank>(HttpStatus.OK);
+    }
 	
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -67,14 +67,13 @@ export class LogInPageComponent implements OnInit {
             if(this.role == "CUSTOMER") {
               this.router.navigate(['/bloodBanks']);
             } else if (this.role == "STAFF") {
-              this.router.navigate(['/createBloodBank']) //staviti sta treba
+              this.router.navigate(['/bloodBankInfo']) //staviti sta treba
             } else {
               //dodati admina
             }
           }
-
-        })
-      })
+        });
+      });
       this.closeDialog();
     }
     

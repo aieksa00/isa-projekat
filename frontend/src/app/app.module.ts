@@ -27,6 +27,8 @@ import { RegistrationUserPageComponent } from './pages/registration-user-page/re
 import { QuestionnairePageComponent } from './pages/questionnaire-page/questionnaire-page.component';
 import { UsersListComponent } from './pages/users-list/users-list.component';
 import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
+import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
+import { MatExpansionModule } from '@angular/material/expansion' 
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
     RegistrationUserPageComponent,
     QuestionnairePageComponent,
     UsersListComponent,
+    AppointmentReviewPageComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +60,7 @@ import { JwtInterceptorService } from './helpers/jwt.interceptor.service';
     ReactiveFormsModule,
     OverlayModule,
     HttpClientModule,
+    MatExpansionModule,
   ],
   providers: [CookieService, UserService, BloodBankService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },

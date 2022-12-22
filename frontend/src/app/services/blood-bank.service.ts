@@ -5,6 +5,7 @@ import { BloodBankDto } from '../DTO/blood-bank-dto';
 import { BloodBanksDTO } from '../DTO/blood-banks-list-dto';
 import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
 import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
+import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto';
 
 
 @Injectable({
@@ -17,11 +18,11 @@ export class BloodBankService {
 
   constructor(private http: HttpClient) { }
 
-  getBloodBankById(id: number): Observable<BloodBankDto> {
-    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + id, {headers: this.headers});
+  public getBloodBankByUserEmail(): Observable<BloodBankDto> {
+    return this.http.get<BloodBankDto>(this.apiHost + 'BloodBankController/BloodBank/' + localStorage.getItem("email"), {headers: this.headers});
   }
 
-  updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {
+  public updateBloodBank(id: number, dto: UpdateBloodBankDto): Observable<BloodBankDto> {
     return this.http.put<BloodBankDto>(this.apiHost + 'BloodBankController/UpdateBloodBank/' + id, dto, {headers: this.headers});
   }
 
@@ -31,5 +32,9 @@ export class BloodBankService {
 
   public getBloodBanks(): Observable<any>{
     return this.http.get<any>(this.apiHost + 'BloodBankController/getAllBloodBanks', {headers: this.headers});
+  }
+
+  public updateBloodBankStorage(dto: UpdateBloodBankStorageDto): Observable<UpdateBloodBankStorageDto> {
+    return this.http.post<UpdateBloodBankStorageDto>(this.apiHost + 'BloodBankController/UpdateBloodBankStorage', dto, {headers: this.headers});
   }
 }
