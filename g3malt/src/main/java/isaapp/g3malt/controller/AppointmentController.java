@@ -2,11 +2,11 @@ package isaapp.g3malt.controller;
 
 import java.util.*;
 
+import isaapp.g3malt.dto.*;
 import isaapp.g3malt.model.*;
 import isaapp.g3malt.services.*;
 import isaapp.g3malt.util.EmailDetails;
 import org.modelmapper.ModelMapper;
-import isaapp.g3malt.dto.QuestionnaireDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import isaapp.g3malt.dto.AppointmentReviewDto;
-import isaapp.g3malt.dto.BloodBankDto;
-import isaapp.g3malt.dto.FutureAppointmentDto;
-import isaapp.g3malt.dto.StaffDto;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
@@ -90,36 +86,38 @@ public class AppointmentController {
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getScheduledAppointments")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public ResponseEntity<List<Appointment>> getScheduledAppointments() {
+	public ResponseEntity<List<AppointmentDTO>> getScheduledAppointments() {
 		Iterable<Appointment> appointments = appointmentService.findAll();
-		List<Appointment> notFree = new ArrayList<>();
+		List<AppointmentDTO> notFree = new ArrayList<>();
 		for(Appointment appointment : appointments) {
 			if(!appointment.isFree()) {
-				notFree.add(appointment);
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				notFree.add(appointmentDTO);
 			}
 		}
 
-		return new ResponseEntity<List<Appointment>>(notFree, HttpStatus.OK);
+		return new ResponseEntity<List<AppointmentDTO>>(notFree, HttpStatus.OK);
 
 	}
 
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/unscheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public ResponseEntity<List<Appointment>> unscheduleAppointment(@RequestBody Integer appointmentId) {
-		Appointment appointment = appointmentService.findById(appointmentId);
-		appointment.setFree(true);
-		appointmentService.save(appointment);
+	public ResponseEntity<List<AppointmentDTO>> unscheduleAppointment(@RequestBody Integer appointmentId) {
+		Appointment app = appointmentService.findById(appointmentId);
+		app.setFree(true);
+		appointmentService.save(app);
 
 		Iterable<Appointment> appointments = appointmentService.findAll();
-		List<Appointment> notFree = new ArrayList<>();
-		for(Appointment app : appointments) {
-			if(!app.isFree()) {
-				notFree.add(app);
+		List<AppointmentDTO> notFree = new ArrayList<>();
+		for(Appointment appointment : appointments) {
+			if(!appointment.isFree()) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				notFree.add(appointmentDTO);
 			}
 		}
 
-		return new ResponseEntity<List<Appointment>>(notFree, HttpStatus.OK);
+		return new ResponseEntity<List<AppointmentDTO>>(notFree, HttpStatus.OK);
 	}
 
 }

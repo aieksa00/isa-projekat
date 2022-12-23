@@ -49,7 +49,7 @@ export class ScheduleAppointmentComponent implements OnInit {
     let id;
     this.bloodBankService.getAppointmentFromBloodBank(this.bloodBankAppointmentDto).subscribe(res => {
       id = res;
-      localStorage.setItem("appointmentId", id.toString())
+      localStorage.setItem("appointmentId", id)
     });
     this.router.navigate(['/questionnairePage'])
   }
