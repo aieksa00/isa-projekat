@@ -1,8 +1,6 @@
 package isaapp.g3malt.controller;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import isaapp.g3malt.model.*;
 import isaapp.g3malt.services.*;
@@ -88,5 +86,40 @@ public class AppointmentController {
         appointmentService.save(appointment);
         return new ResponseEntity(HttpStatus.CREATED);
     }
+
+	@CrossOrigin(origins = "*")
+	@GetMapping(value = "/getScheduledAppointments")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<Appointment>> getScheduledAppointments() {
+		Iterable<Appointment> appointments = appointmentService.findAll();
+		List<Appointment> notFree = new ArrayList<>();
+		for(Appointment appointment : appointments) {
+			if(!appointment.isFree()) {
+				notFree.add(appointment);
+			}
+		}
+
+		return new ResponseEntity<List<Appointment>>(notFree, HttpStatus.OK);
+
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/unscheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<Appointment>> unscheduleAppointment(@RequestBody Integer appointmentId) {
+		Appointment appointment = appointmentService.findById(appointmentId);
+		appointment.setFree(true);
+		appointmentService.save(appointment);
+
+		Iterable<Appointment> appointments = appointmentService.findAll();
+		List<Appointment> notFree = new ArrayList<>();
+		for(Appointment app : appointments) {
+			if(!app.isFree()) {
+				notFree.add(app);
+			}
+		}
+
+		return new ResponseEntity<List<Appointment>>(notFree, HttpStatus.OK);
+	}
 
 }
