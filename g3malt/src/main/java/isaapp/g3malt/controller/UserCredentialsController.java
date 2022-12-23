@@ -221,7 +221,7 @@ public class UserCredentialsController {
 		String token = userCredentials.getVerifiedString();
 		String msg = "Please click this link to verify and log In: http://localhost:9090/UserCredentialsController/verifyUser?token=" + token + "&email=" + userCredentials.getEmail();
 		EmailDetails email = new EmailDetails(userCredentials.getEmail(), msg, "Verification", "");
-		//emailService.sendSimpleMail(email);
+		emailService.sendSimpleMail(email);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
