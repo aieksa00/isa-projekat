@@ -115,13 +115,15 @@ public class BloodBankController {
 	@CrossOrigin(origins =  "*")
 	@PostMapping(value = "BloodBankId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public ResponseEntity<BloodBank> getBloodBankId(@PathVariable Integer id, @RequestBody String email) {
+	public ResponseEntity<BloodBandAppDTO> getBloodBankId(@PathVariable Integer id, @RequestBody String email) {
 
 		BloodBank bloodBank = bloodBankService.findById(id);
 
 		if (bloodBank == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+
+		BloodBandAppDTO bloodBandAppDTO = new BloodBandAppDTO(bloodBank.getId(), bloodBank.getName(), bloodBank.getStreet(), bloodBank.getCity(), null);
 
 		User user = userCredentialsService.findByEmail(email).getUser();
 
@@ -133,18 +135,13 @@ public class BloodBankController {
 			Set<Appointment> appoints = new HashSet<>();
 			for( Appointment appointment : appointments) {
 
-				Calendar c = Calendar.getInstance();
-				c.setTime(appointment.getScheduleDateTime());
-				c.add(Calendar.MONTH, -6);
-				Date date = c.getTime();
-
 				if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
 					appoints.add(appointment);
 				}
 			}
 
-			bloodBank.setFreeAppointments(appoints);
-			return new ResponseEntity<>(bloodBank, HttpStatus.OK);
+			bloodBandAppDTO.setFreeAppointments(appoints);
+			return new ResponseEntity<>(bloodBandAppDTO, HttpStatus.OK);
 		}
 
 		Appointment app = userAppointments.get(0);
@@ -163,9 +160,9 @@ public class BloodBankController {
 			}
 		}
 
-		bloodBank.setFreeAppointments(appoints);
+		bloodBandAppDTO.setFreeAppointments(appoints);
 
-		return new ResponseEntity<>(bloodBank, HttpStatus.OK);
+		return new ResponseEntity<>(bloodBandAppDTO, HttpStatus.OK);
 	}
 	
 	@CrossOrigin("*")
@@ -312,8 +309,13 @@ public class BloodBankController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value = "/getSortedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('CUSTOMER')")
-	public ResponseEntity<List<Appointment>> getSortAppointments(@RequestBody SortDTO sortDTO) {
-		List<Appointment> appointments = bloodBankService.sortAppointments(sortDTO);
+	public ResponseEntity<List<AppointmentDTO>> getSortAppointments(@RequestBody SortDTO sortDTO) {
+		List<Appointment> apps = bloodBankService.sortAppointments(sortDTO);
+		List<AppointmentDTO> appointments = new ArrayList<>();
+		for(Appointment appointment : apps) {
+			AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+			appointments.add(appointmentDTO);
+		}
 		return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
 	
