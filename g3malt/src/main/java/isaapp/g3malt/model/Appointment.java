@@ -43,7 +43,7 @@ public class Appointment {
 	@Column(name="price", unique=false, nullable=true)
 	private double price;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 	

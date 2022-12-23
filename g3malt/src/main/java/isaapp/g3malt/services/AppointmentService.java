@@ -3,9 +3,7 @@ package isaapp.g3malt.services;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.repository.AppointmentRepository;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,5 +52,9 @@ public class AppointmentService implements IService<Appointment, Integer>{
 	
 	public Set<Appointment> findAllFutureAppointmentsForBloodBank(Date scheduleDateTime, Integer bloodBankId){
 		return appointmentRepository.findAllFutureAppointmentsForBloodBank(scheduleDateTime, bloodBankId);
+	}
+
+	public List<Appointment> findByCustomerId(Integer id) {
+		return appointmentRepository.findByCustomerId(id);
 	}
 }

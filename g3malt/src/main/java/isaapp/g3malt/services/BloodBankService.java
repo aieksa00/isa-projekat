@@ -1,16 +1,13 @@
 package isaapp.g3malt.services;
 
+import isaapp.g3malt.dto.FutureAppointmentDto;
+import isaapp.g3malt.dto.SortDTO;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.BloodBankRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.hibernate.boot.model.source.spi.Sortable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +72,35 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 		}
 
 		return banks;
+	}
+
+	public List<Appointment> sortAppointments(SortDTO sortDTO) {
+		BloodBank bloodBank = findById(sortDTO.bloodBankId);
+		List<Appointment> appointments = new ArrayList(bloodBank.getFreeAppointments());
+		String sortValue = sortDTO.sortValue;
+
+		Comparator<Appointment> compareDateTime = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+				return a1.getScheduleDateTime().compareTo(a2.getScheduleDateTime());
+			}
+		};
+
+		Comparator<Appointment> compareDuration = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+
+				return Integer.compare(a1.getDuration(), a2.getDuration());
+			}
+		};
+
+		if(sortValue.equals("duration")) {
+			Collections.sort(appointments, compareDuration);
+		} else if(sortValue.equals("date")) {
+			Collections.sort(appointments, compareDateTime);
+		};
+
+		return appointments;
 	}
 	
 	public Integer findByStaffId(Integer staff) {
