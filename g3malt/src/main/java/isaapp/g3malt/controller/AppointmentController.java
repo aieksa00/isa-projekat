@@ -5,12 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import isaapp.g3malt.model.*;
+import isaapp.g3malt.services.*;
+import isaapp.g3malt.util.EmailDetails;
 import org.modelmapper.ModelMapper;
 import isaapp.g3malt.dto.QuestionnaireDTO;
-import isaapp.g3malt.services.AppointmentService;
-import isaapp.g3malt.services.CustomerService;
-import isaapp.g3malt.services.QuestionnaireService;
-import isaapp.g3malt.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,8 +26,6 @@ import isaapp.g3malt.dto.StaffDto;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
-import isaapp.g3malt.services.BloodBankService;
-import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +43,9 @@ public class AppointmentController {
 	private UserCredentialsService userCredentialsService;
     @Autowired
     private QuestionnaireService questionnaireService;
+
+	@Autowired
+	private EmailServiceImpl emailService;
 
     @Autowired
     private CustomerService customerService;
@@ -82,6 +81,9 @@ public class AppointmentController {
 //					user.getPhoneNumber(), user.getJmbg(), user.getGender(), user.getProfession(), user.getWorkplace(), user.getUserType(),
 //					0, LoyaltyType.bronze, 0, null);
 //        appointment.setUser(customer);
+		String msg = "Info of your appointment";
+		EmailDetails email = new EmailDetails("milana.dokic.md@gmail.com", msg, "Verification", "../../../../../../../frontend/src/app/images/My_Gallery.png");
+		emailService.sendMailWithAttachment(email);
         appointment.setFree(false);
         appointmentService.save(appointment);
         return new ResponseEntity(HttpStatus.CREATED);
