@@ -17,11 +17,11 @@ import javax.persistence.Table;
 @DiscriminatorValue("2")
 public class Customer extends User{
 	
-	@Column(name="loyaltyPoints", unique=false, nullable=true)
+	@Column(name="loyaltyPoints", unique=false)
 	private int loyaltyPoints;
-	@Column(name="loyaltyType", unique=false, nullable=true)
+	@Column(name="loyaltyType", unique=false)
 	private LoyaltyType loyaltyType;
-	@Column(name="penalty", unique=false, nullable=true)
+	@Column(name="penalty", unique=false)
 	private int penalty;
 
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

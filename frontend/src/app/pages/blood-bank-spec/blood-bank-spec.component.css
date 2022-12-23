@@ -7,6 +7,10 @@ h3 {
     font-weight: bolder;
 }
 
+#tb {
+  margin-left: 20px;
+}
+
 .project {
     font-size: 18px;
     margin: auto;

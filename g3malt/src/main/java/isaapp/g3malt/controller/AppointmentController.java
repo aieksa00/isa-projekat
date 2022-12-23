@@ -4,12 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import isaapp.g3malt.model.*;
 import org.modelmapper.ModelMapper;
 import isaapp.g3malt.dto.QuestionnaireDTO;
-import isaapp.g3malt.model.Appointment;
-import isaapp.g3malt.model.Customer;
-import isaapp.g3malt.model.Questionnaire;
-import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.QuestionnaireService;
@@ -29,7 +26,6 @@ import isaapp.g3malt.dto.BloodBankDto;
 import isaapp.g3malt.dto.FutureAppointmentDto;
 import isaapp.g3malt.dto.StaffDto;
 import isaapp.g3malt.model.Appointment;
-import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
@@ -82,8 +78,10 @@ public class AppointmentController {
         questionnaireService.save(questionnaire);
         Appointment appointment = appointmentService.findById(questionnaireDTO.appointmentId);
         User user = userService.findById(questionnaireDTO.userId);
-        Customer customer = customerService.findById(questionnaireDTO.userId);
-        appointment.setUser(customer);
+//		Customer customer = new Customer(user.getId(), user.getName(), user.getSurname(), user.getStreet(), user.getCity(), user.getCountry(),
+//					user.getPhoneNumber(), user.getJmbg(), user.getGender(), user.getProfession(), user.getWorkplace(), user.getUserType(),
+//					0, LoyaltyType.bronze, 0, null);
+//        appointment.setUser(customer);
         appointment.setFree(false);
         appointmentService.save(appointment);
         return new ResponseEntity(HttpStatus.CREATED);

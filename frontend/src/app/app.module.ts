@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule} from '@angular/cdk/overlay';
+import { DatePipe } from '@angular/common'
 import { CookieService } from 'ngx-cookie-service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -72,7 +73,7 @@ import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointm
     DayPilotModule,
     MatExpansionModule,
   ],
-  providers: [CookieService, UserService, BloodBankService,
+  providers: [CookieService, UserService, BloodBankService, DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent]

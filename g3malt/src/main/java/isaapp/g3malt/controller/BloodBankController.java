@@ -2,9 +2,14 @@ package isaapp.g3malt.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import isaapp.g3malt.dto.*;
+import isaapp.g3malt.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -105,6 +110,62 @@ public class BloodBankController {
 		bloodBankDto.setBloodBankFutureAppointments(futureAppointmentsDtos);
 
 		return new ResponseEntity<>(bloodBankDto, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins =  "*")
+	@PostMapping(value = "BloodBankId/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<BloodBank> getBloodBankId(@PathVariable Integer id, @RequestBody String email) {
+
+		BloodBank bloodBank = bloodBankService.findById(id);
+
+		if (bloodBank == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+		User user = userCredentialsService.findByEmail(email).getUser();
+
+		List<Appointment> userAppointments = appointmentService.findByCustomerId(user.getId());
+		if (userAppointments.isEmpty()) {
+			//Set<Appointment> s = Collections.emptySet();
+			//bloodBank.setFreeAppointments(s);
+			Set<Appointment> appointments = bloodBank.getFreeAppointments();
+			Set<Appointment> appoints = new HashSet<>();
+			for( Appointment appointment : appointments) {
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(appointment.getScheduleDateTime());
+				c.add(Calendar.MONTH, -6);
+				Date date = c.getTime();
+
+				if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
+					appoints.add(appointment);
+				}
+			}
+
+			bloodBank.setFreeAppointments(appoints);
+			return new ResponseEntity<>(bloodBank, HttpStatus.OK);
+		}
+
+		Appointment app = userAppointments.get(0);
+
+		Set<Appointment> appointments = bloodBank.getFreeAppointments();
+		Set<Appointment> appoints = new HashSet<>();
+		for( Appointment appointment : appointments) {
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(appointment.getScheduleDateTime());
+			c.add(Calendar.MONTH, -6);
+			Date date = c.getTime();
+
+			if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date()) && app.getScheduleDateTime().before(date)) {
+				appoints.add(appointment);
+			}
+		}
+
+		bloodBank.setFreeAppointments(appoints);
+
+		return new ResponseEntity<>(bloodBank, HttpStatus.OK);
 	}
 	
 	@CrossOrigin("*")
@@ -246,6 +307,14 @@ public class BloodBankController {
 		List<BloodBank> banks = bloodBankService.searchFilterSort(searchName, searchCity, filter, searchBanksDTO.getSortValue());
 
 		return new ResponseEntity<>(banks, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getSortedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<Appointment>> getSortAppointments(@RequestBody SortDTO sortDTO) {
+		List<Appointment> appointments = bloodBankService.sortAppointments(sortDTO);
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*")
