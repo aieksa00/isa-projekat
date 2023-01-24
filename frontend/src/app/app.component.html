@@ -1,5 +1,5 @@
 <div class="appComponent">
-    <app-sidenav *ngIf="isLoggedIn"></app-sidenav>
+    <app-sidenav *ngIf="(authenticationService.isAuthenticated | async)"></app-sidenav>
     <div class="loggedInComponent"><router-outlet></router-outlet></div>
 </div>
 

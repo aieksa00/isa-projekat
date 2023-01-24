@@ -70,16 +70,14 @@ public class AppointmentController {
                 questionnaireDTO.question11, questionnaireDTO.question12, questionnaireDTO.question13, questionnaireDTO.question14, questionnaireDTO.question15, questionnaireDTO.question16);
         questionnaireService.save(questionnaire);
         Appointment appointment = appointmentService.findById(questionnaireDTO.appointmentId);
-        User user = userService.findById(questionnaireDTO.userId);
-//		Customer customer = new Customer(user.getId(), user.getName(), user.getSurname(), user.getStreet(), user.getCity(), user.getCountry(),
-//					user.getPhoneNumber(), user.getJmbg(), user.getGender(), user.getProfession(), user.getWorkplace(), user.getUserType(),
-//					0, LoyaltyType.bronze, 0, null);
-//        appointment.setUser(customer);
+        Customer customer = customerService.findById(questionnaireDTO.userId);
+        appointment.setUser(customer);
+		appointment.setFree(false);
+		appointmentService.save(appointment);
 		String msg = "Info of your appointment";
 		EmailDetails email = new EmailDetails("milana.dokic.md@gmail.com", msg, "Verification", "../../../../../../../frontend/src/app/images/My_Gallery.png");
 		emailService.sendMailWithAttachment(email);
-        appointment.setFree(false);
-        appointmentService.save(appointment);
+
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -105,6 +103,14 @@ public class AppointmentController {
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<List<AppointmentDTO>> unscheduleAppointment(@RequestBody Integer appointmentId) {
 		Appointment app = appointmentService.findById(appointmentId);
+		Calendar c = Calendar.getInstance();
+		c.setTime(app.getScheduleDateTime());
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		Date date = c.getTime();
+		if((new Date()).after(date)) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+
 		app.setFree(true);
 		appointmentService.save(app);
 

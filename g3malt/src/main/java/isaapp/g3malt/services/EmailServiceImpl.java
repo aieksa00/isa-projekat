@@ -10,6 +10,14 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import java.util.Base64;
+
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -54,6 +62,21 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public String sendMailWithAttachment(EmailDetails details) {
 
+        File file = new File("qrcode.png");
+        String encodedfile = null;
+        try {
+            FileInputStream fileInputStreamReader = new FileInputStream(file);
+            byte[] bytes = new byte[(int)file.length()];
+            fileInputStreamReader.read(bytes);
+            encodedfile = Base64.getEncoder().encodeToString(bytes);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String finalEncodedfile = encodedfile;
         MimeMessagePreparator preparator = new MimeMessagePreparator()
         {
             public void prepare(MimeMessage mimeMessage) throws Exception
@@ -63,10 +86,11 @@ public class EmailServiceImpl implements EmailService{
                 mimeMessage.setSubject(details.getSubject());
                 mimeMessage.setText(details.getMsgBody());
 
-                //FileSystemResource file = new FileSystemResource(new File("/home/dokac/isa-projekat/g3malt"));
+                File file = new File("qrcode.png");
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                //helper.addAttachment("schedule.jpg", file);
-                helper.setText("<html><body><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1920px-QR_code_for_mobile_English_Wikipedia.svg.png'></body></html>", true);
+                helper.addAttachment("qrcode.png", file);
+                helper.setText("", true);
+                //helper.setText(String.format("<html><body><img src=\"data:image/png;base64,%s\" alt=\"description\" /></body></html>", finalEncodedfile), true);
             }
         };
 

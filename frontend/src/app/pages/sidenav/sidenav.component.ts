@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { navbarData } from './nav-data';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -11,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SidenavComponent implements OnInit {
 
-  constructor(public router: Router, public cookieService: CookieService) { }
+  constructor(public router: Router, public cookieService: CookieService, private authenticationService : AuthenticationService) { }
   collapsed = false;
   navData = navbarData;
   
@@ -24,6 +25,7 @@ export class SidenavComponent implements OnInit {
   }
 
   onSignOut() {
+    this.authenticationService.isAuthenticatedSrc.next(false);
     this.cookieService.deleteAll();
     localStorage.clear();
     this.router.navigate(['/']);

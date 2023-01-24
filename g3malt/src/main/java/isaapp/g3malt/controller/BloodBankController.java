@@ -129,25 +129,31 @@ public class BloodBankController {
 
 		List<Appointment> userAppointments = appointmentService.findByCustomerId(user.getId());
 		if (userAppointments.isEmpty()) {
-			//Set<Appointment> s = Collections.emptySet();
-			//bloodBank.setFreeAppointments(s);
-			Set<Appointment> appointments = bloodBank.getFreeAppointments();
-			Set<Appointment> appoints = new HashSet<>();
-			for( Appointment appointment : appointments) {
+				Set<Appointment> appointments = bloodBank.getFreeAppointments();
+				Set<AppointmentDTO> appoints = new HashSet<>();
+				for( Appointment appointment : appointments) {
 
-				if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
-					appoints.add(appointment);
+					if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
+						AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+						appoints.add(appointmentDTO);
+					}
 				}
-			}
 
-			bloodBandAppDTO.setFreeAppointments(appoints);
-			return new ResponseEntity<>(bloodBandAppDTO, HttpStatus.OK);
+				bloodBandAppDTO.setFreeAppointments(appoints);
+				return new ResponseEntity<>(bloodBandAppDTO, HttpStatus.OK);
 		}
 
-		Appointment app = userAppointments.get(0);
+		Date temp = new Date(122,11,23,16,00,00);
+		Appointment app = new Appointment(1, null, temp, 30, 1500, null, true);
+
+		for(Appointment appointment : userAppointments) {
+			if(appointment.getScheduleDateTime().after(app.getScheduleDateTime()) && !(appointment.isFree())) {
+				app = appointment;
+			}
+		}
 
 		Set<Appointment> appointments = bloodBank.getFreeAppointments();
-		Set<Appointment> appoints = new HashSet<>();
+		Set<AppointmentDTO> appoints = new HashSet<>();
 		for( Appointment appointment : appointments) {
 
 			Calendar c = Calendar.getInstance();
@@ -155,8 +161,9 @@ public class BloodBankController {
 			c.add(Calendar.MONTH, -6);
 			Date date = c.getTime();
 
-			if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date()) && app.getScheduleDateTime().before(date)) {
-				appoints.add(appointment);
+			if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date()) && app.getScheduleDateTime().before(date) && !userAppointments.contains(appointment)) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appoints.add(appointmentDTO);
 			}
 		}
 
@@ -312,9 +319,42 @@ public class BloodBankController {
 	public ResponseEntity<List<AppointmentDTO>> getSortAppointments(@RequestBody SortDTO sortDTO) {
 		List<Appointment> apps = bloodBankService.sortAppointments(sortDTO);
 		List<AppointmentDTO> appointments = new ArrayList<>();
-		for(Appointment appointment : apps) {
-			AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
-			appointments.add(appointmentDTO);
+
+		User user = userCredentialsService.findByEmail(sortDTO.getEmail()).getUser();
+		List<Appointment> userAppointments = appointmentService.findByCustomerId(user.getId());
+
+		if (userAppointments.isEmpty()) {
+			for( Appointment appointment : apps) {
+
+				if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
+					AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+					appointments.add(appointmentDTO);
+				}
+			}
+
+			return new ResponseEntity<>(appointments, HttpStatus.OK);
+		}
+
+		Date temp = new Date(122,11,23,16,00,00);
+		Appointment app = new Appointment(1, null, temp, 30, 1500, null, true);
+
+		for(Appointment appointment : userAppointments) {
+			if(appointment.getScheduleDateTime().after(app.getScheduleDateTime()) && !(appointment.isFree())) {
+				app = appointment;
+			}
+		}
+
+		for( Appointment appointment : apps) {
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(appointment.getScheduleDateTime());
+			c.add(Calendar.MONTH, -6);
+			Date date = c.getTime();
+
+			if(appointment.isFree() && appointment.getScheduleDateTime().after(new Date()) && app.getScheduleDateTime().before(date) && !userAppointments.contains(appointment)) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appointments.add(appointmentDTO);
+			}
 		}
 		return new ResponseEntity<>(appointments, HttpStatus.OK);
 	}
