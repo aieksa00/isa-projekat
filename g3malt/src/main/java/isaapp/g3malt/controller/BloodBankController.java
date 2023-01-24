@@ -303,14 +303,19 @@ public class BloodBankController {
     }
 
 	@PostMapping (value = "/getFilteredBloodBanks", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<BloodBank>> getFilteredBloodBanks(@RequestBody SearchBanksDTO searchBanksDTO) {
+	public ResponseEntity<List<BloodBankWithRatingDTO>> getFilteredBloodBanks(@RequestBody SearchBanksDTO searchBanksDTO) {
 		String searchName = searchBanksDTO.getSearchByName().equals("name") ? searchBanksDTO.getSearch() : "";
 		String searchCity = searchBanksDTO.getSearchByName().equals("city") ? searchBanksDTO.getSearch() : "";
 		Double filter = searchBanksDTO.getFilterValue().equals("") ? 0 : Double.parseDouble(searchBanksDTO.getFilterValue());
 
 		List<BloodBank> banks = bloodBankService.searchFilterSort(searchName, searchCity, filter, searchBanksDTO.getSortValue());
+		List<BloodBankWithRatingDTO> bloodBanks = new ArrayList<>();
+		for(BloodBank bloodBank : banks) {
+			BloodBankWithRatingDTO bloodBankWithRatingDTO = modelMapper.map(bloodBank, BloodBankWithRatingDTO.class);
+			bloodBanks.add(bloodBankWithRatingDTO);
+		}
 
-		return new ResponseEntity<>(banks, HttpStatus.OK);
+		return new ResponseEntity<>(bloodBanks, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*")

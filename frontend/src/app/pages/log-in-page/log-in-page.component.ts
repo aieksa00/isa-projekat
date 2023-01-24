@@ -55,7 +55,9 @@ export class LogInPageComponent implements OnInit {
       this.checkUserCredentials(this.userCredentials).subscribe(res => {
 
         this.userCredentials = res;
-        this.authenticationService.logIn(this.userCredentials).subscribe(res => {
+        this.authenticationService.logIn(this.userCredentials).subscribe( {
+          next: res => {
+          console.log(res)
           if(!this.errorHappend) {
             this.cookieService.set('LoggedIn', 'true' );
             this.access_token = res.accessToken;
@@ -82,7 +84,10 @@ export class LogInPageComponent implements OnInit {
 
             }
           }
-        });
+        },
+        error : (error: any) => {this.handleError(error)
+        console.log(error)}
+      });
       });
       this.closeDialog();
     }

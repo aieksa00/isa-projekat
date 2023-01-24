@@ -59,6 +59,5 @@ public class BloodBankWithRatingDTO {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	
-	
+
 }

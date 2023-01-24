@@ -65,11 +65,14 @@ public class AppointmentController {
     @PostMapping(value = "/scheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity scheduleAppointment(@RequestBody QuestionnaireDTO questionnaireDTO) {
+		Appointment appointment = appointmentService.findById(questionnaireDTO.appointmentId);
+		if(!appointment.isFree()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
         Questionnaire questionnaire = new Questionnaire(null, questionnaireDTO.previousDonations, questionnaireDTO.userId, questionnaireDTO.question1, questionnaireDTO.question2, questionnaireDTO.question3,
                 questionnaireDTO.question4, questionnaireDTO.question5, questionnaireDTO.question6, questionnaireDTO.question7, questionnaireDTO.question8, questionnaireDTO.question9, questionnaireDTO.question10,
                 questionnaireDTO.question11, questionnaireDTO.question12, questionnaireDTO.question13, questionnaireDTO.question14, questionnaireDTO.question15, questionnaireDTO.question16);
         questionnaireService.save(questionnaire);
-        Appointment appointment = appointmentService.findById(questionnaireDTO.appointmentId);
         Customer customer = customerService.findById(questionnaireDTO.userId);
         appointment.setUser(customer);
 		appointment.setFree(false);

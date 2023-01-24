@@ -1,10 +1,11 @@
 import { LIVE_ANNOUNCER_ELEMENT_TOKEN } from '@angular/cdk/a11y';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { QuestionnaireDTO } from 'src/app/DTO/questionnaireDTO';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-questionnaire-page',
@@ -73,7 +74,7 @@ export class QuestionnairePageComponent implements OnInit {
   }
 
   save(questionnaireDTO : QuestionnaireDTO) : Observable<any> {
-    return this.http.post<any>("http://localhost:9090/AppointmentController/scheduleAppointment", questionnaireDTO);
+    return this.http.post<any>("http://localhost:9090/AppointmentController/scheduleAppointment", questionnaireDTO).pipe(catchError(this.handleError));
   }
 
   reset() {
@@ -96,6 +97,18 @@ export class QuestionnairePageComponent implements OnInit {
     this.question14 = false;
     this.question15 = false;
     this.question16 = false;
+  }
+
+  public handleError = (error : HttpErrorResponse) => {
+    if(error.status == 404) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'Appointment is already taken, please try another one',
+        icon: 'warning'
+      });
+      this.router.navigate(['/bloodBankSpec'])
+    }
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
   cancel() : void {
