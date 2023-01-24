@@ -21,12 +21,7 @@ export class BloodBankSpecComponent implements OnInit {
 
   constructor(private datePipe: DatePipe, public router: Router, private bloodBankService: BloodBankService, private http: HttpClient) {
     this.bloodBankId = localStorage.getItem("bloodBank");
-    this.getBloodBank(this.bloodBankId).subscribe(res => {
-      this.bloodBank = res;
-      this.appointments = res.freeAppointments.filter((appointment : any) => {
-        return appointment.free && appointment.scheduleDateTime > Date.now()
-      })
-    })
+    
   }
 
   public Schedule(appointment : any) : void {
@@ -37,7 +32,8 @@ export class BloodBankSpecComponent implements OnInit {
   onSubmit() {
     this.sortDTO = {
       sortValue : this.sortValue,
-      bloodBankId : this.bloodBankId
+      bloodBankId : this.bloodBankId,
+      email : localStorage.getItem("email") as string
     }
     this.getSorted().subscribe(res => {
       this.appointments = res.filter((appointment : any) => {
@@ -47,9 +43,9 @@ export class BloodBankSpecComponent implements OnInit {
   }
 
   public Reset() :void{
-    this.bloodBankService.getBloodBankById(this.bloodBankId).subscribe(res => {
+    this.getBloodBank(this.bloodBankId).subscribe(res => {
       this.bloodBank = res;
-      this.appointments = res.bloodBankFutureAppointments;
+      this.appointments = res.freeAppointments;
     })
     this.sortValue = "";
     this.sortValue = "";
@@ -65,10 +61,14 @@ export class BloodBankSpecComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getBloodBank(this.bloodBankId).subscribe(res => {
+      this.bloodBank = res;
+      this.appointments = res.freeAppointments;
+    })
   }
 
   public getWorkingHours(date : any): any {
-    return this.datePipe.transform(date,'MM-dd-yyyy hh-mm-ss' );
+    return this.datePipe.transform(date,'dd-MM-yyyy hh-mm-ss' );
   }
 
 }

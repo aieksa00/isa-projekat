@@ -207,7 +207,7 @@ public class UserCredentialsController {
 		}
 		UserType ut = null;
 		switch(user.getUser().userType) {
-			case 0: ut = new UserType(0, "ADMIN");break;
+			case 3: ut = new UserType(3, "ADMIN");break;
 			case 1: ut = new UserType(1, "STAFF");break;
 			case 2: ut = new UserType(2, "CUSTOMER");break;
 		}
@@ -220,8 +220,8 @@ public class UserCredentialsController {
 
 		String token = userCredentials.getVerifiedString();
 		String msg = "Please click this link to verify and log In: http://localhost:9090/UserCredentialsController/verifyUser?token=" + token + "&email=" + userCredentials.getEmail();
-		EmailDetails email = new EmailDetails(userCredentials.getEmail(), msg, "Verification", "");
-		emailService.sendSimpleMail(email);
+		EmailDetails email = new EmailDetails("milana.dokic.md@gmail.com", msg, "Verification", "");
+		//emailService.sendSimpleMail(email);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

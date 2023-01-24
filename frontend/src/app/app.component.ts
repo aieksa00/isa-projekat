@@ -1,5 +1,7 @@
 import { Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +10,13 @@ import { CookieService } from 'ngx-cookie-service';
   providers: [CookieService]
 })
 export class AppComponent implements OnChanges{
-  constructor(public cookieService: CookieService) {}
+  constructor(public cookieService: CookieService, public authenticationService : AuthenticationService) {}
   
   title = 'frontend';
   @Input() cookie : string = this.cookieService.get('LoggedIn');
 
-  public isLoggedIn : boolean = this.cookieService.get('LoggedIn') === 'true';
-
   ngOnChanges( changes : SimpleChanges) {
     const { currentValue }  = changes['cookie'];
-    this.isLoggedIn = currentValue === 'true';
   }
 
 }

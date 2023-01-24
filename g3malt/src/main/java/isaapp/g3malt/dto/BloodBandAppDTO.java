@@ -9,11 +9,11 @@ public class BloodBandAppDTO {
     public String name;
     public String street;
     public String city;
-    public Set<Appointment> freeAppointments;
+    public Set<AppointmentDTO> freeAppointments;
 
     public BloodBandAppDTO() {}
 
-    public BloodBandAppDTO(Integer id, String name, String street, String city, Set<Appointment> freeAppointments) {
+    public BloodBandAppDTO(Integer id, String name, String street, String city, Set<AppointmentDTO> freeAppointments) {
         this.id = id;
         this.name = name;
         this.street = street;
@@ -53,11 +53,11 @@ public class BloodBandAppDTO {
         this.city = city;
     }
 
-    public Set<Appointment> getFreeAppointments() {
+    public Set<AppointmentDTO> getFreeAppointments() {
         return freeAppointments;
     }
 
-    public void setFreeAppointments(Set<Appointment> freeAppointments) {
+    public void setFreeAppointments(Set<AppointmentDTO> freeAppointments) {
         this.freeAppointments = freeAppointments;
     }
 }

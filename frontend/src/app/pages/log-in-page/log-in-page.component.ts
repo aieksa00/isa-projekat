@@ -13,6 +13,7 @@ import { _countGroupLabelsBeforeOption } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserCredentialsService } from 'src/app/services/user-credentials.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-log-in-page',
@@ -35,7 +36,7 @@ export class LogInPageComponent implements OnInit {
   
 
   constructor(public router: Router, public cookieService: CookieService, private http: HttpClient, private userCredentialsService: UserCredentialsService,
-    private dialogRef: MatDialogRef<LogInPageComponent>) {
+    private dialogRef: MatDialogRef<LogInPageComponent>, private authenticationService : AuthenticationService) {
   }
 
   onSubmit() {
@@ -54,7 +55,7 @@ export class LogInPageComponent implements OnInit {
       this.checkUserCredentials(this.userCredentials).subscribe(res => {
 
         this.userCredentials = res;
-        this.logIn(this.userCredentials).subscribe(res => {
+        this.authenticationService.logIn(this.userCredentials).subscribe(res => {
           if(!this.errorHappend) {
             this.cookieService.set('LoggedIn', 'true' );
             this.access_token = res.accessToken;
@@ -65,8 +66,9 @@ export class LogInPageComponent implements OnInit {
             this.role = decodedToken['Granted Authorities'];
             localStorage.setItem('email', this.jwtEmail);
             localStorage.setItem('role', this.role);
+            this.authenticationService.isAuthenticatedSrc.next(true);
             if(this.role == "CUSTOMER") {
-              this.router.navigate(['/bloodBanks']);
+              this.router.navigate(['/bloodBanks'])
             } else if (this.role == "STAFF") {
               this.router.navigate(['/bloodBankInfo'])
             } else if (this.role == "ADMIN"){
@@ -74,8 +76,10 @@ export class LogInPageComponent implements OnInit {
                   {
                     this.changePassword()
                   }
-                else
+                else{
                   this.router.navigate(['/createBloodBank'])
+                }
+
             }
           }
         });
@@ -85,12 +89,12 @@ export class LogInPageComponent implements OnInit {
     
   }
 
-  logIn(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
-    return this.http.post<any>("http://localhost:9090/UserCredentialsController/logIn", userCredentialsDTO).pipe(catchError(this.handleError));
-  }
-
   checkUserCredentials(userCredentialsDTO : UserCredentialsDTO) : Observable<any> {
     return this.http.post<any>("http://localhost:9090/UserCredentialsController/checkCredeentials", userCredentialsDTO).pipe(catchError(this.handleError));
+  }
+
+  reloadPage(): void {
+    window.location.reload();
   }
 
   showEmptyFieldMessage(){

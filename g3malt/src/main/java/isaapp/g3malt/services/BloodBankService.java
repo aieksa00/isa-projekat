@@ -79,25 +79,24 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 		List<Appointment> appointments = new ArrayList(bloodBank.getFreeAppointments());
 		String sortValue = sortDTO.sortValue;
 
-		Comparator<Appointment> compareDateTime = new Comparator<Appointment>() {
+		Comparator<Appointment> compareDateTimeAsc = new Comparator<Appointment>() {
 			@Override
 			public int compare(Appointment a1, Appointment a2) {
 				return a1.getScheduleDateTime().compareTo(a2.getScheduleDateTime());
 			}
 		};
 
-		Comparator<Appointment> compareDuration = new Comparator<Appointment>() {
+		Comparator<Appointment> compareDateTimeDesc = new Comparator<Appointment>() {
 			@Override
 			public int compare(Appointment a1, Appointment a2) {
-
-				return Integer.compare(a1.getDuration(), a2.getDuration());
+				return a2.getScheduleDateTime().compareTo(a1.getScheduleDateTime());
 			}
 		};
 
-		if(sortValue.equals("duration")) {
-			Collections.sort(appointments, compareDuration);
-		} else if(sortValue.equals("date")) {
-			Collections.sort(appointments, compareDateTime);
+		if(sortValue.equals("durationAsc")) {
+			Collections.sort(appointments, compareDateTimeAsc);
+		} else if(sortValue.equals("durationDesc")) {
+			Collections.sort(appointments, compareDateTimeDesc);
 		};
 
 		return appointments;

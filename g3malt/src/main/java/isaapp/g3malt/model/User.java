@@ -52,13 +52,13 @@ public class User implements UserDetails {
 	@Column(name="last_appointment", unique=false, nullable=true)
 	private String lastAppointment;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_types",
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "user_type_id", referencedColumnName = "id"))
 	private List<UserType> userType;
 
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private UserCredentials usercredentials;
 
 	public User() {}

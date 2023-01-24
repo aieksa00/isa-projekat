@@ -28,9 +28,9 @@ public class Customer extends User{
 	private Set<Appointment> appointmentHistory;
 	
 	public Customer(Integer id, String name, String surname, String address, String city, String country,
-			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType,
+			String phoneNumber, String jmbg, GenderType gender, String profession, String workplace, List<UserType> userType, String lastAppointment,
 			int loyaltyPoints, LoyaltyType loyaltyType, int penalty, Set<Appointment> appointmentHistory) {
-		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, userType, workplace);
+		super(id, name, surname, address, city, country, phoneNumber, jmbg, gender, profession, workplace, userType, lastAppointment);
 		this.loyaltyPoints = loyaltyPoints;
 		this.loyaltyType = loyaltyType;
 		this.penalty = penalty;

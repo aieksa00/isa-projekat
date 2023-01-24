@@ -11,6 +11,7 @@ import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
 import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.UserCredentials;
+import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+    @Autowired
+    private CustomerService customerService;
 	
 	@Autowired
 	private UserCredentialsService userCredentialsService;
@@ -62,7 +66,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getCustomer/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserInfoDto> getCustomer(@PathVariable Integer id) {
-        Customer user = (Customer) userService.findById(1);
+        Customer user = customerService.findById(id);
         
         Iterable<UserCredentials> credentials = userCredentialsService.findAll();
         UserCredentials userCredetial = null;
@@ -139,7 +143,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDTO> addNewAdmin(@RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
-        UserType ut = new UserType(0, "ADMIN");
+        UserType ut = new UserType(3, "ADMIN");
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
     	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,"");
@@ -153,15 +157,18 @@ public class UserController {
         GenderType g = userDTO.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = null;
         switch(userDTO.userType) {
-            case 0: ut = new UserType(0, "ADMIN");break;
+            case 3: ut = new UserType(3, "ADMIN");break;
             case 1: ut = new UserType(1, "STAFF");break;
             case 2: ut = new UserType(2, "CUSTOMER");break;
         }
         List<UserType> userTypes = new ArrayList<>();
         userTypes.add(ut);
-        User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, "");
-        User newUser = userService.save(user);
-        userDTO.setUserId(newUser.getId());
+        //User user = new User(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, "");
+        //User newUser = userService.save(user);
+        //userDTO.setUserId(newUser.getId());
+        Customer customer = new Customer(null, userDTO.name, userDTO.surname, userDTO.address, userDTO.city, userDTO.country, userDTO.phoneNumber, userDTO.jmbg, g, userDTO.profession, userDTO.workplace, userTypes, "", 0, LoyaltyType.bronze, 0, null);
+        User newCustomer = userService.save(customer);
+        userDTO.setUserId(newCustomer.getId());
         return new ResponseEntity<UserDTO>(userDTO, HttpStatus.CREATED);
     }
 

@@ -23,7 +23,7 @@ export class CreateAdministratorComponent implements OnInit {
   public jmbg: String = "";
   public gender: String = "";
   public profession: String = "System administrator";
-  public userType: Number = 0;
+  public userType: Number = 3;
 
   public email: String = "";
 
