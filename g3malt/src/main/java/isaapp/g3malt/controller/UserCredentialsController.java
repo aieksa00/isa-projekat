@@ -99,7 +99,7 @@ public class UserCredentialsController {
 
 		UserCredentials userCredentials = userCredentialsService.findByEmail(userCredentialsDTO.getEmail());
 
-		if(userCredentials.isVerified()) {
+		if(userCredentials.isVerified()){
 			// Kreiraj token za tog korisnika
 			User user = (User) authentication.getPrincipal();
 			String jwt = tokenUtils.generateToken(user.getUsername(), user.getUserType().get(0).getName());
@@ -221,7 +221,7 @@ public class UserCredentialsController {
 		String token = userCredentials.getVerifiedString();
 		String msg = "Please click this link to verify and log In: http://localhost:9090/UserCredentialsController/verifyUser?token=" + token + "&email=" + userCredentials.getEmail();
 		EmailDetails email = new EmailDetails("milana.dokic.md@gmail.com", msg, "Verification", "");
-		//emailService.sendSimpleMail(email);
+		emailService.sendSimpleMail(email);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
