@@ -5,6 +5,7 @@ import { AppointmentDto } from 'src/app/DTO/appointment-time-dto';
 import { BloodBankAppointmentDto } from 'src/app/DTO/blood-bank-appointment-dto';
 import { BloodBanksDTO } from 'src/app/DTO/blood-banks-list-dto';
 import { BloodBanksDTO2 } from 'src/app/DTO/blood-banks-list-dto2';
+import { CreateAppointmentByPatientDTO } from 'src/app/DTO/create-appointment-by-patient-dto';
 import { BloodBankService } from 'src/app/services/blood-bank.service';
 
 @Component({
@@ -21,6 +22,7 @@ export class ScheduleAppointmentComponent implements OnInit {
   public bloodBank: BloodBanksDTO2 = new BloodBanksDTO2;
   public appointmentTime: String = '';
   public bloodBankAppointmentDto: BloodBankAppointmentDto = new BloodBankAppointmentDto();
+  public createAppointmentByPatientDTO: CreateAppointmentByPatientDTO = new CreateAppointmentByPatientDTO()
 
   constructor(public router: Router, private bloodBankService: BloodBankService) { }
 
@@ -48,10 +50,22 @@ export class ScheduleAppointmentComponent implements OnInit {
     this.bloodBankAppointmentDto.bloodBankId = this.bloodBank.id;
     this.bloodBankAppointmentDto.appointmentTime = this.appointmentTime;
     let id;
-    this.bloodBankService.getAppointmentFromBloodBank(this.bloodBankAppointmentDto).subscribe(res => {
-      id = res;
-      localStorage.setItem("appointmentId", id)
-    });
+    if(this.bloodBank.hasPredefinedAppointment){
+      this.bloodBankService.getAppointmentFromBloodBank(this.bloodBankAppointmentDto).subscribe(res => {
+        id = res;
+        localStorage.setItem("appointmentId", id)
+      });
+
+    } else {
+      this.createAppointmentByPatientDTO.customerId = 4
+      this.createAppointmentByPatientDTO.scheduleDateTime = this.appointmentTime
+      console.log(this.createAppointmentByPatientDTO)
+      this.bloodBankService.createAppointmentByPatient(this.createAppointmentByPatientDTO, this.bloodBank.id).subscribe(res => {
+        id = res;
+        console.log(id)
+        localStorage.setItem("appointmentId", id)
+        });
+    }
     this.router.navigate(['/questionnairePage'])
   }
 

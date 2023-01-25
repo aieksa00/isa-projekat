@@ -8,6 +8,7 @@ import { CreateBloodBankDTO } from '../DTO/create-blood-bank-dto';
 import { UpdateBloodBankDto } from '../DTO/update-blood-bank-dto';
 import { UpdateBloodBankStorageDto } from '../DTO/update-blood-bank-storage-dto';
 import { BloodBankAppointmentDto } from '../DTO/blood-bank-appointment-dto';
+import { CreateAppointmentByPatientDTO } from '../DTO/create-appointment-by-patient-dto';
 
 
 @Injectable({
@@ -54,5 +55,10 @@ export class BloodBankService {
 
   public getAppointmentFromBloodBank(bloodBankAppointmentDto: BloodBankAppointmentDto) {
     return this.http.post<any>(this.apiHost + 'BloodBankController/getAppointmentFromBloodBank',bloodBankAppointmentDto, {headers: this.headers});
+  }
+
+  public createAppointmentByPatient(createAppointmentByPatientDTO: CreateAppointmentByPatientDTO, id: any) {
+    console.log(createAppointmentByPatientDTO)
+    return this.http.post<any>(this.apiHost + 'AppointmentController/CreateAppointmentByPatient/'+ id, createAppointmentByPatientDTO, {headers: this.headers});
   }
 }
