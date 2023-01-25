@@ -1,54 +1,41 @@
-header{
-    background-color: #970E0E;
-}
-
-.active{
-    background-color: #F4EEDE;
-}
-
-header .logo{
-    font-size: 40px;
-    color:#F4EEDE;
-    padding: 5px;
-    margin-left: 27px;
-    text-decoration: none;
-    font-weight: bolder;
-}
-
-.navBar {
-    display: flex;
-    text-align: right;
-    justify-content: space-between;
-    width: 100vw;
-}
-
-nav a {
-    font-size: 32px;
-    padding: 10px;
-    text-decoration: none;
-    color: #F4EEDE;
-    transition:background-color 0.3s;
+nav{
+    background-color: #9cdedc;
 }
 
 nav a, nav button {
     font-size: 32px;
     padding: 10px;
     text-decoration: none;
-    color: #F4EEDE;
-    background-color: #970E0E;
+    color: #333333;
+    background-color: #9cdedc;
     transition:background-color 0.3s;
     text-decoration: none;
-    border: #970E0E;
+    border: #5aafb2;
 }
 
 nav a:hover, nav button:hover{
-    background-color: #F4EEDE;
+    background-color: #74bec1;
     text-decoration: none;
-    color: #383E3C;
     background-size: contain;
     border-radius: 10px;
 }
+.color-red{
+    color: #e72d3a;
+}
+.color-gray{
+    color: #333333;
+}
+.red-btn{
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.5rem;
+    background: #e72d3a;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.5rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: #333333;
 
-#last{
-    margin-right: 20px;
 }

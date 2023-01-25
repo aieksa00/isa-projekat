@@ -1,15 +1,42 @@
-<div>
-  <header>
-    <div class="navBar">
-      <a href="#" class="logo">BLOOD BANK</a>
-      <nav class="nav">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <button id="last" (click)="openLogInDialog()">Log in</button>
-      </nav>
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+  <div class="container-fluid">
+    <img src="../../../assets/images/logo.png" alt="Logo" height="40" class="d-inline-block align-text-center mb-1">
+    <a class="navbar-brand" href="">
+      Blood Bank
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item ms-3">
+          <a class="nav-link active" aria-current="page" href="">Home</a>
+        </li>
+        <li class="nav-item ms-3">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item ms-3">
+          <button (click)="openLogInDialog()">Log in</button>
+        </li>
+      </ul>
     </div>
-  </header>
-  <body>
+  </div>
+</nav>
+<div class="no-horizontal-scroll d-flex flex-column w-100">
+  <div class="d-flex flex-row mt-5">
+    <div class="d-flex flex-column flex-wrap m-auto pb-5">
+      <span class="fs-1 fw-bold color-red">BLOOD DONATION</span>
+      <span class="fs-4 ms-2 color-gray">
+        Donating your blood can save another life. <br/>
+        By becoming a donor You are saving other <br/>
+        people. Log in or register to our program <br/>
+        to start donating now.
+      </span>
+      <a class="btn red-btn" href="#View_Facilities">View our facilities</a>
+    </div>
+    <img src="../../../assets/images/LandingPageImg1.jpg" alt="Landing Page Image" class="img-fluid w-50 ms-auto me-5">
+  </div>
+  <div id="View_Facilities">
     <app-blood-banks-list></app-blood-banks-list>
-  </body>
+  </div>
 </div>
