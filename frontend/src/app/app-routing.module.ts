@@ -23,6 +23,7 @@ import { AppointmentReviewPageComponent } from './pages/appointment-review-page/
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 import { RoleGuard } from './helpers/auth-guard.guard';
+import { CreateMedicalStaffComponent } from './pages/create-medical-staff/create-medical-staff.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -51,6 +52,11 @@ const routes: Routes = [
   },
   { path: 'calender', component: BloodBankCalenderComponent},
   { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'ADMIN'
+          }
+  },
+  { path: 'addMedicalStaff', component: CreateMedicalStaffComponent, canActivate: [RoleGuard], 
           data: { 
             expectedRole: 'ADMIN'
           }

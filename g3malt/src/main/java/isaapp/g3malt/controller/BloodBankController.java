@@ -29,6 +29,7 @@ import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.BloodBankStorageService;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,8 @@ public class BloodBankController {
 	
 	@Autowired
 	private BloodBankService bloodBankService;
+	@Autowired
+	private BloodBankStorageService bloodBankStorageService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -282,10 +285,9 @@ public class BloodBankController {
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CreateBloodBankDTO> addBloodBank(@Valid @RequestBody CreateBloodBankDTO bloodbankDto) {
-		User administrator = userService.findById(bloodbankDto.administratorId);
-		Set<User> users = new HashSet<User>();
-		users.add(administrator);
-		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.street, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, users, bloodbankDto.workingHours, null, null);
+		BloodBankStorage bds = new BloodBankStorage(null,0,0,0,0,0,0,0,0);
+		bds = bloodBankStorageService.save(bds);
+		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.address, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, null, bloodbankDto.workingHours, bds, null);
         BloodBank newBloodBank = bloodBankService.save(bloodBank);
         return new ResponseEntity<CreateBloodBankDTO>(bloodbankDto, HttpStatus.CREATED);
     }

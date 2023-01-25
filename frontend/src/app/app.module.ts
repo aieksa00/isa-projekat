@@ -35,6 +35,7 @@ import { AppointmentReviewPageComponent } from './pages/appointment-review-page/
 import { MatExpansionModule } from '@angular/material/expansion'
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
+import { CreateMedicalStaffComponent } from './pages/create-medical-staff/create-medical-staff.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointm
     AppointmentReviewPageComponent,
     BloodBankSpecComponent,
     ScheduleAppointmentComponent,
+    CreateMedicalStaffComponent,
   ],
   imports: [
     BrowserModule,

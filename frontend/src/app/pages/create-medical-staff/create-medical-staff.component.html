@@ -4,7 +4,20 @@
             <form [formGroup]="registreUserForm">
                 <table>
                     <tr>
-                        <td class="registration-table-center" colspan="2"><h1>New system admin</h1></td>
+                        <td class="registration-table-center" colspan="2"><h1>New medical staff</h1></td>
+                    </tr>
+                    <tr>
+                        <td><p>Blood bank:</p></td>
+                        <div *ngIf="loaded">
+                        <td>
+                            <select>
+                                <option *ngFor="let bank of bloodBanks"
+                                    >
+                                    {{bank.name}}
+                                </option>
+                            </select></td>
+                        </div>
+                        <td></td>                      
                     </tr>
                     <tr>
                         <td><p>Name:</p></td>
@@ -83,6 +96,14 @@
                     <tr *ngIf="registreUserForm.get('email').invalid && (registreUserForm.get('email').dirty || registreUserForm.get('email').touched)" >
                         <td><p></p></td>
                         <td class="text-danger mt-1">Please enter email.</td>
+                    </tr>
+                    <tr>
+                        <td><p>Password:</p></td>
+                        <td><input type="text" id="password" formControlName="password"></td>
+                    </tr>
+                    <tr *ngIf="registreUserForm.get('password').invalid && (registreUserForm.get('password').dirty || registreUserForm.get('password').touched)" >
+                        <td><p></p></td>
+                        <td class="text-danger mt-1">Please enter password.</td>
                     </tr>
                     <tr>
                         <td class="registration-button" colspan="2">
