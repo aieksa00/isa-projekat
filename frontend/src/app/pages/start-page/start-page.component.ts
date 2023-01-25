@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 import { LogInPageComponent } from '../log-in-page/log-in-page.component';
 
@@ -10,8 +13,11 @@ import { LogInPageComponent } from '../log-in-page/log-in-page.component';
 })
 export class StartPageComponent implements OnInit {
 
-  constructor(private dialogRef : MatDialog) {
+  constructor(private dialogRef : MatDialog, private router: Router, private cookieService: CookieService, private authenticationService : AuthenticationService) {
   }
+
+  public isLoggedIn: boolean = false;
+  public role: string = localStorage.getItem('role')!;
 
   openLogInDialog() {
     this.dialogRef.open(LogInPageComponent, {
@@ -24,6 +30,15 @@ export class StartPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.cookieService.get('LoggedIn') === 'true';
+  }
+
+  LogOut(){
+    this.authenticationService.isAuthenticatedSrc.next(false);
+    this.cookieService.deleteAll();
+    localStorage.clear();
+    this.router.navigate(['/']);
+    window.location.reload()
   }
 
 }
