@@ -22,6 +22,7 @@ import { CreateAdministratorComponent } from './pages/create-administrator/creat
 import { AppointmentReviewPageComponent } from './pages/appointment-review-page/appointment-review-page.component';
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
+import { RoleGuard } from './helpers/auth-guard.guard';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -35,7 +36,11 @@ const routes: Routes = [
   { path: 'userQRCodes', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
-  { path: 'bloodBankInfo', component: BloodBankInfoComponent},
+  { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'STAFF'
+          }
+  },
   { path: 'createBloodBank', component: CreateBloodBankComponent},
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent},
@@ -43,7 +48,11 @@ const routes: Routes = [
   { path: 'calender', component: BloodBankCalenderComponent},
   { path: 'addAdmin', component: CreateAdministratorComponent},
   { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent},
-  { path: 'bloodBankSpec', component: BloodBankSpecComponent},
+  { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
+  },
   { path: 'scheduleAppointment', component: ScheduleAppointmentComponent},
 ];
 

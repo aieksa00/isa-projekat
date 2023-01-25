@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { BloodBanksDTO } from 'src/app/DTO/blood-banks-list-dto';
 import { SearchDTO } from 'src/app/DTO/search-dto';
@@ -19,8 +20,9 @@ export class BloodBanksListComponent implements OnInit {
   public sortValue : String = "";
   public searchDTO : SearchDTO = new SearchDTO();
   public bloodBanksFiltered :  BloodBanksDTO[] = [];
+  public isLoggedIn : boolean = false;
 
-  constructor(public router: Router, private bloodBankService: BloodBankService, private http: HttpClient) { }
+  constructor(public router: Router, private bloodBankService: BloodBankService, private http: HttpClient, private cookieService: CookieService) { }
 
   ngOnInit(): void {
     this.bloodBankService.getBloodBanks().subscribe(res => {
@@ -36,6 +38,11 @@ export class BloodBanksListComponent implements OnInit {
       sortValue : this.sortValue
     }
 
+    if(this.cookieService.get('LoggedIn')==='true')
+    {
+      this.isLoggedIn = true;
+    }
+    
     this.getFiltered().subscribe(res => {
       this.bloodBanksFiltered = res;
     })
