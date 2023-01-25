@@ -1,4 +1,5 @@
 export class AllUserInfoDto {
+    userId: number = 0;
     userName: String = "";
     userSurname: String = "";
     userStreet: String = "";
@@ -9,13 +10,13 @@ export class AllUserInfoDto {
     userGender: number = 0;
     userProfession: String = "";
     userWorkplace: String = "";
-    userId: number = 0;
 
     userCredentialsEmail: String = "";
     userCredentialsPassword: String = "";
 
     public constructor(obj?: any) {
         if (obj) {
+          this.userId = obj.userId; 
           this.userName = obj.userName;
           this.userSurname = obj.userSurname;
           this.userStreet = obj.userStreet;
@@ -25,8 +26,7 @@ export class AllUserInfoDto {
           this.userJmbg = obj.userCountry;    
           this.userGender = obj.userGender;    
           this.userProfession = obj.userProfession;    
-          this.userWorkplace = obj.userWorkplace;    
-          this.userId = obj.userId;    
+          this.userWorkplace = obj.userWorkplace;     
           this.userCredentialsEmail = obj.userCredentialsEmail;    
           this.userCredentialsPassword = obj.userCredentialsPassword;    
         }

@@ -71,9 +71,9 @@ public class DataLoader implements CommandLineRunner {
         Date date5 = new Date(123,11,25,18,00,00);
         Date date6 = new Date(123,11,28,15,00,00);
 
-        User user1 = new User(null, "Aleksa", "Colovic", "Vojvode Sindjelica 13", "Novi Sad", "Srbija", "060165356789", "9876543219876", male, "student", "FTN", userTypes1, "");
-        User user2 = new User(null, "Luka", "Mandic", "Rumenacki put 1", "Novi Sad", "Srbija", "06012345235", "0192837465893", male, "student", "FTN", userTypes1, "");
-        User user3 = new User(null, "Aleksandar", "Stojanovic", "Kamenica", "Novi Sad", "Srbija", "06012347777", "8496572839476", male, "student", "FTN", userTypes1, "");
+        User user1 = new User(null, "Aleksa", "Colovic", "Vojvode Sindjelica 13", "Novi Sad", "Srbija", "060165356789", "9876543219876", male, "student", "FTN", userTypes3, "");
+        MedicalStaff user2 = new MedicalStaff(null, "Luka", "Mandic", "Rumenacki put 1", "Novi Sad", "Srbija", "06012345235", "0192837465893", male, "student", "FTN", userTypes1, "", null);
+        MedicalStaff user3 = new MedicalStaff(null, "Aleksandar", "Stojanovic", "Kamenica", "Novi Sad", "Srbija", "06012347777", "8496572839476", male, "student", "FTN", userTypes1, "", null);
 
         Customer customer1 = new Customer(null, "Milana", "Dokic", "Nusiceva", "Novi Sad", "Srbija", "060123456789", "1234567891234", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);
         Customer customer2 = new Customer(null, "Tatjana", "Gemovic", "Telep", "Novi Sad", "Srbija", "060123487347", "7584957836578", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);

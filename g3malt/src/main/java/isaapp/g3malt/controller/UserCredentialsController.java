@@ -122,9 +122,9 @@ public class UserCredentialsController {
 		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/GetUser/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AllUserInfoDto> getUserById(@PathVariable Integer id) {
-        UserCredentials userCredentials = userCredentialsService.findById(id);
+	@GetMapping(value = "/GetUserByEmail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AllUserInfoDto> getUserByEmail(@PathVariable String email) {
+        UserCredentials userCredentials = userCredentialsService.findByEmail(email);
         if (userCredentials == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -133,10 +133,12 @@ public class UserCredentialsController {
         return new ResponseEntity<AllUserInfoDto>(allUserInfoDto, HttpStatus.OK);
     }
 	
-	@PutMapping(value = "UpdateUser/{id}", consumes = "application/json")
-	public ResponseEntity<AllUserInfoDto> updateUser(@PathVariable Integer id, @RequestBody AllUserInfoDto dto) {
+	@CrossOrigin(origins = "*")
+	@PutMapping(value = "/UpdateUserByEmail/{email}", consumes = "application/json")
+	@PreAuthorize("hasAuthority('STAFF')")
+	public ResponseEntity<AllUserInfoDto> UpdateUserByEmail(@PathVariable String email, @RequestBody AllUserInfoDto dto) {
 
-		UserCredentials userCredentials = userCredentialsService.findById(id);
+		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
         
 		if (userCredentials == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

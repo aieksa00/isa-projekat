@@ -1,12 +1,13 @@
-<div class="d-flex flex-wrap justify-content-evenly m-3">
-    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 40vw; max-width: 90vw;">
+<app-staff-navbar></app-staff-navbar>
+<div class="d-flex flex-wrap justify-content-evenly my-5 pt-5 mx-1 background-gradient">
+    <div class="card-bg color-gray p-4 rounded-3 me-3 mb-3" style="min-width: 60%; max-width: 95%;">
         <h2 class="mb-3">{{bloodBankDto.bloodBankName}}</h2>
-        <h4 class="mb-2 mx-auto border-bottom border-white">Current information below:</h4>
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Current information below:</h4>
         <p class="ms-3">Address:&nbsp;{{bloodBankDto.bloodBankStreet}},&nbsp;{{bloodBankDto.bloodBankCity}},&nbsp;{{bloodBankDto.bloodBankCountry}}</p>
         <p class="ms-3">Rating:&nbsp;{{bloodBankDto.bloodBankRating}}</p>
         <p class="ms-3">Description:&nbsp;{{bloodBankDto.bloodBankDescription}}</p>
 
-        <h4 class="mb-2 mx-auto border-bottom border-white">Update information below:</h4>
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Update information below:</h4>
         <form class="d-flex flex-column ms-3" [formGroup]="updateForm">
             <div class="mb-1">
                 <label for="name" class="form-label">New name</label>
@@ -49,12 +50,12 @@
             </div>
 
             <div class="ms-auto">
-                <button class="btn btn-primary btn-sm" type="button" [disabled]="updateForm.invalid" (click)="updateDescription()">Update</button>
+                <button class="btn bg-color-cyan mt-3" type="button" [disabled]="updateForm.invalid" (click)="updateDescription()">Update</button>
             </div>
         </form>
-        <h4 class="mb-2 mx-auto border-bottom border-white">Current storage state:</h4>
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Current storage state:</h4>
         <div class="table-responsive">
-            <table class="table table-secondary table-bordered">
+            <table class="table table-light table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">A Plus</th>
@@ -82,8 +83,8 @@
             </table>
         </div>
     </div>
-    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 20vw; max-width: 90vw;">
-        <h4 class="mb-2 mx-auto border-bottom border-white">Update personal information below:</h4>
+    <div class="card-bg color-gray p-4 rounded-3 mb-3" style="min-width: 30%; max-width: 95%;">
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Update personal information below:</h4>
         <form class="d-flex flex-column ms-3" [formGroup]="userForm">
             <div class="mb-1">
                 <label for="name" class="form-label">Name</label>
@@ -173,16 +174,16 @@
                 </div>
             </div>
             <div class="ms-auto">
-                <button class="btn btn-primary" type="button" [disabled]="userForm.invalid" (click)="updateUser()">Update</button>
+                <button class="btn bg-color-cyan mt-3" type="button" [disabled]="userForm.invalid" (click)="updateUser()">Update</button>
             </div>
         </form>
     </div>
 </div>
-<div class="d-flex justify-content-evenly m-3">
-    <div class="bg-dark text-white p-4 rounded-3 me-3 mb-3" style="min-width: 60vw; max-width: 90vw;">
-        <h4 class="mb-2 mx-auto border-bottom border-white">Future Appointents:</h4>
-        <table class="table table-secondary table-hover mt-auto">
-            <thead class="border-bottom border-dark">
+<div class="d-flex flex-wrap justify-content-evenly mx-1 pb-5 background-gradient-reverse">
+    <div class="card-bg color-gray p-4 rounded-3 me-3 mb-3" style="min-width: 60%; max-width: 95%;">
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Future Appointents:</h4>
+        <table class="table table-light table-hover mt-auto">
+            <thead class="border-bottom-cyan">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Date and time</th>
@@ -198,10 +199,13 @@
                     <td>{{ appointment.scheduleDateTime }}</td>
                     <td>{{ appointment.duration }}</td>
                     <td *ngFor="let staff of appointment.medicalStaff">{{ staff.name }}&nbsp;{{staff.surname}}</td>
+                    <td *ngIf="appointment.medicalStaff.length < 3">No staff</td>
+                    <td *ngIf="appointment.medicalStaff.length < 2">No staff</td>
+                    <td *ngIf="appointment.medicalStaff.length < 1">No staff</td>
                 </tr>
             </tbody>
         </table>
-        <h4 class="mb-2 mx-auto border-bottom border-white">Schedule new appointment below:</h4>
+        <h4 class="mb-2 mx-auto border-bottom-cyan">Schedule new appointment below:</h4>
         <form class="d-flex flex-column ms-3" [formGroup]="appointmentForm">
             <div class="mb-1">
                 <label for="scheduleDateTime" class="form-label">Date and Time</label>
@@ -252,14 +256,14 @@
                 </div>
             </div>
             <div class="ms-auto">
-                <button class="btn btn-primary" type="button" [disabled]="appointmentForm.invalid" (click)="createAppointment()">Schedule</button>
+                <button class="btn bg-color-cyan mt-3" type="button" [disabled]="appointmentForm.invalid" (click)="createAppointment()">Schedule</button>
             </div>
         </form>
     </div>
-    <div class="bg-dark text-white p-4 rounded-3 mb-3" style="min-width: 20vw; max-width: 90vw;">
-        <h4 class="mb-2 mx-auto border-bottom border-white">All staff</h4>
-        <table class="table table-secondary table-hover mt-auto">
-            <thead class="border-bottom border-dark">
+    <div class="card-bg color-gray p-4 rounded-3 mb-3" style="min-width: 30%; max-width: 95%;">
+        <h4 class="mb-2 mx-auto border-bottom-cyan">All staff</h4>
+        <table class="table table-light table-hover mt-auto">
+            <thead class="border-bottom-cyan">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>

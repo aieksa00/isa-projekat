@@ -19,18 +19,3 @@ nav a:hover, nav button:hover{
     background-size: contain;
     border-radius: 10px;
 }
-
-.red-btn{
-    width: 250px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1.5rem;
-    background: #e72d3a;
-    border-radius: 10px;
-    border: none;
-    font-size: 1.5rem;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    color: #333333;
-
-}

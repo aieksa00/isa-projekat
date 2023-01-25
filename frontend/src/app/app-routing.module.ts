@@ -23,6 +23,7 @@ import { AppointmentReviewPageComponent } from './pages/appointment-review-page/
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 import { RoleGuard } from './helpers/auth-guard.guard';
+import { StaffHomePageComponent } from './pages/staff-home-page/staff-home-page.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -47,13 +48,26 @@ const routes: Routes = [
   { path: 'userslist', component: UsersListComponent},
   { path: 'calender', component: BloodBankCalenderComponent},
   { path: 'addAdmin', component: CreateAdministratorComponent},
-  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent},
+  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
+  },
   { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
           data: { 
             expectedRole: 'CUSTOMER'
           }
   },
-  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent},
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'STAFF'
+          }
+  },
+  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'STAFF'
+          }
+  }
 ];
 
 @NgModule({
