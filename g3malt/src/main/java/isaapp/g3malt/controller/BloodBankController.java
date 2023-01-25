@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
+import javax.validation.Valid;
+
 import isaapp.g3malt.dto.*;
 import isaapp.g3malt.model.*;
 import org.modelmapper.ModelMapper;
@@ -279,7 +281,7 @@ public class BloodBankController {
 	@CrossOrigin(origins = "*")
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<CreateBloodBankDTO> addBloodBank(@RequestBody CreateBloodBankDTO bloodbankDto) {
+    public ResponseEntity<CreateBloodBankDTO> addBloodBank(@Valid @RequestBody CreateBloodBankDTO bloodbankDto) {
 		User administrator = userService.findById(bloodbankDto.administratorId);
 		Set<User> users = new HashSet<User>();
 		users.add(administrator);

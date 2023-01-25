@@ -172,11 +172,19 @@ public class UserCredentialsController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserCredentialsDTO> addNewUser(@RequestBody UserCredentialsDTO userCredentialsDto) {
+    public ResponseEntity<UserCredentialsDTO> addNewUser(@Valid @RequestBody UserCredentialsDTO userCredentialsDto) {
     	User u = userService.findById(userCredentialsDto.userId);
-    	UserCredentials uc = new UserCredentials(null,userCredentialsDto.email,userCredentialsDto.password,u,true);
-		UserCredentials newUserCredentials = userCredentialsService.save(uc);
-		return new ResponseEntity<UserCredentialsDTO>(userCredentialsDto, HttpStatus.CREATED);
+    	if(u==null || userCredentialsService.getByEmail(userCredentialsDto.email)) {
+	    	RandomString randomString =  new RandomString();
+			byte[] array = new byte[7]; // length is bounded by 7
+			new Random().nextBytes(array);
+			String generatedString = new String(array, Charset.forName("UTF-8"));
+			String verifiedString = randomString.getAlphaNumericString(20);
+	    	UserCredentials uc = new UserCredentials(null,userCredentialsDto.email,userCredentialsDto.password,u,true,verifiedString);
+			UserCredentials newUserCredentials = userCredentialsService.save(uc);
+			return new ResponseEntity<UserCredentialsDTO>(userCredentialsDto, HttpStatus.CREATED);
+    	}
+    	return new ResponseEntity<>(HttpStatus.CONFLICT);
 	}
 
 	@PostMapping(value = "/registreUserCredentials", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

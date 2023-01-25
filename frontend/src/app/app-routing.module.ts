@@ -44,9 +44,17 @@ const routes: Routes = [
   { path: 'createBloodBank', component: CreateBloodBankComponent},
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent},
-  { path: 'userslist', component: UsersListComponent},
+  { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'ADMIN'+'STAFF'
+          }
+  },
   { path: 'calender', component: BloodBankCalenderComponent},
-  { path: 'addAdmin', component: CreateAdministratorComponent},
+  { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'ADMIN'
+          }
+  },
   { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent},
   { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
           data: { 

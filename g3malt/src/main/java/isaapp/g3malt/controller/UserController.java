@@ -141,7 +141,7 @@ public class UserController {
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/addAdmin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserDTO> addNewAdmin(@RequestBody UserDTO userDto) {
+    public ResponseEntity<UserDTO> addNewAdmin(@Valid @RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = new UserType(3, "ADMIN");
         List<UserType> userTypes = new ArrayList<>();
@@ -149,7 +149,7 @@ public class UserController {
     	User user = new User(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,"");
         User newUser = userService.save(user);
         userDto.setUserId(newUser.getId());
-        return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
+        return new ResponseEntity<UserDTO>(userDto, HttpStatus.OK);
     }
 
     @PostMapping(value = "/addRegisteredUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
