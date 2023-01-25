@@ -32,7 +32,11 @@ const routes: Routes = [
   { path: 'sideNav', component: SidenavComponent},
   { path: 'bloodBanks', component: BloodBanksListComponent},
   { path: 'userHistory', component: UserHistoryComponent},
-  { path: 'userAppointments', component: UserAppointmentsComponent},
+  { path: 'userAppointments', component: UserAppointmentsComponent, canActivate: [RoleGuard],
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
+  },
   { path: 'userQRCodes', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
@@ -43,7 +47,11 @@ const routes: Routes = [
   },
   { path: 'createBloodBank', component: CreateBloodBankComponent},
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
-  { path: 'questionnairePage', component: QuestionnairePageComponent},
+  { path: 'questionnairePage', component: QuestionnairePageComponent, canActivate: [RoleGuard],
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
+  },
   { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard], 
           data: { 
             expectedRole: 'ADMIN'+'STAFF'
