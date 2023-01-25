@@ -137,9 +137,42 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 					String exHour = hour.split(":")[0];
 					String exHour2 = hour2.split(":")[0];
 					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
-						banksWithFreeAppointment.add(b);
+						if(a.isFree()) {
+							banksWithFreeAppointment.add(b);
+						}
+					}
+						
+				}
+			}
+		}
+		
+		return banksWithFreeAppointment;
+	}
+	
+public Iterable<BloodBank> findAllWithNoAppointment(String appointmentTime) {
+		
+		List<BloodBank> banks = bloodBankRepository.findAll();
+		List<BloodBank> banksWithFreeAppointment = new ArrayList<BloodBank>();
+		Boolean hasNoAppointments = true;
+		
+		for(BloodBank b : banks) {
+			hasNoAppointments = true;
+			for(Appointment a : b.getFreeAppointments()) {
+				Date time = a.getScheduleDateTime();
+				String date = time.toString().split(" ", 2)[0];
+				String hour = time.toString().split(" ", 2)[1];
+				String date2 = appointmentTime.split(" ", 2)[0];
+				String hour2 = appointmentTime.split(" ", 2)[1];
+				if(date.equals(date2)) {
+					String exHour = hour.split(":")[0];
+					String exHour2 = hour2.split(":")[0];
+					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
+						hasNoAppointments = false;
 					}
 				}
+			}
+			if(hasNoAppointments) {
+				banksWithFreeAppointment.add(b);
 			}
 		}
 		
