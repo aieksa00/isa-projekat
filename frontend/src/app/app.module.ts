@@ -36,6 +36,9 @@ import { MatExpansionModule } from '@angular/material/expansion'
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 import { CreateMedicalStaffComponent } from './pages/create-medical-staff/create-medical-staff.component';
+import { StaffHomePageComponent } from './pages/staff-home-page/staff-home-page.component';
+import { BloodBankCustomersComponent } from './pages/blood-bank-customers/blood-bank-customers.component';
+import { StaffNavbarComponent } from './pages/staff-navbar/staff-navbar.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,9 @@ import { CreateMedicalStaffComponent } from './pages/create-medical-staff/create
     BloodBankSpecComponent,
     ScheduleAppointmentComponent,
     CreateMedicalStaffComponent,
+    StaffHomePageComponent,
+    BloodBankCustomersComponent,
+    StaffNavbarComponent,
   ],
   imports: [
     BrowserModule,

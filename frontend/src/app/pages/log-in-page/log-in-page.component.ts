@@ -72,7 +72,7 @@ export class LogInPageComponent implements OnInit {
             if(this.role == "CUSTOMER") {
               this.router.navigate(['/bloodBanks'])
             } else if (this.role == "STAFF") {
-              this.router.navigate(['/bloodBankInfo'])
+              this.router.navigate(['/staffHomePage'])
             } else if (this.role == "ADMIN"){
                 if(this.userCredentials.password == "ADMINISTRATOR")
                   {

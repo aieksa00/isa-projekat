@@ -1,0 +1,21 @@
+.card-bg{
+    background: #e2fafa;
+}
+
+button:hover{
+    background-color: #74bec1;
+    text-decoration: none;
+    background-size: contain;
+    border-radius: 10px;
+}
+
+button:disabled{
+    border: none;
+    background-color: #93d8db;
+}
+
+.border-bottom-cyan{
+    border-bottom-color: #9cdedc;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}

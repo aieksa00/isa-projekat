@@ -10,13 +10,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item ms-3">
-          <a class="nav-link active" aria-current="page" href="">Home</a>
+          <a class="nav-link active" aria-current="page" href="" *ngIf="!isLoggedIn">Home</a>
+          <a class="nav-link active" aria-current="page" href="/staffHomePage" *ngIf="role==='STAFF'">Home</a>
+          <a class="nav-link active" aria-current="page" href="/bloodBanks" *ngIf="role==='CUSTOMER'">Home</a>
+          <a class="nav-link active" aria-current="page" href="/createBloodBank" *ngIf="role==='ADMIN'">Home</a>
         </li>
         <li class="nav-item ms-3">
           <a class="nav-link" href="#about">About</a>
         </li>
-        <li class="nav-item ms-3">
+        <li class="nav-item ms-3" *ngIf="!isLoggedIn">
           <button (click)="openLogInDialog()">Log in</button>
+        </li>
+        <li class="nav-item ms-3" *ngIf="isLoggedIn">
+          <button (click)="LogOut()">Log out</button>
         </li>
       </ul>
     </div>

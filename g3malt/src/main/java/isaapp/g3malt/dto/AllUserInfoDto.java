@@ -16,6 +16,8 @@ public class AllUserInfoDto {
 	public String userCredentialsEmail;
 	public String userCredentialsPassword;
 	
+	public AllUserInfoDto() {}
+	
 	public AllUserInfoDto(Integer userId, String userName, String userSurname, String userStreet, String userCity,
 			String userCountry, String userPhoneNumber, String userJmbg, int userGender, String userProfession,
 			String userWorkplace,  String userCredentialsEmail, String userCredentialsPassword) {
@@ -34,6 +36,7 @@ public class AllUserInfoDto {
 		this.userCredentialsEmail = userCredentialsEmail;
 		this.userCredentialsPassword = userCredentialsPassword;
 	}
+	
 	public Integer getUserId() {
 		return userId;
 	}

@@ -53,20 +53,26 @@ export class AppointmentReviewPageComponent implements OnInit {
   }
 
   endAppointment(){
-    this.router.navigate(['/bloodBankInfo']);
+    //this.appointmentService.FinishAppointment(this.appointmentId!).subscribe(res => {
+      this.router.navigate(['/staffHomePage']);
+    //});
   }
 
   addPenaltyPointToUser(){
     let dto: PenaltyPointDto = new PenaltyPointDto(this.appointmentReviewDto?.customerId);
     this.userService.addPenaltyPointToUser(dto).subscribe(res => {
-      this.router.navigate(['/bloodBankInfo']);
+      //this.appointmentService.FinishAppointment(this.appointmentId!).subscribe(res => {
+        this.router.navigate(['/staffHomePage']);
+      //});
     });
   }
 
   finishAppointment(){
     let dto: UpdateBloodBankStorageDto = new UpdateBloodBankStorageDto(this.appointmentReviewDto?.bloodBankId, this.appointmentForm.value.bloodType);
     this.bloodBankService.updateBloodBankStorage(dto).subscribe(res => {
-      this.router.navigate(['/bloodBankInfo']);
+      //this.appointmentService.FinishAppointment(this.appointmentId!).subscribe(res => {
+        this.router.navigate(['/staffHomePage']);
+      //});
     });
   }
 

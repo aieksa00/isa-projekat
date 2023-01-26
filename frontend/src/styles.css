@@ -78,3 +78,21 @@ body::-webkit-scrollbar {
     display: none; 
   }
   
+.color-red{
+    color: #e72d3a;
+}
+.color-gray{
+    color: #333333;
+}
+
+.bg-color-cyan{
+    background-color: #9cdedc;
+}
+
+.background-gradient{
+    background: linear-gradient(#f2fefe, white);
+}
+
+.background-gradient-reverse{
+    background: linear-gradient( white, #f2fefe);
+}
