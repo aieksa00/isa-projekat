@@ -143,9 +143,28 @@ public class AppointmentController {
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<Integer> CreateAppointmentByPatient(@PathVariable Integer id, @RequestBody CreateAppointmentByPatientDTO dto) {
 		Appointment appointment = new Appointment();
+		BloodBank b = bloodBankService.findById(id);
+		for(Appointment a : appointmentService.findAll()) {
+			if(a.getBloodBankId() == id) {
+				Date time = a.getScheduleDateTime();
+				String date = time.toString().split(" ", 2)[0];
+				String hour = time.toString().split(" ", 2)[1];
+				String date2 = dto.getScheduleDateTime().split(" ", 2)[0];
+				String hour2 = dto.getScheduleDateTime().split(" ", 2)[1];
+				if(date.equals(date2)) {
+					String exHour = hour.split(":")[0];
+					String exHour2 = hour2.split(":")[0];
+					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
+						if(!a.isFree()) {
+							return new ResponseEntity<>(appointment.getId(), HttpStatus.BAD_REQUEST);
+						}
+					}
+				}
+			}
+		}
+
 		appointment.setBloodBankId(id);
 		Customer customer = customerService.findById(dto.getCustomerId());
-		//appointment.setCustomer(customer);
 		appointment.setDuration(dto.getDuration());
 		appointment.setFree(true);
 		appointment.setPrice(1000.00);

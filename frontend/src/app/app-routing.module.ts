@@ -35,62 +35,66 @@ const routes: Routes = [
   { path: 'bloodBanks', component: BloodBanksListComponent},
   { path: 'userHistory', component: UserHistoryComponent},
   { path: 'userAppointments', component: UserAppointmentsComponent, canActivate: [RoleGuard],
-          data: { 
+          data: {
             expectedRole: 'CUSTOMER'
           }
   },
   { path: 'userQRCodes', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
-  { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'STAFF'
           }
   },
-  { path: 'createBloodBank', component: CreateBloodBankComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'createBloodBank', component: CreateBloodBankComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'ADMIN'
           }
   },
   { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
   { path: 'questionnairePage', component: QuestionnairePageComponent, canActivate: [RoleGuard],
-          data: { 
+          data: {
             expectedRole: 'CUSTOMER'
           }
   },
-  { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'ADMIN'+'STAFF'
           }
   },
-  { path: 'calender', component: BloodBankCalenderComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'calender', component: BloodBankCalenderComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'STAFF'
           }
   },
-  { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'ADMIN'
           }
   },
-  { path: 'addMedicalStaff', component: CreateMedicalStaffComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'addMedicalStaff', component: CreateMedicalStaffComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'ADMIN'
           }
   },
-  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'STAFF'
           }
   },
-  { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'CUSTOMER'+'STAFF'
           }
   },
-  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard]},
-  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'CUSTOMER'
+    }
+  },
+  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'STAFF'
           }
   }

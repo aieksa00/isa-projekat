@@ -54,6 +54,7 @@ export class ScheduleAppointmentComponent implements OnInit {
       this.bloodBankService.getAppointmentFromBloodBank(this.bloodBankAppointmentDto).subscribe(res => {
         id = res;
         localStorage.setItem("appointmentId", id)
+        this.router.navigate(['/questionnairePage'])
       });
 
     } else {
@@ -64,9 +65,10 @@ export class ScheduleAppointmentComponent implements OnInit {
         id = res;
         console.log(id)
         localStorage.setItem("appointmentId", id)
+        this.router.navigate(['/questionnairePage'])
         });
     }
-    this.router.navigate(['/questionnairePage'])
+
   }
 
 }
