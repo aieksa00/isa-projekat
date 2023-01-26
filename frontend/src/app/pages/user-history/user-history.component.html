@@ -1,1 +1,42 @@
-<p>user-history works!</p>
+<div class="projects" id="topMargin">
+    <div class="grouping-header" id="component">
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="me-2" style="margin-left: 20px;">
+      <h4>Sort By:</h4>
+      <label class="form-check-label me-2" for="Duration">Date ascending</label>
+      <input class="form-check-input" type="radio" id="DateAsc" value="dateAsc" [(ngModel)]="sortValue" name="sort" class="custom"/>
+
+      <label class="form-check-label ms-3 me-2" for="Date">Date descending</label>  
+      <input class="form-check-input" type="radio" id="DateDesc" value="dateDesc" [(ngModel)]="sortValue" name="sort" class="custom"/>
+
+      <label class="form-check-label ms-3 me-2" for="Date">Duration ascending</label>  
+      <input class="form-check-input" type="radio" id="DateDesc" value="durationAsc" [(ngModel)]="sortValue" name="sort" class="custom"/>
+
+      <label class="form-check-label ms-3 me-2" for="Date">Duration descending</label>  
+      <input class="form-check-input" type="radio" id="DateDesc" value="durationDesc" [(ngModel)]="sortValue" name="sort" class="custom"/>
+
+      <input type="submit" class="btn btn-dark me-3" style="width: 150px; margin-left: 30px;" (click)="onSubmit()"  value="Sort">
+      <input type="submit" class="btn btn-dark" style="width: 150px" (click)="Reset()" value="Reset">
+
+    <div class="d-flex m-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <td>#</td>
+            <td>Date</td>
+            <td>Duration</td>
+            </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of appointments; let currentIndex = index;">
+            <th scope="row">{{ currentIndex + 1 }}</th>
+            <td>{{ getWorkingHours(appointment.scheduleDateTime) }}</td>
+            <td>{{ appointment.duration }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

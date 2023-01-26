@@ -15,9 +15,9 @@ export const navbarData = [
         label: 'Appointments'
     },
     {
-        routeLink: '/userQRCodes',
-        icon: 'fal fa-qrcode',
-        label: 'QR codes'
+        routeLink: '/userPenalties',
+        icon: 'fal fa-exclamation',
+        label: 'Penalties'
     },
     {
         routeLink: '/scheduleAppointment',

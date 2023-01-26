@@ -5,10 +5,8 @@ import isaapp.g3malt.dto.AllUserInfoDto;
 import isaapp.g3malt.dto.UpdateUserDTO;
 import isaapp.g3malt.dto.UserCredentialsDTO;
 import isaapp.g3malt.dto.UserTokenStateDTO;
-import isaapp.g3malt.model.GenderType;
-import isaapp.g3malt.model.User;
-import isaapp.g3malt.model.UserCredentials;
-import isaapp.g3malt.model.UserType;
+import isaapp.g3malt.model.*;
+import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.EmailServiceImpl;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
@@ -54,6 +52,9 @@ public class UserCredentialsController {
 
 	@Autowired
 	private EmailServiceImpl emailService;
+
+	@Autowired
+	private CustomerService customerService;
 
 	@Autowired
 	private TokenUtils tokenUtils;
@@ -120,6 +121,16 @@ public class UserCredentialsController {
 		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
 		Integer userId = userCredentials.getUser().getId();
 		return new ResponseEntity<Integer>(userId, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getCustomerPenaltyByEmail",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<Integer> getCustomerPenaltyByEmail(@RequestBody String email) {
+		UserCredentials userCredentials = userCredentialsService.findByEmail(email);
+		Integer userId = userCredentials.getUser().getId();
+		Customer customer = customerService.findById(userId);
+		return new ResponseEntity<Integer>(customer.getPenalty(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/GetUserByEmail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
