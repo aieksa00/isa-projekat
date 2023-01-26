@@ -20,9 +20,9 @@ export const navbarData = [
         label: 'QR codes'
     },
     {
-        routeLink: '/complaints',
+        routeLink: '/scheduleAppointment',
         icon: 'fal fa-comments',
-        label: 'Complaints'
+        label: 'Schedule Appointment'
     },
     {
         routeLink: '/questionnairePage',

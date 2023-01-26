@@ -23,7 +23,7 @@ public class CreateBloodBankDTO {
 	public String country;
 	@NotEmpty
 	@NotNull
-	//@Pattern(regexp="(((0|1)[0-9])|(2[0-4]))(\\-)(((0|1)[0-9])|(2[0-4]))")
+	@Pattern(regexp="(((0|1)[0-9])|(2[0-4]))(\\-)(((0|1)[0-9])|(2[0-4]))")
 	public String workingHours;
 	
 	public CreateBloodBankDTO() {}

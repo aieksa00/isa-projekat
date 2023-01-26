@@ -5,6 +5,9 @@ import isaapp.g3malt.repository.AppointmentRepository;
 
 import java.util.*;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
+
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class AppointmentService implements IService<Appointment, Integer>{
 
 	@Override
 	public Appointment save(Appointment entity) {
+		List<Appointment> app = (List<Appointment>) appointmentRepository.findByDate(entity.getScheduleDateTime(),entity.getScheduleDateTimeEnd(), entity.getBloodBankId());
+		if(!app.isEmpty())
+			return null;
 		return appointmentRepository.save(entity);
 	}
 

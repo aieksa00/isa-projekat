@@ -180,33 +180,25 @@ public class BloodBankController {
 	@CrossOrigin("*")
 	@PostMapping(value = "CreateAppointment/{id}", consumes = "application/json")
 	public ResponseEntity<FutureAppointmentDto> createAppointment(@PathVariable Integer id, @RequestBody FutureAppointmentDto dto) {
-		Appointment appointment = new Appointment();
-		appointment.setBloodBankId(id);
-		appointment.setCustomer(null);
-		appointment.setDuration(dto.getDuration());
-		appointment.setFree(true);
-		appointment.setPrice(1000.00);
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		try {
-			Date date = formatter.parse(dto.getScheduleDateTime());
-			System.out.println(date);
-			appointment.setScheduleDateTime(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		Set<User> staff = new HashSet<User>();
 		for(StaffDto staffDto : dto.getMedicalStaff()) {
 			User user = userService.findById(staffDto.getId());
 			staff.add(user);
 		}
-		
-		appointment.setMedicalStaff(staff);
-		
-		appointmentService.save(appointment);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		try {
+			Date date = formatter.parse(dto.getScheduleDateTime());
+			Appointment appointment = new Appointment(id, staff, date, dto.getDuration(), 1000.00, null, true);
+			Appointment app = appointmentService.save(appointment);
+			
+			if(app!=null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
 	}
 	
 	@PutMapping(value = "UpdateBloodBank/{id}", consumes = "application/json")

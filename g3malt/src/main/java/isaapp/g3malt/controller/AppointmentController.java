@@ -142,7 +142,6 @@ public class AppointmentController {
 	@PostMapping(value = "CreateAppointmentByPatient/{id}", consumes = "application/json")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<Integer> CreateAppointmentByPatient(@PathVariable Integer id, @RequestBody CreateAppointmentByPatientDTO dto) {
-		Appointment appointment = new Appointment();
 		BloodBank b = bloodBankService.findById(id);
 		for(Appointment a : appointmentService.findAll()) {
 			if(a.getBloodBankId() == id) {
@@ -156,30 +155,24 @@ public class AppointmentController {
 					String exHour2 = hour2.split(":")[0];
 					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
 						if(!a.isFree()) {
-							return new ResponseEntity<>(appointment.getId(), HttpStatus.BAD_REQUEST);
+							return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
 						}
 					}
 				}
 			}
 		}
 
-		appointment.setBloodBankId(id);
 		Customer customer = customerService.findById(dto.getCustomerId());
-		appointment.setDuration(dto.getDuration());
-		appointment.setFree(true);
-		appointment.setPrice(1000.00);
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		try {
 			Date date = formatter.parse(dto.getScheduleDateTime());
-			System.out.println(date);
-			appointment.setScheduleDateTime(date);
+			Appointment appointment = new Appointment(id, null, date, dto.getDuration(), 1000.00, customer, false);
+			appointmentService.save(appointment);
+			return new ResponseEntity<>(appointment.getId(), HttpStatus.OK);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		appointment = appointmentService.save(appointment);
-		
-		return new ResponseEntity<>(appointment.getId(), HttpStatus.OK);
+				
+		return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
 	}
 }

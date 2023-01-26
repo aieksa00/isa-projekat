@@ -89,12 +89,12 @@ const routes: Routes = [
           }
   },
   { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard],
-    data: {
-      expectedRole: 'CUSTOMER'
-    }
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
   },
-  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard],
-          data: {
+  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
+          data: { 
             expectedRole: 'STAFF'
           }
   }

@@ -8,6 +8,7 @@ import { UpdateBloodBankDto } from 'src/app/DTO/update-blood-bank-dto';
 import { BloodBankService } from 'src/app/services/blood-bank.service';
 import { UserCredentialsService } from 'src/app/services/user-credentials.service';
 import { AppointmentService } from 'src/app/services/appointment.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-blood-bank-info',
@@ -121,8 +122,13 @@ export class BloodBankInfoComponent implements OnInit {
     if(this.appointmentForm.value.medicalStaffThree!='')
       this.futureAppointmentDto.medicalStaff.push(this.appointmentForm.value.medicalStaffThree);
 
-    this.appointmentService.createAppointment(1, this.futureAppointmentDto).subscribe(res => {
+    this.appointmentService.createAppointment(this.bloodBankDto.bloodBankId, this.futureAppointmentDto).subscribe(res => {
       this.router.navigate(['/bloodBankInfo']);
-    });
+    },
+    err => Swal.fire({
+      title: 'Warning',
+      text: 'Another administrator already scheduled appointemnt at that time, or time overlaps with another appointment',
+      icon: 'warning'
+    }));
   }
 }
