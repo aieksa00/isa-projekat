@@ -39,7 +39,7 @@ const routes: Routes = [
             expectedRole: 'CUSTOMER'
           }
   },
-  { path: 'userQRCodes', component: UserQRCodesComponent},
+  { path: 'userPenalties', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
   { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard],

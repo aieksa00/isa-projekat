@@ -1,11 +1,13 @@
 package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.Customer;
+import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.CustomerRepository;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,5 +50,14 @@ public class CustomerService implements IService<Customer, Integer>{
 			return customerRepository.save(customerToEdit);
 		}
 		return null;
+	}
+
+	@Scheduled(cron = "0 0 0 1 * *")
+	public void doSomething() {
+		Iterable<Customer> customerList = findAll();
+		for(Customer customer : customerList) {
+			customer.setPenalty(0);
+			save(customer);
+		}
 	}
 }

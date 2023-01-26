@@ -53,6 +53,42 @@ public class AppointmentController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getAppointmentHistory",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<AppointmentDTO>> getAppointmentHistory(@RequestBody String email) {
+		List<AppointmentDTO> appointments = new ArrayList<>();
+		User user = userCredentialsService.findByEmail(email).getUser();
+		List<Appointment> apps = appointmentService.findByCustomerId(user.getId());
+
+		for( Appointment appointment : apps) {
+			if(appointment.getScheduleDateTime().before(new Date())) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), user.getId(), appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appointments.add(appointmentDTO);
+			}
+		}
+
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getSortedAppointmentHistory",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<AppointmentDTO>> getSortedAppointmentHistory(@RequestBody SortHistoryDTO sortHistoryDTO) {
+		List<AppointmentDTO> appointments = new ArrayList<>();
+		User user = userCredentialsService.findByEmail(sortHistoryDTO.getEmail()).getUser();
+		List<Appointment> apps = appointmentService.sortAppointmentsHistory(sortHistoryDTO.getSortValue(), user);
+
+		for( Appointment appointment : apps) {
+			if(appointment.getScheduleDateTime().before(new Date())) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), user.getId(), appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appointments.add(appointmentDTO);
+			}
+		}
+
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
+	}
+
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('CUSTOMER')")
@@ -94,7 +130,7 @@ public class AppointmentController {
 		Iterable<Appointment> appointments = appointmentService.findAll();
 		List<AppointmentDTO> notFree = new ArrayList<>();
 		for(Appointment appointment : appointments) {
-			if(!appointment.isFree()) {
+			if(!appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
 				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
 				notFree.add(appointmentDTO);
 			}
@@ -120,10 +156,10 @@ public class AppointmentController {
 		app.setFree(true);
 		appointmentService.save(app);
 
-		Iterable<Appointment> appointments = appointmentService.findAll();
+		List<Appointment> appointments = appointmentService.findByCustomerId(app.getCustomer().getId());
 		List<AppointmentDTO> notFree = new ArrayList<>();
 		for(Appointment appointment : appointments) {
-			if(!appointment.isFree()) {
+			if(!appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
 				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
 				notFree.add(appointmentDTO);
 			}

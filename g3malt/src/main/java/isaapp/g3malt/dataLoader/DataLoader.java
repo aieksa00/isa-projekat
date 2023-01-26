@@ -64,16 +64,24 @@ public class DataLoader implements CommandLineRunner {
         GenderType male = GenderType.male;
         GenderType female = GenderType.female;
 
+        Set<User> medicalStaff = new HashSet<>();
+
         Date date1 = new Date(123,11,23,13,00,00);
         Date date2 = new Date(123,11,23,14,00,00);
         Date date3 = new Date(123,11,23,16,00,00);
         Date date4 = new Date(123,11,24,13,00,00);
         Date date5 = new Date(123,11,25,18,00,00);
         Date date6 = new Date(123,11,28,15,00,00);
+        Date date7 = new Date(122,11,25,18,00,00);
+        Date date8 = new Date(122,11,28,15,00,00);
+        Date date9 = new Date(123,0,29,10,00,00);
 
         User user1 = new User(null, "Aleksa", "Colovic", "Vojvode Sindjelica 13", "Novi Sad", "Srbija", "060165356789", "9876543219876", male, "student", "FTN", userTypes3, "");
         MedicalStaff user2 = new MedicalStaff(null, "Luka", "Mandic", "Rumenacki put 1", "Novi Sad", "Srbija", "06012345235", "0192837465893", male, "student", "FTN", userTypes1, "",null);
         MedicalStaff user3 = new MedicalStaff(null, "Aleksandar", "Stojanovic", "Kamenica", "Novi Sad", "Srbija", "06012347777", "8496572839476", male, "student", "FTN", userTypes1, "",null);
+
+        medicalStaff.add(user2);
+        medicalStaff.add(user3);
 
         Customer customer1 = new Customer(null, "Milana", "Dokic", "Nusiceva", "Novi Sad", "Srbija", "060123456789", "1234567891234", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);
         Customer customer2 = new Customer(null, "Tatjana", "Gemovic", "Telep", "Novi Sad", "Srbija", "060123487347", "7584957836578", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);
@@ -93,7 +101,7 @@ public class DataLoader implements CommandLineRunner {
         BloodBankStorage bloodBankStorage5 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
         BloodBankStorage bloodBankStorage6 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
 
-        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, null, "08-20", bloodBankStorage1, null);
+        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, medicalStaff, "08-20", bloodBankStorage1, null);
         BloodBank bloodBank2 = new BloodBank(null, "NewBloodNow", "Pasterova 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.6, null, null, "08-20", bloodBankStorage2, null);
         BloodBank bloodBank3 = new BloodBank(null, "WhiteBlood", "Njegoseva 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08-20", bloodBankStorage3, null);
         BloodBank bloodBank4 = new BloodBank(null, "Bloody", "Zlatne grede 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.9, null, null, "08-20", bloodBankStorage4, null);
@@ -106,6 +114,9 @@ public class DataLoader implements CommandLineRunner {
         Appointment appointment4 = new Appointment(1, null, date4, 30, 1500, null, true);
         Appointment appointment5 = new Appointment(1, null, date5, 30, 1500, null, true);
         Appointment appointment6 = new Appointment(1, null, date6, 30, 1500, null, true);
+        Appointment appointment7 = new Appointment(1, null, date7, 30, 1500, customer1, false);
+        Appointment appointment8 = new Appointment(1, null, date8, 40, 1500, customer1, false);
+        Appointment appointment9 = new Appointment(1, null, date9, 30, 1500, customer1, false);
 
         if (userTypeRepository.count() == 0) {
             userTypeRepository.save(ut1);
@@ -154,6 +165,9 @@ public class DataLoader implements CommandLineRunner {
             appointmentRepository.save(appointment4);
             appointmentRepository.save(appointment5);
             appointmentRepository.save(appointment6);
+            appointmentRepository.save(appointment7);
+            appointmentRepository.save(appointment8);
+            appointmentRepository.save(appointment9);
         }
 
         System.out.println("Users: " + userRepository.count());

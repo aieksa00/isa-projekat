@@ -1,8 +1,11 @@
 package isaapp.g3malt.services;
 
+import isaapp.g3malt.dto.SortDTO;
+import isaapp.g3malt.dto.SortHistoryDTO;
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.Customer;
+import isaapp.g3malt.model.User;
 import isaapp.g3malt.repository.AppointmentRepository;
 
 import java.util.*;
@@ -23,7 +26,9 @@ public class AppointmentService implements IService<Appointment, Integer>{
 	public Appointment save(Appointment entity) {
 		List<Appointment> app = (List<Appointment>) appointmentRepository.findByDate(entity.getScheduleDateTime(),entity.getScheduleDateTimeEnd(), entity.getBloodBankId());
 		if(!app.isEmpty())
-			return null;
+			if(app.get(0).getId() != entity.getId()) {
+				return null;
+			}
 		return appointmentRepository.save(entity);
 	}
 
@@ -62,9 +67,55 @@ public class AppointmentService implements IService<Appointment, Integer>{
 		return appointmentRepository.findAllFutureAppointmentsForBloodBank(scheduleDateTime, bloodBankId);
 	}
 
+	public List<Appointment> sortAppointmentsHistory(String sort, User user) {
+		List<Appointment> apps = findByCustomerId(user.getId());
+		String sortValue = sort;
+
+		Comparator<Appointment> compareDateTimeAsc = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+				return a1.getScheduleDateTime().compareTo(a2.getScheduleDateTime());
+			}
+		};
+
+		Comparator<Appointment> compareDateTimeDesc = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+				return a2.getScheduleDateTime().compareTo(a1.getScheduleDateTime());
+			}
+		};
+
+		Comparator<Appointment> compareDurationAsc = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+				return Integer.compare(a1.getDuration(), a2.getDuration());
+			}
+		};
+
+		Comparator<Appointment> compareDurationDesc = new Comparator<Appointment>() {
+			@Override
+			public int compare(Appointment a1, Appointment a2) {
+				return Integer.compare(a2.getDuration(), a1.getDuration());
+			}
+		};
+
+		if(sortValue.equals("dateAsc")) {
+			Collections.sort(apps, compareDateTimeAsc);
+		} else if(sortValue.equals("dateDesc")) {
+			Collections.sort(apps, compareDateTimeDesc);
+		}else if(sortValue.equals("durationAsc")) {
+			Collections.sort(apps, compareDurationAsc);
+		}else if(sortValue.equals("durationDesc")) {
+			Collections.sort(apps, compareDurationDesc);
+		};
+
+		return apps;
+	}
+
 	public List<Appointment> findByCustomerId(Integer id) {
 		return appointmentRepository.findByCustomerId(id);
 	}
+<<<<<<< HEAD
 	
 	public Iterable<Customer> findAllCustomersByBloodBankId(Integer bloodBankId){
 		Iterable<Appointment> allApps = appointmentRepository.findAllCustomersByBloodBankId(bloodBankId);
@@ -102,5 +153,8 @@ public class AppointmentService implements IService<Appointment, Integer>{
 		
 		return customers;
 	}
+=======
+
+>>>>>>> fc763b3 (customer side nav fixed)
 }
 
