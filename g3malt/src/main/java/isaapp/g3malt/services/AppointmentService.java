@@ -115,8 +115,7 @@ public class AppointmentService implements IService<Appointment, Integer>{
 	public List<Appointment> findByCustomerId(Integer id) {
 		return appointmentRepository.findByCustomerId(id);
 	}
-<<<<<<< HEAD
-	
+
 	public Iterable<Customer> findAllCustomersByBloodBankId(Integer bloodBankId){
 		Iterable<Appointment> allApps = appointmentRepository.findAllCustomersByBloodBankId(bloodBankId);
 		List<Customer> customers = new ArrayList<Customer>();
@@ -153,8 +152,5 @@ public class AppointmentService implements IService<Appointment, Integer>{
 		
 		return customers;
 	}
-=======
-
->>>>>>> fc763b3 (customer side nav fixed)
 }
 

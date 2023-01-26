@@ -101,7 +101,7 @@ public class DataLoader implements CommandLineRunner {
         BloodBankStorage bloodBankStorage5 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
         BloodBankStorage bloodBankStorage6 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
 
-        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, medicalStaff, "08-20", bloodBankStorage1, null);
+        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, null, "08-20", bloodBankStorage1, null);
         BloodBank bloodBank2 = new BloodBank(null, "NewBloodNow", "Pasterova 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.6, null, null, "08-20", bloodBankStorage2, null);
         BloodBank bloodBank3 = new BloodBank(null, "WhiteBlood", "Njegoseva 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08-20", bloodBankStorage3, null);
         BloodBank bloodBank4 = new BloodBank(null, "Bloody", "Zlatne grede 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.9, null, null, "08-20", bloodBankStorage4, null);

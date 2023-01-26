@@ -29,6 +29,8 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	@Autowired
     private QuestionnaireService questionnaireService;
+	@Autowired
+	private UserCredentialsService userCredentialsService;
 
 	@Autowired
 	private EmailServiceImpl emailService;
