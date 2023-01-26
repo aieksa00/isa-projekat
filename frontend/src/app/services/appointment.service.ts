@@ -21,5 +21,9 @@ export class AppointmentService {
   public getAppointmentReviewDtoById(id:number): Observable<AppointmentReviewDto> {
     return this.http.get<AppointmentReviewDto>(this.apiHost + 'AppointmentController/GetAppointmentReviewDtoById/'+ id, {headers: this.headers});
   }
+
+  public FinishAppointment(id: number){
+    return this.http.put(this.apiHost + 'AppointmentController/FinishAppointment/'+ id, {headers: this.headers});
+  }
   
 }

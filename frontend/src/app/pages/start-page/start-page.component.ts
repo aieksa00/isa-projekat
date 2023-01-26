@@ -38,7 +38,7 @@ export class StartPageComponent implements OnInit {
     this.cookieService.deleteAll();
     localStorage.clear();
     this.router.navigate(['/']);
-    window.location.reload()
+    window.location.reload();
   }
 
 }

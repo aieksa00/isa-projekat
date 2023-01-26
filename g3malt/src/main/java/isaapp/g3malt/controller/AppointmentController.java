@@ -83,6 +83,17 @@ public class AppointmentController {
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
+    
+    /*@CrossOrigin(origins = "*")
+    @PutMapping(value = "/FinishAppointment/{id}")
+    @PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity FinishAppointment(@PathVariable Integer id) {
+		Appointment appointment = appointmentService.findById(id);
+		appointment.setFree(true);
+		appointmentService.save(appointment); 
+
+        return new ResponseEntity(HttpStatus.OK);
+    }*/
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getScheduledAppointments")

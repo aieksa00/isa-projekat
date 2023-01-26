@@ -66,19 +66,15 @@ const routes: Routes = [
   },
   { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent, canActivate: [RoleGuard], 
           data: { 
-            expectedRole: 'CUSTOMER'
+            expectedRole: 'STAFF'
           }
   },
   { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
           data: { 
-            expectedRole: 'CUSTOMER'
+            expectedRole: 'CUSTOMER'+'STAFF'
           }
   },
-  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard], 
-          data: { 
-            expectedRole: 'STAFF'
-          }
-  },
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard]},
   { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
           data: { 
             expectedRole: 'STAFF'
