@@ -1,17 +1,16 @@
 .registration {
-    color: #DC9836;
+    color: #9cdedc;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    width: 100vw;
-    background-image: url("../../images/reg_background.jpg");
+    background-image: url("../../images/new_back.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .registration .registrationForm {
-    border: solid 5px #DC9836;
+    border: solid 5px #9cdedc;
     border-radius: 30px;
     background-color: #FAF7F2;
 
@@ -53,7 +52,7 @@
     width: 80px;
     padding: 2px;
     display: inline-block;
-    background: #DC9836;
+    background: #9cdedc;
     color: #383E3C;
     font-size: 18px;
     border-radius: 8px;
@@ -62,6 +61,6 @@
 
 .registration-button input[type="button"]:hover {
     background: #F4EEDE;
-    color: #DC9836;
+    color: #9cdedc;
     text-decoration: none;
 }
