@@ -61,12 +61,14 @@ export class ScheduleAppointmentComponent implements OnInit {
       this.createAppointmentByPatientDTO.customerId = 4
       this.createAppointmentByPatientDTO.scheduleDateTime = this.appointmentTime
       console.log(this.createAppointmentByPatientDTO)
-      this.bloodBankService.createAppointmentByPatient(this.createAppointmentByPatientDTO, this.bloodBank.id).subscribe(res => {
-        id = res;
-        console.log(id)
-        localStorage.setItem("appointmentId", id)
-        this.router.navigate(['/questionnairePage'])
-        });
+      this.bloodBankService.createAppointmentByPatient(this.createAppointmentByPatientDTO, this.bloodBank.id).subscribe(
+        res => {
+          id = res;
+          console.log(id)
+          localStorage.setItem("appointmentId", id)
+          this.router.navigate(['/questionnairePage'])
+        },
+        err => alert("Someone already scheduled appointment at that time"));
     }
 
   }
