@@ -1,4 +1,4 @@
-export class BloodBanksDTO{
+export class BloodBanksDTO2{
   id: Number = 0;
   name: String = "";
   description: String = "";
@@ -7,5 +7,5 @@ export class BloodBanksDTO{
   country: String = "";
   rating:String = "";
   workingHours: String = "";
-  // hasPredefinedAppointment: boolean = true;
+  hasPredefinedAppointment: boolean = true;
 }

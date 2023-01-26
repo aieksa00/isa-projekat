@@ -1,5 +1,7 @@
 package isaapp.g3malt.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import isaapp.g3malt.dto.*;
@@ -12,10 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import isaapp.g3malt.model.Appointment;
 import isaapp.g3malt.model.User;
@@ -140,4 +138,29 @@ public class AppointmentController {
 		return new ResponseEntity<List<AppointmentDTO>>(notFree, HttpStatus.OK);
 	}
 
+	@CrossOrigin("*")
+	@PostMapping(value = "CreateAppointmentByPatient/{id}", consumes = "application/json")
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<Integer> CreateAppointmentByPatient(@PathVariable Integer id, @RequestBody CreateAppointmentByPatientDTO dto) {
+		Appointment appointment = new Appointment();
+		appointment.setBloodBankId(id);
+		Customer customer = customerService.findById(dto.getCustomerId());
+		//appointment.setCustomer(customer);
+		appointment.setDuration(dto.getDuration());
+		appointment.setFree(true);
+		appointment.setPrice(1000.00);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		try {
+			Date date = formatter.parse(dto.getScheduleDateTime());
+			System.out.println(date);
+			appointment.setScheduleDateTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		appointment = appointmentService.save(appointment);
+		
+		return new ResponseEntity<>(appointment.getId(), HttpStatus.OK);
+	}
 }

@@ -384,12 +384,20 @@ public class BloodBankController {
     }
 
 	@PostMapping (value = "/getAllBloodBanksWithFreeAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<BloodBankWithRatingDTO>> getAllBloodBanksWithFreeAppointment(@RequestBody String appointmentTime) {
+	public ResponseEntity<List<BloodBankWithRating2DTO>> getAllBloodBanksWithFreeAppointment(@RequestBody String appointmentTime) {
 		List<BloodBank> banks = (List<BloodBank>) bloodBankService.findAllWithFreeAppointment(appointmentTime);
-		List<BloodBankWithRatingDTO> banksDto = new ArrayList<BloodBankWithRatingDTO>();
+		List<BloodBank> banks2 = (List<BloodBank>) bloodBankService.findAllWithNoAppointment(appointmentTime);
+		List<BloodBankWithRating2DTO> banksDto = new ArrayList<BloodBankWithRating2DTO>();
 		
 		for(BloodBank b : banks) {
-			BloodBankWithRatingDTO bloodBankWithRatingDTO = modelMapper.map(b, BloodBankWithRatingDTO.class);
+			BloodBankWithRating2DTO bloodBankWithRatingDTO = modelMapper.map(b, BloodBankWithRating2DTO.class);
+			bloodBankWithRatingDTO.hasPredefinedAppointment = true;
+			banksDto.add(bloodBankWithRatingDTO);
+		}
+		
+		for(BloodBank b : banks2) {
+			BloodBankWithRating2DTO bloodBankWithRatingDTO = modelMapper.map(b, BloodBankWithRating2DTO.class);
+			bloodBankWithRatingDTO.hasPredefinedAppointment = false;
 			banksDto.add(bloodBankWithRatingDTO);
 		}
 
