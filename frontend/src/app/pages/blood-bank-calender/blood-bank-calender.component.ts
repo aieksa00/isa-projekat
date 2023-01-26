@@ -57,11 +57,13 @@ export class BloodBankCalenderComponent implements AfterViewInit {
       dp.eventResizeHandling = "Disabled"
     },
     onEventClicked: async (args) => {
-      const modal = await DayPilot.Modal.confirm("Review appointment?")
-      const dp = args.control;
-      dp.clearSelection();
-      if (!(modal).result) { return; }
-      this.router.navigate(['/appointmentReview/'+args.e.id()])
+      if(args.e.end() < DayPilot.Date.now()){
+        const modal = await DayPilot.Modal.confirm("Review appointment?")
+        const dp = args.control;
+        dp.clearSelection();
+        if (!(modal).result) { return; }
+        this.router.navigate(['/appointmentReview/'+args.e.id()])
+      }
     }
   };
 
@@ -80,11 +82,13 @@ export class BloodBankCalenderComponent implements AfterViewInit {
       dp.eventResizeHandling = "Disabled"
     },
     onEventClicked: async (args) => {
-      const modal = await DayPilot.Modal.confirm("Review appointment?")
-      const dp = args.control;
-      dp.clearSelection();
-      if (!modal.result) { return; }
-      this.router.navigate(['/appointmentReview/'+args.e.id()])
+      if(args.e.end() < DayPilot.Date.now()){
+        const modal = await DayPilot.Modal.confirm("Review appointment?")
+        const dp = args.control;
+        dp.clearSelection();
+        if (!(modal).result) { return; }
+        this.router.navigate(['/appointmentReview/'+args.e.id()])
+      }
     }
     
   };
@@ -95,11 +99,13 @@ export class BloodBankCalenderComponent implements AfterViewInit {
       dp.eventMoveHandling = "Disabled"
     },
     onEventClicked: async (args) => {
-      const modal = await DayPilot.Modal.confirm("Review appointment?")
-      const dp = args.control;
-      dp.clearSelection();
-      if (!modal.result) { return; }
-      this.router.navigate(['/appointmentReview/'+args.e.id()])
+      if(args.e.end() < DayPilot.Date.now()){
+        const modal = await DayPilot.Modal.confirm("Review appointment?")
+        const dp = args.control;
+        dp.clearSelection();
+        if (!(modal).result) { return; }
+        this.router.navigate(['/appointmentReview/'+args.e.id()])
+      }
     },
     onEventResize: (args) =>{
       const dp = args.control;

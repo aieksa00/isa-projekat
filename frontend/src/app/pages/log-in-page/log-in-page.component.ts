@@ -79,7 +79,7 @@ export class LogInPageComponent implements OnInit {
                     this.changePassword()
                   }
                 else{
-                  this.router.navigate(['/createBloodBank'])
+                  this.router.navigate(['/bloodBanks'])
                 }
 
             }
@@ -163,7 +163,7 @@ export class LogInPageComponent implements OnInit {
       if (result.isConfirmed) {
         if(result.value!=""){
           this.userCredentialsService.changeAdminPassword(result.value).subscribe(res=>{
-            this.router.navigate(['/createBloodBank'])
+            this.router.navigate(['/bloodBanks'])
           })
         }
         else(
