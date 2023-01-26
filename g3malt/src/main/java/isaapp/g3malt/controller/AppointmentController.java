@@ -16,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import isaapp.g3malt.model.Appointment;
-import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
-import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,12 +26,8 @@ public class AppointmentController {
 	@Autowired
 	private BloodBankService bloodBankService;
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private AppointmentService appointmentService;
 	@Autowired
-	private UserCredentialsService userCredentialsService;
-    @Autowired
     private QuestionnaireService questionnaireService;
 
 	@Autowired

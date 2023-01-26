@@ -57,4 +57,18 @@ export class UserService {
   addPenaltyPointToUser(dto : PenaltyPointDto): Observable<PenaltyPointDto> {
     return this.http.post<PenaltyPointDto>('http://localhost:9090/userController/addPenaltyPoint', dto, {headers: this.headers});
   }
+
+  addLoyaltyPointToUser(dto : PenaltyPointDto): Observable<PenaltyPointDto> {
+    return this.http.post<PenaltyPointDto>('http://localhost:9090/userController/addLoyaltyPoint', dto, {headers: this.headers});
+  }
+
+  GetAllUsersForBloodBank(): Observable<UserDTO[]>{
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/GetAllUsersForBloodBank/'+localStorage.getItem('email'),{headers: this.headers})
+  }
+
+  GetAllFilteredUsersForBloodBank(sortParam : string): Observable<UserDTO[]>{
+    if(sortParam=="")
+      sortParam="~"
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/GetFilteredUsersForBloodBank/'+sortParam+'/'+localStorage.getItem('email'),{headers: this.headers})
+  }
 }

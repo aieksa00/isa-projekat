@@ -1,6 +1,8 @@
 package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.Appointment;
+import isaapp.g3malt.model.BloodBank;
+import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.repository.AppointmentRepository;
 
 import java.util.*;
@@ -63,4 +65,42 @@ public class AppointmentService implements IService<Appointment, Integer>{
 	public List<Appointment> findByCustomerId(Integer id) {
 		return appointmentRepository.findByCustomerId(id);
 	}
+	
+	public Iterable<Customer> findAllCustomersByBloodBankId(Integer bloodBankId){
+		Iterable<Appointment> allApps = appointmentRepository.findAllCustomersByBloodBankId(bloodBankId);
+		List<Customer> customers = new ArrayList<Customer>();
+		for(Appointment app : allApps) {
+			Customer c = app.getCustomer();
+			if(c!=null)
+				customers.add(app.getCustomer());
+		}
+		return customers;
+	}
+	public Iterable<Customer> findAllFillteredCustomersByBloodBankId(Integer bloodBankId, String sortParam){
+		List<Customer> customers = (List<Customer>)findAllCustomersByBloodBankId(bloodBankId);
+		
+		Comparator<Customer> compareName = new Comparator<Customer>() {
+			@Override
+			public int compare(Customer c1, Customer c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		};
+
+		Comparator<Customer> compareSurname = new Comparator<Customer>() {
+			@Override
+			public int compare(Customer c1, Customer c2) {
+				return c1.getSurname().compareTo(c2.getSurname());
+			}
+		};
+
+		if(sortParam.equals("name")) {
+			Collections.sort(customers, compareName);
+		}
+		else if(sortParam.equals("surname")) {
+			Collections.sort(customers, compareSurname);
+		}
+		
+		return customers;
+	}
 }
+

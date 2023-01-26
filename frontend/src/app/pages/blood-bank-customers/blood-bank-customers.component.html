@@ -1,1 +1,48 @@
-<p>blood-bank-customers works!</p>
+<div>
+    <div class="row mx-3">
+      <div class="col col-xs-6">
+        <h3 class="project-title float-left">Users</h3>
+      </div>
+    </div>
+      <br>
+    <div class="row mx-3">
+      <div class="col-3">
+        <label class="form-check-label me-2" for="Name">Name</label>
+        <input type="radio" class="form-control" id="Name" name="sort"  value="name" [(ngModel)]="sortParam">
+      </div>
+      <div class="col-3">
+        <label class="form-check-label me-2" for="Name">Surame</label>
+        <input type="radio" class="form-control" id="Surname" name="sort" value="surname" [(ngModel)]="sortParam">
+      </div>
+      <div class="col-3 pt-4">
+        <input type="submit" style="width: 50px; height: 36px;" (click)="search()" value="🔎">
+      </div>
+      <div class="col-3 pt-4">
+        <input type="submit" style="width: 120px; height: 36px;" (click)="reset()" value="Reset">
+      </div>
+    </div>
+  <div class="row mx-3 mt-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">User type</th>
+          <th scope="col">Name</th>
+          <th scope="col">Surname</th>
+          <th scope="col">Gender</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of filteredUsers; let currentIndex = index;">
+          <th scope="row">{{ currentIndex + 1 }}</th>
+          <td *ngIf="user.userType==2">Customer</td>
+          <td *ngIf="user.userType==1">Staff</td>
+          <td *ngIf="user.userType==3">Administrator</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.gender }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div> 

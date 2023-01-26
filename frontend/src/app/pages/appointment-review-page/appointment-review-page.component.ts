@@ -69,6 +69,8 @@ export class AppointmentReviewPageComponent implements OnInit {
 
   finishAppointment(){
     let dto: UpdateBloodBankStorageDto = new UpdateBloodBankStorageDto(this.appointmentReviewDto?.bloodBankId, this.appointmentForm.value.bloodType);
+    let dto1: PenaltyPointDto = new PenaltyPointDto(this.appointmentReviewDto?.customerId);
+    this.userService.addLoyaltyPointToUser(dto1).subscribe(res => {});
     this.bloodBankService.updateBloodBankStorage(dto).subscribe(res => {
       //this.appointmentService.FinishAppointment(this.appointmentId!).subscribe(res => {
         this.router.navigate(['/staffHomePage']);

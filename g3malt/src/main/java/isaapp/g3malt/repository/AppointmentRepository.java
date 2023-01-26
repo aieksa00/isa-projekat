@@ -24,4 +24,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Query("select a from Appointment a where (((a.scheduleDateTime <= ?1 and ?1 <= a.scheduleDateTimeEnd) or (?1 <= a.scheduleDateTime and a.scheduleDateTime <= ?2)) and a.bloodBankId = ?3)")
 	public Iterable<Appointment> findByDate(Date scheduleDateTimeStart, Date scheduleDateTimeStartEnd, int bloodBankId);
 	
+	@Query("select a from Appointment a where(a.bloodBankId = ?1)")
+	Iterable<Appointment> findAllCustomersByBloodBankId(Integer bloodBankId);
 }

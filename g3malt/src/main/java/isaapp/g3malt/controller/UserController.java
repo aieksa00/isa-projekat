@@ -12,6 +12,7 @@ import isaapp.g3malt.dto.UserInfoDto;
 import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.UserCredentials;
+import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
 import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.UserCredentialsService;
@@ -41,6 +42,9 @@ public class UserController {
 
     @Autowired
     private CustomerService customerService;
+    
+    @Autowired
+    private AppointmentService appointmentSerivce;
 	
 	@Autowired
 	private UserCredentialsService userCredentialsService;
@@ -212,9 +216,60 @@ public class UserController {
     	Integer penaltyPoints = customer.getPenalty() + dto.getPenaltyPoint();
     	customer.setPenalty(penaltyPoints);
     	
-        Customer newCustomer = (Customer)userService.save(customer);
+        userService.save(customer);
         
         return new ResponseEntity<User>(HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/addLoyaltyPoint", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<User> AddLoyaltyPoint(@RequestBody PenaltyPointDto dto) {
+    	
+    	Customer customer = (Customer)userService.findById(dto.getCustomerId());
+    	
+    	Integer loyaltyPoints = customer.getLoyaltyPoints() + dto.getPenaltyPoint();
+    	customer.setLoyaltyPoints(loyaltyPoints);
+    	
+    	if(customer.getLoyaltyPoints() > 5)
+    		customer.setLoyaltyType(LoyaltyType.silver);
+    	if(customer.getLoyaltyPoints() > 10)
+    		customer.setLoyaltyType(LoyaltyType.gold);
+    	
+        userService.save(customer);
+        
+        return new ResponseEntity<User>(HttpStatus.OK);
+    }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/GetAllUsersForBloodBank/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<List<UserDTO>> GetAllUsersForBloodBank(@PathVariable String email) {
+    	UserCredentials ms = userCredentialsService.findByEmail(email);
+    	Integer id = bloodBankService.findByStaffId(ms.getUser().getId());
+    	List<Customer> users = (List<Customer>) appointmentSerivce.findAllCustomersByBloodBankId(id);
+    	List<UserDTO> userDtos = new ArrayList<UserDTO>();
+    	for(User u : users) {
+    		UserDTO dto = new UserDTO(u);
+    		userDtos.add(dto);
+    	}
+    		
+		return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/GetFilteredUsersForBloodBank/{sortParam}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity<List<UserDTO>> GetFilteredUsersForBloodBank(@PathVariable String sortParam,@PathVariable String email) {
+    	UserCredentials ms = userCredentialsService.findByEmail(email);
+    	Integer id = bloodBankService.findByStaffId(ms.getUser().getId());
+    	List<Customer> users = (List<Customer>) appointmentSerivce.findAllFillteredCustomersByBloodBankId(id, sortParam);
+    	List<UserDTO> userDtos = new ArrayList<UserDTO>();
+    	for(User u : users) {
+    		UserDTO dto = new UserDTO(u);
+    		userDtos.add(dto);
+    	}
+    		
+		return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
     
     
