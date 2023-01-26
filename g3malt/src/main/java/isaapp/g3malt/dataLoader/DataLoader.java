@@ -78,11 +78,11 @@ public class DataLoader implements CommandLineRunner {
         Customer customer1 = new Customer(null, "Milana", "Dokic", "Nusiceva", "Novi Sad", "Srbija", "060123456789", "1234567891234", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);
         Customer customer2 = new Customer(null, "Tatjana", "Gemovic", "Telep", "Novi Sad", "Srbija", "060123487347", "7584957836578", female, "student", "FTN", userTypes2, "", 0, LoyaltyType.bronze, 0, null);
 
-        UserCredentials userCredentials1 = new UserCredentials(null, "dokic@gmail.com", "$2y$10$.ii3yC4ml9hw.mrRO5QZmuP2A19tuA0vJyovBlpyAxFKWgRIEqG42", customer1, true, null);
-        UserCredentials userCredentials2 = new UserCredentials(null, "colovic@gmail.com", "$2a$10$RysL.H8Ww4VIlyDcG/fm7OerNQpL.Jkadi8aqeFeUqXMMXQV8zgGm", user1, true, null);
-        UserCredentials userCredentials3 = new UserCredentials(null, "mandic@gmail.com", "$2y$10$HfRNujYmo/.f8JBPZxgFTeK6EIEWwuyF4Iv6Ao/4CfCATs3teassG", user2, true, null);
-        UserCredentials userCredentials4 = new UserCredentials(null, "gemovic@gmail.com", "$2y$10$6UcpBhv.HVp2L/RasGKddeoFECErOsa4OP13RBzn7dbUc/uKfCZUS", customer2, true, null);
-        UserCredentials userCredentials5 = new UserCredentials(null, "stojanovic@gmail.com", "$2y$10$IH7RG2a6AnbB0HVVaDd2M.MTFMBApuJrCvjIQuVFl6TvhxJGJavK2", user3, true, null);
+        UserCredentials userCredentials1 = new UserCredentials(null, "dokic@gmail.com", "123456", customer1, true, null);
+        UserCredentials userCredentials2 = new UserCredentials(null, "colovic@gmail.com", "123456", user1, true, null);
+        UserCredentials userCredentials3 = new UserCredentials(null, "mandic@gmail.com", "123456", user2, true, null);
+        UserCredentials userCredentials4 = new UserCredentials(null, "gemovic@gmail.com", "123456", customer2, true, null);
+        UserCredentials userCredentials5 = new UserCredentials(null, "stojanovic@gmail.com", "123456", user3, true, null);
 
         Questionnaire questionnaire1 = new Questionnaire(null, 0, 3, false, false, false, false, true, false, false, false, false, true, false, true, false, false, false, false);
 
