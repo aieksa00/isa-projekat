@@ -5,7 +5,7 @@ export const navbarData = [
         label: 'Blood banks'
     },
     {
-        routeLink: '/userHistory',
+        routeLink: '/scheduleAppointment',
         icon: 'fal fa-history',
         label: 'History'
     },

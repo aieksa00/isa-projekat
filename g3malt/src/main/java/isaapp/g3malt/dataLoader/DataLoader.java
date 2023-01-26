@@ -93,12 +93,12 @@ public class DataLoader implements CommandLineRunner {
         BloodBankStorage bloodBankStorage5 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
         BloodBankStorage bloodBankStorage6 = new BloodBankStorage(null, 5, 6, 3, 9, 5, 8, 4, 7);
 
-        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, null, "08:00-20:00", bloodBankStorage1, null);
-        BloodBank bloodBank2 = new BloodBank(null, "NewBloodNow", "Pasterova 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.6, null, null, "08:00-20:00", bloodBankStorage2, null);
-        BloodBank bloodBank3 = new BloodBank(null, "WhiteBlood", "Njegoseva 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08:00-20:00", bloodBankStorage3, null);
-        BloodBank bloodBank4 = new BloodBank(null, "Bloody", "Zlatne grede 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.9, null, null, "08:00-20:00", bloodBankStorage4, null);
-        BloodBank bloodBank5 = new BloodBank(null, "Bloodbankic", "Gagarinova 5", "Pancevo", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08:00-20:00", bloodBankStorage5, null);
-        BloodBank bloodBank6 = new BloodBank(null, "BloodStore", "Rumenacka 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.4, null, null, "08:00-20:00", bloodBankStorage6, null);
+        BloodBank bloodBank1 = new BloodBank(null, "Bankrvica", "Kosovska 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.1, null, null, "08-20", bloodBankStorage1, null);
+        BloodBank bloodBank2 = new BloodBank(null, "NewBloodNow", "Pasterova 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.6, null, null, "08-20", bloodBankStorage2, null);
+        BloodBank bloodBank3 = new BloodBank(null, "WhiteBlood", "Njegoseva 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08-20", bloodBankStorage3, null);
+        BloodBank bloodBank4 = new BloodBank(null, "Bloody", "Zlatne grede 5", "Beograd", "Srbija", "Mnogo smo strucni i uvek dostupni", 3.9, null, null, "08-20", bloodBankStorage4, null);
+        BloodBank bloodBank5 = new BloodBank(null, "Bloodbankic", "Gagarinova 5", "Pancevo", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.8, null, null, "08-20", bloodBankStorage5, null);
+        BloodBank bloodBank6 = new BloodBank(null, "BloodStore", "Rumenacka 5", "Novi Sad", "Srbija", "Mnogo smo strucni i uvek dostupni", 4.4, null, null, "08-20", bloodBankStorage6, null);
 
         Appointment appointment1 = new Appointment(1, null, date1, 30, 1500, null, true);
         Appointment appointment2 = new Appointment(1, null, date2, 30, 1500, null, true);

@@ -88,7 +88,11 @@ const routes: Routes = [
             expectedRole: 'CUSTOMER'+'STAFF'
           }
   },
-  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard]},
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard],
+          data: { 
+            expectedRole: 'CUSTOMER'
+          }
+  },
   { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
           data: { 
             expectedRole: 'STAFF'
