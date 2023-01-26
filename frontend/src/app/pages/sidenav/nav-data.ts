@@ -35,3 +35,31 @@ export const navbarData = [
         label: 'Profile'
     }
 ];
+
+export const navbarDataAdmin = [
+    {
+        routeLink: '/bloodBanks',
+        icon: 'fal fa-list',
+        label: 'Blood banks'
+    },   
+    {
+        routeLink: '/createBloodBank',
+        icon: 'fas fa-hospital',
+        label: 'New bloodbank'
+    },
+    {
+        routeLink: '/addAdmin',
+        icon: 'fas fa-user-plus',
+        label: 'New admin'
+    },
+    {
+        routeLink: '/addMedicalStaff',
+        icon: 'fas fa-user-md',
+        label: 'New medical staff'
+    },
+    {
+        routeLink: '/userslist',
+        icon: 'fas fa-users',
+        label: 'User list'
+    },
+];

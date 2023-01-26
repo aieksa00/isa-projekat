@@ -51,6 +51,8 @@ public class UserService implements IService<User, Integer>{
 		return null;
 	}
 	
-
+	public Iterable<User> findFiltered(String name, String surname) {
+		return userRepository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase(name,surname);
+	}
 
 }

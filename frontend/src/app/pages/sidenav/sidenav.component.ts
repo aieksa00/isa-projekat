@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { navbarData } from './nav-data';
+import { navbarData, navbarDataAdmin } from './nav-data';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -32,6 +32,8 @@ export class SidenavComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(localStorage.getItem("role")=="ADMIN")
+        this.navData = navbarDataAdmin
   }
 
 }

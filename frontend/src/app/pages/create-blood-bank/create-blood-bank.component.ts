@@ -70,7 +70,7 @@ export class CreateBloodBankComponent implements OnInit {
         text: 'Bloodbank added successfully',
         icon: 'success'
       });
-      this.router.navigate(['/'])
+      this.router.navigate(['/bloodBanks'])
     })
 
   }

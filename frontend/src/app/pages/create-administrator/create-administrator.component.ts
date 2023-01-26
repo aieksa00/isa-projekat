@@ -106,7 +106,7 @@ export class CreateAdministratorComponent implements OnInit {
               text: 'Admin added successfully',
               icon: 'success'
             });
-            this.router.navigate(['/'])
+            this.router.navigate(['/bloodBanks'])
           });
         }
       })
@@ -123,7 +123,7 @@ export class CreateAdministratorComponent implements OnInit {
           text: 'Admin added successfully',
           icon: 'success'
         });
-        this.router.navigate(['/'])
+        this.router.navigate(['/bloodBanks'])
       });
     }
   }

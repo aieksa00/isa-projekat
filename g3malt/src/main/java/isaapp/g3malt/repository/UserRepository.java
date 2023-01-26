@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByJmbg(String jmbg);
     Customer findByid(Integer id);
+    Iterable<User> findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCase(String name,String surname);
 }

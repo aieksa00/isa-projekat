@@ -29,20 +29,20 @@ export class CreateMedicalStaffComponent implements OnInit {
   public userType: Number = 1;
 
   public email: String = "";
+  public password : String = "";
 
   public administratorId: number = 0;
   public registreUserForm: FormGroup | any;
   public userDTO : UserDTO = new UserDTO();
   public userInfoAdded = false;
   public bloodBanks : BloodBanksDTO[] = [];
-  public loaded = false;
+  public bloodbank : BloodBanksDTO = new BloodBanksDTO();
 
   constructor(private _userService: UserService,private _bloodbankService: BloodBankService, private router : Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     this._bloodbankService.getBloodBanks().subscribe(res=>{
       this.bloodBanks = res;
-      this.loaded = true;
     })
     this.registreUserForm = new FormGroup ({
       name : new FormControl(this.userDTO.name, [
@@ -76,6 +76,13 @@ export class CreateMedicalStaffComponent implements OnInit {
       email : new FormControl(this.email, [
         Validators.required,
         Validators.email
+      ]),
+      bloodbank : new FormControl(this.bloodbank, [
+        Validators.required
+      ]),
+      password : new FormControl(this.password, [
+        Validators.required,
+        Validators.minLength(5)
       ])
     })
   }
@@ -91,11 +98,10 @@ export class CreateMedicalStaffComponent implements OnInit {
       jmbg : this.registreUserForm.get("jmbg").value,
       gender : this.registreUserForm.get("gender").value,
       profession : this.profession,
-      workplace : "Bloodbanks",
+      workplace : this.bloodbank.name,
       userType : this.userType,
       id: 0
     }
-
     if(this.userInfoAdded==false){
       this.createUserInfo(this.userDTO).subscribe(res =>{
         if(res!=null){
@@ -103,16 +109,16 @@ export class CreateMedicalStaffComponent implements OnInit {
           this.userInfoAdded = true;
           let userCredentials: UserCredentialsDTO = {
             email : this.registreUserForm.get("email").value,
-            password : "ADMINISTRATOR",
+            password : this.registreUserForm.get("password").value,
             userId : this.administratorId
           }
           this.createAccount(userCredentials).subscribe(res => {
             Swal.fire({
               title: 'Success',
-              text: 'Admin added successfully',
+              text: 'Medical staff successfully',
               icon: 'success'
             });
-            this.router.navigate(['/'])
+            this.router.navigate(['/bloodBanks'])
           });
         }
       })
@@ -120,22 +126,22 @@ export class CreateMedicalStaffComponent implements OnInit {
     else{
       let userCredentials: UserCredentialsDTO = {
         email : this.registreUserForm.get("email").value,
-        password : "ADMINISTRATOR",
+        password : this.registreUserForm.get("password").value,
         userId : this.administratorId
       }
       this.createAccount(userCredentials).subscribe(res => {
         Swal.fire({
           title: 'Success',
-          text: 'Admin added successfully',
+          text: 'Medical staff added successfully',
           icon: 'success'
         });
-        this.router.navigate(['/'])
+        this.router.navigate(['/bloodBanks'])
       });
     }
   }
 
   createUserInfo(userDto:UserDTO) : Observable<any>{
-    return this.http.post<UserDTO>("http://localhost:9090/userController/addAdmin", userDto).pipe(catchError(this.handleError));
+    return this.http.post<UserDTO>("http://localhost:9090/userController/addStaff/"+this.bloodbank.id, userDto).pipe(catchError(this.handleError));
   }
 
   createAccount(userCredentials:UserCredentialsDTO) : Observable<UserCredentialsDTO>{

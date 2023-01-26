@@ -57,7 +57,7 @@ public class UserCredentials {
 	public UserCredentials(Integer id, String email, String password, User user, Boolean verified, String verifiedString) {
 		this.id = id;
 		this.email = email;
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 		this.user = user;
 		this.verified = verified;
 		this.verifiedString = verifiedString;

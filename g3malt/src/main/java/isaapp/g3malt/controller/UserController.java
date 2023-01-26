@@ -9,8 +9,10 @@ import isaapp.g3malt.model.LoyaltyType;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.model.UserType;
 import isaapp.g3malt.dto.UserInfoDto;
+import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.Customer;
 import isaapp.g3malt.model.UserCredentials;
+import isaapp.g3malt.services.BloodBankService;
 import isaapp.g3malt.services.CustomerService;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
@@ -43,10 +45,30 @@ public class UserController {
 	@Autowired
 	private UserCredentialsService userCredentialsService;
 	
+	@Autowired
+	private BloodBankService bloodBankService;
+	
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getAllUsers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAllUsers() {
     	List<User> users = (List<User>) userService.findAll();
+    	List<UserDTO> userDtos = new ArrayList<UserDTO>();
+    	for(User u : users) {
+    		UserDTO dto = new UserDTO(u);
+    		userDtos.add(dto);
+    	}
+    		
+		return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
+    
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/getFilteredUsers/{name}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getFilteredUsers(@PathVariable String name,@PathVariable String surname) {
+    	if(name.equals("~"))
+    		name="";
+    	if(surname.equals("~"))
+    		surname="";
+    	List<User> users = (List<User>) userService.findFiltered(name,surname);
     	List<UserDTO> userDtos = new ArrayList<UserDTO>();
     	for(User u : users) {
     		UserDTO dto = new UserDTO(u);
@@ -125,9 +147,9 @@ public class UserController {
 	}
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "/addStaff", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/addStaff/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserDTO> addNewUser(@RequestBody UserDTO userDto) {
+    public ResponseEntity<UserDTO> addNewUser(@PathVariable Integer id, @Valid @RequestBody UserDTO userDto) {
     	GenderType g = userDto.gender.equals("male")?GenderType.male:GenderType.female;
         UserType ut = new UserType(1, "STAFF");
         List<UserType> userTypes = new ArrayList<>();
@@ -135,6 +157,9 @@ public class UserController {
     	MedicalStaff user = new MedicalStaff(null, userDto.name, userDto.surname, userDto.address, userDto.city, userDto.country, userDto.phoneNumber, userDto.jmbg, g, userDto.profession, userDto.workplace, userTypes,"",null);
         User newUser = userService.save(user);
         userDto.setUserId(newUser.getId());
+        BloodBank b = bloodBankService.findById(id);
+        b.getAllStaff().add(newUser);
+        bloodBankService.save(b);
         return new ResponseEntity<UserDTO>(userDto, HttpStatus.CREATED);
     }
     

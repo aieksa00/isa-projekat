@@ -30,6 +30,14 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.apiHost + 'userController/getAllUsers',{headers: this.headers})
   }
 
+  getFilteredUsers(name : string, surname : string): Observable<UserDTO[]>{
+    if(name=="")
+      name="~"
+    if(surname=="")
+      surname="~"
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/getFilteredUsers/'+name+'/'+surname,{headers: this.headers})
+  }
+
   getUserCredentials():Observable<String>{
     return this.http.get<any>('http://localhost:9090/UserCredentialsController/getAllUserCredentials',{headers: this.headers})
   }

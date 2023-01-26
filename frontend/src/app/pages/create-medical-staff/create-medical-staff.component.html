@@ -7,17 +7,17 @@
                         <td class="registration-table-center" colspan="2"><h1>New medical staff</h1></td>
                     </tr>
                     <tr>
-                        <td><p>Blood bank:</p></td>
-                        <div *ngIf="loaded">
+                        <td><p>Bloodbank:</p></td>
                         <td>
-                            <select>
-                                <option *ngFor="let bank of bloodBanks"
-                                    >
-                                    {{bank.name}}
-                                </option>
-                            </select></td>
-                        </div>
-                        <td></td>                      
+                            <select id="bloodbank" formControlName="bloodbank" [(ngModel)]="bloodbank">
+                                <option *ngFor="let bank of bloodBanks" [ngValue]="bank">{{bank.name}}</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr *ngIf="registreUserForm.get('bloodbank').invalid && (registreUserForm.get('bloodbank').dirty || registreUserForm.get('bloodbank').touched)" >
+                        <td><p></p></td>
+                        <td class="text-danger mt-1">Please select bloodbank.</td>
                     </tr>
                     <tr>
                         <td><p>Name:</p></td>
@@ -107,7 +107,7 @@
                     </tr>
                     <tr>
                         <td class="registration-button" colspan="2">
-                            <input type="button" value="Cancel" [routerLink]="['/']">
+                            <input type="button" value="Cancel" [routerLink]="['/bloodBanks']">
                             <input type="button" value="Confirm" (click)="onSubmit()">
                         </td>
                     </tr>

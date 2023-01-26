@@ -24,11 +24,9 @@ export class UsersListComponent implements OnInit {
   }
 
   public search(){
-    this.filteredUsers = [];
-    this.allUsers.forEach(user => {
-      if(user.name.includes(this.searchName) && user.surname.includes(this.searchLastName))
-        this.filteredUsers.push(user)
-    });
+    this.userService.getFilteredUsers(this.searchName,this.searchLastName).subscribe(res=>{
+      this.filteredUsers = res;
+    })
   }
 
   public reset(){
