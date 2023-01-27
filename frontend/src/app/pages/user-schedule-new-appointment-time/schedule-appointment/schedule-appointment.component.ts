@@ -54,19 +54,23 @@ export class ScheduleAppointmentComponent implements OnInit {
       this.bloodBankService.getAppointmentFromBloodBank(this.bloodBankAppointmentDto).subscribe(res => {
         id = res;
         localStorage.setItem("appointmentId", id)
+        this.router.navigate(['/questionnairePage'])
       });
 
     } else {
       this.createAppointmentByPatientDTO.customerId = 4
       this.createAppointmentByPatientDTO.scheduleDateTime = this.appointmentTime
       console.log(this.createAppointmentByPatientDTO)
-      this.bloodBankService.createAppointmentByPatient(this.createAppointmentByPatientDTO, this.bloodBank.id).subscribe(res => {
-        id = res;
-        console.log(id)
-        localStorage.setItem("appointmentId", id)
-        });
+      this.bloodBankService.createAppointmentByPatient(this.createAppointmentByPatientDTO, this.bloodBank.id).subscribe(
+        res => {
+          id = res;
+          console.log(id)
+          localStorage.setItem("appointmentId", id)
+          this.router.navigate(['/questionnairePage'])
+        },
+        err => alert("Someone already scheduled appointment at that time"));
     }
-    this.router.navigate(['/questionnairePage'])
+
   }
 
 }

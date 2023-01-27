@@ -19,12 +19,7 @@ nav a:hover, nav button:hover{
     background-size: contain;
     border-radius: 10px;
 }
-.color-red{
-    color: #e72d3a;
-}
-.color-gray{
-    color: #333333;
-}
+
 .red-btn{
     width: 250px;
     margin-left: auto;

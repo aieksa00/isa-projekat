@@ -1,6 +1,6 @@
 .logIn {
     color: #F4EEDE;
-    background-color: #922020;
+    background-color: #9cdedc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +17,7 @@
     font-size: 20px;
 }
 .logIn a {
-    color:#DC9836;
+    color:#e72d3a;
 }
 
 .logIn input {
@@ -42,8 +42,8 @@
     width: 80px;
     padding: 2px;
     display: inline-block;
-    background: #DC9836;
-    color: #383E3C;
+    background: #e72d3a;
+    color: #fafafa;
     font-size: 18px;
     border-radius: 8px;
     text-decoration: none;
@@ -51,7 +51,7 @@
 
 .login-table-button input[type="button"]:hover {
     background: #F4EEDE;
-    color: #DC9836;
+    color: #e72d3a;
     text-decoration: none;
 }
 

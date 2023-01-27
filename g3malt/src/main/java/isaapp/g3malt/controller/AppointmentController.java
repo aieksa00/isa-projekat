@@ -16,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import isaapp.g3malt.model.Appointment;
-import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
-import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,13 +26,11 @@ public class AppointmentController {
 	@Autowired
 	private BloodBankService bloodBankService;
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private AppointmentService appointmentService;
 	@Autowired
-	private UserCredentialsService userCredentialsService;
-    @Autowired
     private QuestionnaireService questionnaireService;
+	@Autowired
+	private UserCredentialsService userCredentialsService;
 
 	@Autowired
 	private EmailServiceImpl emailService;
@@ -59,6 +55,42 @@ public class AppointmentController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getAppointmentHistory",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<AppointmentDTO>> getAppointmentHistory(@RequestBody String email) {
+		List<AppointmentDTO> appointments = new ArrayList<>();
+		User user = userCredentialsService.findByEmail(email).getUser();
+		List<Appointment> apps = appointmentService.findByCustomerId(user.getId());
+
+		for( Appointment appointment : apps) {
+			if(appointment.getScheduleDateTime().before(new Date())) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), user.getId(), appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appointments.add(appointmentDTO);
+			}
+		}
+
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/getSortedAppointmentHistory",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasAuthority('CUSTOMER')")
+	public ResponseEntity<List<AppointmentDTO>> getSortedAppointmentHistory(@RequestBody SortHistoryDTO sortHistoryDTO) {
+		List<AppointmentDTO> appointments = new ArrayList<>();
+		User user = userCredentialsService.findByEmail(sortHistoryDTO.getEmail()).getUser();
+		List<Appointment> apps = appointmentService.sortAppointmentsHistory(sortHistoryDTO.getSortValue(), user);
+
+		for( Appointment appointment : apps) {
+			if(appointment.getScheduleDateTime().before(new Date())) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), user.getId(), appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
+				appointments.add(appointmentDTO);
+			}
+		}
+
+		return new ResponseEntity<>(appointments, HttpStatus.OK);
+	}
+
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/scheduleAppointment",  produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAuthority('CUSTOMER')")
@@ -81,6 +113,17 @@ public class AppointmentController {
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
+    
+    /*@CrossOrigin(origins = "*")
+    @PutMapping(value = "/FinishAppointment/{id}")
+    @PreAuthorize("hasAuthority('STAFF')")
+    public ResponseEntity FinishAppointment(@PathVariable Integer id) {
+		Appointment appointment = appointmentService.findById(id);
+		appointment.setFree(true);
+		appointmentService.save(appointment); 
+
+        return new ResponseEntity(HttpStatus.OK);
+    }*/
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(value = "/getScheduledAppointments")
@@ -89,7 +132,7 @@ public class AppointmentController {
 		Iterable<Appointment> appointments = appointmentService.findAll();
 		List<AppointmentDTO> notFree = new ArrayList<>();
 		for(Appointment appointment : appointments) {
-			if(!appointment.isFree()) {
+			if(!appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
 				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
 				notFree.add(appointmentDTO);
 			}
@@ -115,10 +158,10 @@ public class AppointmentController {
 		app.setFree(true);
 		appointmentService.save(app);
 
-		Iterable<Appointment> appointments = appointmentService.findAll();
+		List<Appointment> appointments = appointmentService.findByCustomerId(app.getCustomer().getId());
 		List<AppointmentDTO> notFree = new ArrayList<>();
 		for(Appointment appointment : appointments) {
-			if(!appointment.isFree()) {
+			if(!appointment.isFree() && appointment.getScheduleDateTime().after(new Date())) {
 				AppointmentDTO appointmentDTO = new AppointmentDTO(appointment.getId(), appointment.getBloodBankId(), null, appointment.getScheduleDateTime(), appointment.getDuration(), appointment.isFree());
 				notFree.add(appointmentDTO);
 			}
@@ -131,25 +174,37 @@ public class AppointmentController {
 	@PostMapping(value = "CreateAppointmentByPatient/{id}", consumes = "application/json")
 	@PreAuthorize("hasAuthority('CUSTOMER')")
 	public ResponseEntity<Integer> CreateAppointmentByPatient(@PathVariable Integer id, @RequestBody CreateAppointmentByPatientDTO dto) {
-		Appointment appointment = new Appointment();
-		appointment.setBloodBankId(id);
+		BloodBank b = bloodBankService.findById(id);
+		for(Appointment a : appointmentService.findAll()) {
+			if(a.getBloodBankId() == id) {
+				Date time = a.getScheduleDateTime();
+				String date = time.toString().split(" ", 2)[0];
+				String hour = time.toString().split(" ", 2)[1];
+				String date2 = dto.getScheduleDateTime().split(" ", 2)[0];
+				String hour2 = dto.getScheduleDateTime().split(" ", 2)[1];
+				if(date.equals(date2)) {
+					String exHour = hour.split(":")[0];
+					String exHour2 = hour2.split(":")[0];
+					if(hour.split(":")[0].equals(hour2.split(":")[0])) {
+						if(!a.isFree()) {
+							return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
+						}
+					}
+				}
+			}
+		}
+
 		Customer customer = customerService.findById(dto.getCustomerId());
-		//appointment.setCustomer(customer);
-		appointment.setDuration(dto.getDuration());
-		appointment.setFree(true);
-		appointment.setPrice(1000.00);
 		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		try {
 			Date date = formatter.parse(dto.getScheduleDateTime());
-			System.out.println(date);
-			appointment.setScheduleDateTime(date);
+			Appointment appointment = new Appointment(id, null, date, dto.getDuration(), 1000.00, customer, false);
+			appointmentService.save(appointment);
+			return new ResponseEntity<>(appointment.getId(), HttpStatus.OK);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		appointment = appointmentService.save(appointment);
-		
-		return new ResponseEntity<>(appointment.getId(), HttpStatus.OK);
+				
+		return new ResponseEntity<>(0, HttpStatus.BAD_REQUEST);
 	}
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SortDTO } from 'src/app/DTO/sort-dto';
 import { BloodBankService } from 'src/app/services/blood-bank.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-blood-bank-spec',
@@ -15,6 +16,7 @@ export class BloodBankSpecComponent implements OnInit {
 
   public bloodBankId : any = null;
   public bloodBank : any = null
+  public penalty :  any = 0;
   public appointments : any = [];
   public sortValue : any = null;
   public sortDTO : SortDTO = new SortDTO();
@@ -25,6 +27,14 @@ export class BloodBankSpecComponent implements OnInit {
   }
 
   public Schedule(appointment : any) : void {
+    if(this.penalty > 2) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'You have more than 2 penalties, try to schedule next month',
+        icon: 'warning'
+      });
+      return;
+    }
     localStorage.setItem("appointmentId", appointment.id)
     this.router.navigate(['/questionnairePage'])
   }
@@ -48,7 +58,6 @@ export class BloodBankSpecComponent implements OnInit {
       this.appointments = res.freeAppointments;
     })
     this.sortValue = "";
-    this.sortValue = "";
   }
 
   public getSorted() : Observable<any> {
@@ -64,11 +73,18 @@ export class BloodBankSpecComponent implements OnInit {
     this.getBloodBank(this.bloodBankId).subscribe(res => {
       this.bloodBank = res;
       this.appointments = res.freeAppointments;
+    });
+    this.getUserPenalty().subscribe( res => {
+      this.penalty = res;
     })
   }
 
   public getWorkingHours(date : any): any {
     return this.datePipe.transform(date,'dd-MM-yyyy hh-mm-ss' );
+  }
+
+  public getUserPenalty(){
+    return this.http.post<any>("http://localhost:9090/UserCredentialsController/getCustomerPenaltyByEmail", localStorage.getItem("email"));
   }
 
 }

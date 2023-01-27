@@ -52,7 +52,5 @@ input[type='radio']:checked:after {
 .search-bg{
   background: #9cdedc;
 }
-.background-gradient{
-  background: linear-gradient(#f2fefe, white);
-}
+
 

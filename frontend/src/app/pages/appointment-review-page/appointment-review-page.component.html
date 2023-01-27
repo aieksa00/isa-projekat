@@ -1,12 +1,12 @@
-<div class="d-flex flex-column justify-content-center mx-5 my-3 p-3">
-
-    <span class="fs-2 text-gray mb-3">Appointment Review</span>
-    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle class="background-gray text-yellow p-3 rounded-3 mb-3">
+<app-staff-navbar></app-staff-navbar>
+<div class="d-flex flex-column justify-content-center px-5 mt-5 pb-5 background-gradient">
+    <span class="fs-2 fw-bold text-gray mb-3 pt-5">Appointment Review</span>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle class="bg-color-cyan color-gray p-3 rounded-3 mb-3">
         <mat-expansion-panel-header>
             <mat-panel-title class="fw-bold fs-5">
                 Patient information
             </mat-panel-title>
-            <mat-panel-description class="text-yellow">
+            <mat-panel-description class="color-gray">
                 Check if patient is able to give blood.
             </mat-panel-description>
         </mat-expansion-panel-header>
@@ -39,12 +39,12 @@
         </mat-action-row>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle class="background-gray text-yellow p-3 rounded-3 mb-3">
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle class="bg-color-cyan color-gray p-3 rounded-3 mb-3">
         <mat-expansion-panel-header>
             <mat-panel-title class="fw-bold fs-5">
                 Appointment information
             </mat-panel-title>
-            <mat-panel-description class="text-yellow">
+            <mat-panel-description class="color-gray">
                 Write all relevant information about current appointment.
             </mat-panel-description>
         </mat-expansion-panel-header>
@@ -52,7 +52,7 @@
         <form class="d-flex flex-column mt-3" [formGroup]="appointmentForm">
             <label for="bloodType" class="form-label">Blood Type</label>
             <div class="input-group">
-                <select class="form-select background-yellow text-gray" aria-label="blood type selector" id="bloodType" formControlName="bloodType">
+                <select class="form-select bg-light color-gray" aria-label="blood type selector" id="bloodType" formControlName="bloodType">
                     <option selected disabled hidden value="">Choose patient's blood type</option>
                     <option value="APlus">A+</option>
                     <option value="BPlus">B+</option>
@@ -74,4 +74,4 @@
             <button type="button" class="btn btn-primary width-75" [disabled]="appointmentForm.invalid" (click)="finishAppointment()">Finish</button>
         </mat-action-row>
     </mat-expansion-panel>
-</div>
+</div>  

@@ -2,6 +2,9 @@ package isaapp.g3malt.services;
 
 import isaapp.g3malt.model.Questionnaire;
 import isaapp.g3malt.repository.QuestionnaireRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +44,24 @@ public class QuestionnaireService implements IService<Questionnaire, Integer>{
         questionnaireRepository.deleteById(id);
     }
     
-    public Questionnaire findByUserId(Integer id) {
-        return questionnaireRepository.findByUserId(id);
+    public Questionnaire findByUserId(Integer id)
+    {
+    	List<Questionnaire> allQuestionnaires = questionnaireRepository.findAllByUserId(id);
+    	if(allQuestionnaires.size() == 1)
+    	{
+    		return allQuestionnaires.get(0);
+    	}
+    	
+    	int maxId =  allQuestionnaires.get(0).getId();
+    	Questionnaire newestQ = allQuestionnaires.get(0);
+    	for(Questionnaire q : allQuestionnaires)
+    	{
+    		if(q.getId() > maxId)
+    		{
+    			maxId = q.getId();
+    			newestQ = q;
+    		}
+    	}
+        return newestQ;
     }
 }

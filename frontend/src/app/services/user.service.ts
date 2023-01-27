@@ -30,6 +30,14 @@ export class UserService {
     return this.http.get<UserDTO[]>(this.apiHost + 'userController/getAllUsers',{headers: this.headers})
   }
 
+  getFilteredUsers(name : string, surname : string): Observable<UserDTO[]>{
+    if(name=="")
+      name="~"
+    if(surname=="")
+      surname="~"
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/getFilteredUsers/'+name+'/'+surname,{headers: this.headers})
+  }
+
   getUserCredentials():Observable<String>{
     return this.http.get<any>('http://localhost:9090/UserCredentialsController/getAllUserCredentials',{headers: this.headers})
   }
@@ -48,5 +56,19 @@ export class UserService {
 
   addPenaltyPointToUser(dto : PenaltyPointDto): Observable<PenaltyPointDto> {
     return this.http.post<PenaltyPointDto>('http://localhost:9090/userController/addPenaltyPoint', dto, {headers: this.headers});
+  }
+
+  addLoyaltyPointToUser(dto : PenaltyPointDto): Observable<PenaltyPointDto> {
+    return this.http.post<PenaltyPointDto>('http://localhost:9090/userController/addLoyaltyPoint', dto, {headers: this.headers});
+  }
+
+  GetAllUsersForBloodBank(): Observable<UserDTO[]>{
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/GetAllUsersForBloodBank/'+localStorage.getItem('email'),{headers: this.headers})
+  }
+
+  GetAllFilteredUsersForBloodBank(sortParam : string): Observable<UserDTO[]>{
+    if(sortParam=="")
+      sortParam="~"
+    return this.http.get<UserDTO[]>(this.apiHost + 'userController/GetFilteredUsersForBloodBank/'+sortParam+'/'+localStorage.getItem('email'),{headers: this.headers})
   }
 }

@@ -2,6 +2,7 @@ package isaapp.g3malt.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.apache.commons.lang3.time.DateUtils;
 import java.util.Date;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public class Appointment {
 	@Column(name="duration", unique=false, nullable=true)
 	private int duration;
 	
+	@Column(name="scheduleDateTimeEnd", unique=false, nullable=true)
+	private Date scheduleDateTimeEnd;
+	
 	@Column(name="price", unique=false, nullable=true)
 	private double price;
 	
@@ -59,11 +63,20 @@ public class Appointment {
 		this.medicalStaff = medicalStaff;
 		this.scheduleDateTime = scheduleDateTime;
 		this.duration = duration;
+		this.scheduleDateTimeEnd = DateUtils.addMinutes(scheduleDateTime, duration);
 		this.price = price;
 		this.customer = customer;
 		this.isFree = isFree;
 	}
 
+
+	public Date getScheduleDateTimeEnd() {
+		return scheduleDateTimeEnd;
+	}
+
+	public void setScheduleDateTimeEnd(Date scheduleDateTimeEnd) {
+		this.scheduleDateTimeEnd = scheduleDateTimeEnd;
+	}
 
 	public Integer getId() {
 		return id;

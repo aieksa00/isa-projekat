@@ -72,14 +72,14 @@ export class LogInPageComponent implements OnInit {
             if(this.role == "CUSTOMER") {
               this.router.navigate(['/bloodBanks'])
             } else if (this.role == "STAFF") {
-              this.router.navigate(['/bloodBankInfo'])
+              this.router.navigate(['/staffHomePage'])
             } else if (this.role == "ADMIN"){
                 if(this.userCredentials.password == "ADMINISTRATOR")
                   {
                     this.changePassword()
                   }
                 else{
-                  this.router.navigate(['/createBloodBank'])
+                  this.router.navigate(['/bloodBanks'])
                 }
 
             }
@@ -163,7 +163,7 @@ export class LogInPageComponent implements OnInit {
       if (result.isConfirmed) {
         if(result.value!=""){
           this.userCredentialsService.changeAdminPassword(result.value).subscribe(res=>{
-            this.router.navigate(['/createBloodBank'])
+            this.router.navigate(['/bloodBanks'])
           })
         }
         else(

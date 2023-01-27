@@ -1,0 +1,21 @@
+nav{
+    background-color: #9cdedc;
+}
+
+nav a, nav button {
+    font-size: 32px;
+    padding: 10px;
+    text-decoration: none;
+    color: #333333;
+    background-color: #9cdedc;
+    transition:background-color 0.3s;
+    text-decoration: none;
+    border: #5aafb2;
+}
+
+nav a:hover, nav button:hover{
+    background-color: #74bec1;
+    text-decoration: none;
+    background-size: contain;
+    border-radius: 10px;
+}

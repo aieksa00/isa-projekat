@@ -93,9 +93,9 @@ public class BloodBankService implements IService<BloodBank, Integer>{
 			}
 		};
 
-		if(sortValue.equals("durationAsc")) {
+		if(sortValue.equals("dateAsc")) {
 			Collections.sort(appointments, compareDateTimeAsc);
-		} else if(sortValue.equals("durationDesc")) {
+		} else if(sortValue.equals("dateDesc")) {
 			Collections.sort(appointments, compareDateTimeDesc);
 		};
 

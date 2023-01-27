@@ -13,12 +13,13 @@ export class UserCredentialsService {
 
   constructor(private http: HttpClient) { }
 
-  getLoggedUser(): Observable<AllUserInfoDto> {
-    return this.http.get<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/GetUser/' + 1, {headers: this.headers});
+
+  GetLoggedUserByEmail(): Observable<AllUserInfoDto> {
+    return this.http.get<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/GetUserByEmail/' + localStorage.getItem('email'), {headers: this.headers});
   }
 
-  updateLoggedUser(dto: AllUserInfoDto): Observable<AllUserInfoDto> {
-    return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUser/' + 4, dto, {headers: this.headers});
+  UpdateLoggedUser(dto: AllUserInfoDto): Observable<AllUserInfoDto> {
+    return this.http.put<AllUserInfoDto>(this.apiHost + 'UserCredentialsController/UpdateUserByEmail/' + localStorage.getItem('email'), dto, {headers: this.headers});
   }
 
   changeAdminPassword(newPass: String): Observable<any> {

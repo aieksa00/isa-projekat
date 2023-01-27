@@ -29,6 +29,7 @@ import isaapp.g3malt.model.BloodBank;
 import isaapp.g3malt.model.User;
 import isaapp.g3malt.services.AppointmentService;
 import isaapp.g3malt.services.BloodBankService;
+import isaapp.g3malt.services.BloodBankStorageService;
 import isaapp.g3malt.services.UserCredentialsService;
 import isaapp.g3malt.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,8 @@ public class BloodBankController {
 	
 	@Autowired
 	private BloodBankService bloodBankService;
+	@Autowired
+	private BloodBankStorageService bloodBankStorageService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -177,33 +180,25 @@ public class BloodBankController {
 	@CrossOrigin("*")
 	@PostMapping(value = "CreateAppointment/{id}", consumes = "application/json")
 	public ResponseEntity<FutureAppointmentDto> createAppointment(@PathVariable Integer id, @RequestBody FutureAppointmentDto dto) {
-		Appointment appointment = new Appointment();
-		appointment.setBloodBankId(id);
-		appointment.setCustomer(null);
-		appointment.setDuration(dto.getDuration());
-		appointment.setFree(true);
-		appointment.setPrice(1000.00);
-		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		try {
-			Date date = formatter.parse(dto.getScheduleDateTime());
-			System.out.println(date);
-			appointment.setScheduleDateTime(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		Set<User> staff = new HashSet<User>();
 		for(StaffDto staffDto : dto.getMedicalStaff()) {
 			User user = userService.findById(staffDto.getId());
 			staff.add(user);
 		}
-		
-		appointment.setMedicalStaff(staff);
-		
-		appointmentService.save(appointment);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		try {
+			Date date = formatter.parse(dto.getScheduleDateTime());
+			Appointment appointment = new Appointment(id, staff, date, dto.getDuration(), 1000.00, null, true);
+			Appointment app = appointmentService.save(appointment);
+			
+			if(app!=null)
+				return new ResponseEntity<>(HttpStatus.OK);
+			else
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
 	}
 	
 	@PutMapping(value = "UpdateBloodBank/{id}", consumes = "application/json")
@@ -282,10 +277,9 @@ public class BloodBankController {
     @PostMapping(value = "/addBloodBank", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<CreateBloodBankDTO> addBloodBank(@Valid @RequestBody CreateBloodBankDTO bloodbankDto) {
-		User administrator = userService.findById(bloodbankDto.administratorId);
-		Set<User> users = new HashSet<User>();
-		users.add(administrator);
-		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.street, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, users, bloodbankDto.workingHours, null, null);
+		BloodBankStorage bds = new BloodBankStorage(null,0,0,0,0,0,0,0,0);
+		bds = bloodBankStorageService.save(bds);
+		BloodBank bloodBank = new BloodBank(null, bloodbankDto.name, bloodbankDto.address, bloodbankDto.city, bloodbankDto.country, bloodbankDto.description, 0, null, null, bloodbankDto.workingHours, bds, null);
         BloodBank newBloodBank = bloodBankService.save(bloodBank);
         return new ResponseEntity<CreateBloodBankDTO>(bloodbankDto, HttpStatus.CREATED);
     }

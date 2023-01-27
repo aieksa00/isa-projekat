@@ -23,6 +23,8 @@ import { AppointmentReviewPageComponent } from './pages/appointment-review-page/
 import { BloodBankSpecComponent } from './pages/blood-bank-spec/blood-bank-spec.component';
 import { ScheduleAppointmentComponent } from './pages/user-schedule-new-appointment-time/schedule-appointment/schedule-appointment.component';
 import { RoleGuard } from './helpers/auth-guard.guard';
+import { CreateMedicalStaffComponent } from './pages/create-medical-staff/create-medical-staff.component';
+import { StaffHomePageComponent } from './pages/staff-home-page/staff-home-page.component';
 
 const routes: Routes = [
   { path: 'registrationPage', component: RegistrationPageComponent},
@@ -33,43 +35,69 @@ const routes: Routes = [
   { path: 'bloodBanks', component: BloodBanksListComponent},
   { path: 'userHistory', component: UserHistoryComponent},
   { path: 'userAppointments', component: UserAppointmentsComponent, canActivate: [RoleGuard],
-          data: { 
+          data: {
             expectedRole: 'CUSTOMER'
           }
   },
-  { path: 'userQRCodes', component: UserQRCodesComponent},
+  { path: 'userPenalties', component: UserQRCodesComponent},
   { path: 'userProfile', component: UserProfileComponent},
   { path: 'complaints', component: ComplaintsComponent},
-  { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'bloodBankInfo', component: BloodBankInfoComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'STAFF'
           }
   },
-  { path: 'createBloodBank', component: CreateBloodBankComponent},
-  { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
-  { path: 'questionnairePage', component: QuestionnairePageComponent, canActivate: [RoleGuard],
-          data: { 
-            expectedRole: 'CUSTOMER'
-          }
-  },
-  { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard], 
-          data: { 
-            expectedRole: 'ADMIN'+'STAFF'
-          }
-  },
-  { path: 'calender', component: BloodBankCalenderComponent},
-  { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard], 
-          data: { 
+  { path: 'createBloodBank', component: CreateBloodBankComponent, canActivate: [RoleGuard],
+          data: {
             expectedRole: 'ADMIN'
           }
   },
-  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent},
-  { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard], 
+  { path: 'registrationUserPage/:id', component: RegistrationUserPageComponent},
+  { path: 'questionnairePage', component: QuestionnairePageComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'CUSTOMER'
+          }
+  },
+  { path: 'userslist', component: UsersListComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'ADMIN'+'STAFF'
+          }
+  },
+  { path: 'calender', component: BloodBankCalenderComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'STAFF'
+          }
+  },
+  { path: 'addAdmin', component: CreateAdministratorComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'ADMIN'
+          }
+  },
+  { path: 'addMedicalStaff', component: CreateMedicalStaffComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'ADMIN'
+          }
+  },
+  { path: 'appointmentReview/:id', component: AppointmentReviewPageComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'STAFF'
+          }
+  },
+  { path: 'bloodBankSpec', component: BloodBankSpecComponent, canActivate: [RoleGuard],
+          data: {
+            expectedRole: 'CUSTOMER'+'STAFF'
+          }
+  },
+  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent, canActivate: [RoleGuard],
           data: { 
             expectedRole: 'CUSTOMER'
           }
   },
-  { path: 'scheduleAppointment', component: ScheduleAppointmentComponent},
+  { path: 'staffHomePage', component: StaffHomePageComponent, canActivate: [RoleGuard], 
+          data: { 
+            expectedRole: 'STAFF'
+          }
+  }
 ];
 
 @NgModule({
